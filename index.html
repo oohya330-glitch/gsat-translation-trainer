@@ -1515,6 +1515,54 @@ textarea {
   .random-actions button{width:100%}
 }
 
+/* v53：依本輪確認項目調整；其餘版面與功能維持 v52 */
+/* 1. 核心提示／語塊：三種裝置同步放大，卡片外框與版面不變 */
+#hint{font-size:1.18em;line-height:1.72;}
+#hint b,#hint strong{font-weight:850;}
+.teaching-hint{font-size:1.08em !important;line-height:1.72 !important;color:var(--ink) !important;}
+.teaching-hint b{font-size:1.04em;font-weight:850;}
+.refs .takeaway{font-size:1.08em;line-height:1.72;}
+.refs .takeaway>b{font-size:.96em;}
+
+/* 2. 練習紀錄頁摘要：寬度足夠維持一行；不足時只在完整句子之間換行，區塊內左對齊 */
+.record-summary{display:flex;flex-wrap:wrap;column-gap:.35em;row-gap:0;text-align:left;width:max-content;max-width:100%;margin-left:auto;margin-right:auto;}
+.record-summary span{white-space:nowrap;}
+
+/* 3. 紀錄列右側兩按鈕：維持靠右、等寬、單行，增加安全內距避免文字碰框 */
+.record-row-actions button,
+.record-row-actions button:first-child{
+  width:9.5em;
+  min-width:148px;
+  box-sizing:border-box;
+  padding:8px 16px;
+  text-align:center;
+  white-space:nowrap;
+}
+
+/* 4. 手機完成頁：主要前後流程同列，回首頁獨立置中第二列 */
+@media(max-width:640px){
+  #hint{font-size:1.20em;line-height:1.75;}
+  .teaching-hint{font-size:1.12em !important;line-height:1.75 !important;}
+  .refs .takeaway{font-size:1.12em;line-height:1.75;}
+  .finish-actions{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:12px 10px;
+    align-items:center;
+  }
+  .finish-actions button{
+    width:100%;
+    min-width:0;
+    padding:10px 9px;
+    white-space:nowrap;
+  }
+  .finish-actions button:nth-child(1){grid-column:1;grid-row:1;}
+  .finish-actions button:nth-child(3){grid-column:2;grid-row:1;}
+  .finish-actions button:nth-child(2){grid-column:1 / -1;grid-row:2;justify-self:center;width:auto;min-width:112px;padding-left:18px;padding-right:18px;}
+  .record-summary{display:block;width:max-content;max-width:100%;margin-left:auto;margin-right:auto;}
+  .record-summary span{display:block;white-space:nowrap;}
+}
+
 </style>
 </head>
 <body>
@@ -1626,7 +1674,7 @@ textarea {
       <div class="record-head">
         <div>
           <div class="record-title-row"><h2>練習紀錄</h2></div>
-          <p class="small">紀錄保存在這個瀏覽器中。完整翻譯不自動評分。</p>
+          <p class="small record-summary"><span>紀錄保存在這個瀏覽器中。</span><span>完整翻譯不自動評分。</span></p>
         </div>
       </div>
 
@@ -1734,7 +1782,7 @@ const allData={
        <div class="skeleton"><span class="small">先看句子架構：</span><br><strong>Magical objects + are now + ______</strong></div>`,
       `<div class="task-intro"><strong>處理「過去在科幻電影中出現的」：</strong><span>哪一種結構較自然？</span></div>
        ${opts(['magical objects that appeared in science fiction movies','magical objects appeared in science fiction movies'],0)}
-       <p class="small">可以用關係子句 <b>that appeared...</b> 補充說明前面的 <b>objects</b>。</p>`,
+       <p class="small teaching-hint">可以用關係子句 <b>that appeared...</b> 補充說明前面的 <b>objects</b>。</p>`,
       `<div class="task-intro"><strong>選出適合的關鍵表達：</strong><span>「逐一成真」哪一個較自然？</span></div>
        ${opts(['become truth one by one','come true one by one','become true one after one','come truths one by one'],1)}
        <div class="skeleton"><b>come true</b> = 成真<br><b>one by one</b> = 逐一</div>`,
@@ -2097,7 +2145,7 @@ function showRefs(){
  let d=data()[q],txt=document.getElementById('student').value.trim(),html='';
  if(txt) html+=`<b>你的答案</b><p>${escapeHtml(txt)}</p>`;
  html+=`<b>參考譯法</b>${d.refs.map((r,i)=>`<p class="ref-answer">${i+1}. ${r}</p>`).join('')}
- <p><b>這題建議記住</b><br>${d.take}</p>`;
+ <p class="takeaway"><b>這題建議記住</b><br>${d.take}</p>`;
  let x=document.getElementById('refs');x.innerHTML=html;x.style.display='block';
 }
 function extensionPanel(){
