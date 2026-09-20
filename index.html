@@ -1739,20 +1739,43 @@ textarea {
 .extension-nav-v58 .ext-return-row button{
   min-width:132px;
 }
-@media (max-width:600px){
+/* v59：手機與平板的延伸頁第二排避免三顆按鈕硬塞同列。
+   第一列放回第1題／回第2題，回首頁獨立置中於下一列；桌機維持 v58。 */
+@media (max-width:900px){
   .extension-nav-v58 .ext-nav-row{gap:10px;}
   .extension-nav-v58 .ext-return-row{
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    grid-template-areas:
+      "q1 q2"
+      "home home";
+    gap:12px 14px !important;
     width:100%;
+    align-items:center;
   }
   .extension-nav-v58 .ext-return-row button{
     min-width:0 !important;
     width:100% !important;
-    padding-left:8px !important;
-    padding-right:8px !important;
+    padding-left:12px !important;
+    padding-right:12px !important;
     white-space:nowrap !important;
     word-break:keep-all !important;
+    overflow:visible !important;
+  }
+  .extension-nav-v58 .ext-return-row button:nth-child(1){grid-area:q1;}
+  .extension-nav-v58 .ext-return-row button:nth-child(2){
+    grid-area:home;
+    justify-self:center;
+    width:auto !important;
+    min-width:132px !important;
+  }
+  .extension-nav-v58 .ext-return-row button:nth-child(3){grid-area:q2;}
+}
+@media (max-width:480px){
+  .extension-nav-v58 .ext-return-row{gap:10px 10px !important;}
+  .extension-nav-v58 .ext-return-row button{
+    padding-left:9px !important;
+    padding-right:9px !important;
   }
 }
 
