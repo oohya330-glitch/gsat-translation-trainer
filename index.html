@@ -1702,6 +1702,60 @@ textarea {
 #homeView .home-function-icon{background:#f3f7f3 !important;}
 #homeView .home-function-icon svg{stroke:#365f50 !important;fill:none !important;}
 #homeView .home-function-icon svg .solid-green{fill:#365f50 !important;stroke:none !important;}
+
+
+/* v58：題目導覽置中；延伸頁導覽改為兩排，第二排固定回第1題／首頁／回第2題 */
+.practice-head{
+  text-align:center !important;
+}
+.practice-head > strong{
+  text-align:center !important;
+}
+.practice-head .qnav{
+  justify-content:center !important;
+}
+.extension-nav-v58{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:12px !important;
+  margin-top:18px !important;
+}
+.extension-nav-v58 .ext-nav-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.extension-nav-v58 .ext-nav-row.single-right{
+  justify-content:flex-end;
+}
+.extension-nav-v58 .ext-nav-row.single-left{
+  justify-content:flex-start;
+}
+.extension-nav-v58 .ext-return-row{
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.extension-nav-v58 .ext-return-row button{
+  min-width:132px;
+}
+@media (max-width:600px){
+  .extension-nav-v58 .ext-nav-row{gap:10px;}
+  .extension-nav-v58 .ext-return-row{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    width:100%;
+  }
+  .extension-nav-v58 .ext-return-row button{
+    min-width:0 !important;
+    width:100% !important;
+    padding-left:8px !important;
+    padding-right:8px !important;
+    white-space:nowrap !important;
+    word-break:keep-all !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2321,14 +2375,17 @@ function showExtensionPage(n){
           <div id="yexa${n}_${i}" class="hint"><b>參考譯法</b><br><span class="ref-answer">${e[1]}</span></div>
         </div>`).join('')}
     </div>
-    <div class="page-nav extension-nav">
-      <div>${n===1
-        ? '<button onclick="backToQ2Translation()">← 回到第 2 題</button>'
-        : '<button onclick="showExtensionPage(1)">← 第 1 題延伸</button>'}</div>
-      <div class="home"><button onclick="goHome()">回首頁</button></div>
-      <div class="next">${n===1
-        ? '<button onclick="showExtensionPage(2)">第 2 題延伸 →</button>'
-        : ''}</div>
+    <div class="extension-nav-v58">
+      <div class="ext-nav-row ${n===1?'single-right':'single-left'}">
+        ${n===1
+          ? '<button onclick="showExtensionPage(2)">第 2 題延伸 →</button>'
+          : '<button onclick="showExtensionPage(1)">← 第 1 題延伸</button>'}
+      </div>
+      <div class="ext-nav-row ext-return-row">
+        <button onclick="returnToQuestion(1)">← 回到第 1 題</button>
+        <button onclick="goHome()">回首頁</button>
+        <button onclick="returnToQuestion(2)">回到第 2 題 →</button>
+      </div>
     </div>`;
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -2336,6 +2393,11 @@ function toggleYearExtAnswer(n,i){
   const x=document.getElementById('yexa'+n+'_'+i);
   if(x)x.style.display=x.style.display==='block'?'none':'block';
 }
+function returnToQuestion(n){
+  document.getElementById('practiceYearTitle').textContent=currentYear+' 學測中譯英';
+  showQ(n);
+}
+
 function backToQ2Translation(){
   q=2;step=3;
   document.getElementById('practiceYearTitle').textContent=currentYear+' 學測中譯英';
