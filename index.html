@@ -1779,6 +1779,68 @@ textarea {
   }
 }
 
+
+/* v60：以 v59 為基礎，只調整三項響應式版面。
+   1. 平板直式年份卡內容置中，不改卡片尺寸與 Grid。
+   2. 平板直／橫式的五個階段導覽降低橫向擁擠感，保留原字級與可點擊高度。
+   3. 手機延伸頁的「回第1題／回首頁／回第2題」改為同一排，避免截字與橫向捲動。
+*/
+@media (min-width:701px) and (max-width:900px) and (orientation:portrait){
+  #homeView .year-card{
+    text-align:center !important;
+  }
+  #homeView .year-actions{
+    justify-content:center !important;
+  }
+}
+
+@media (min-width:701px) and (max-width:1200px){
+  .stage-nav-card .steps{
+    gap:6px !important;
+  }
+  .stage-nav-card .steps button{
+    padding-left:10px !important;
+    padding-right:10px !important;
+  }
+}
+@media (min-width:701px) and (max-width:900px) and (orientation:portrait){
+  .stage-nav-card .steps{
+    gap:5px !important;
+  }
+  .stage-nav-card .steps button{
+    padding-left:8px !important;
+    padding-right:8px !important;
+  }
+}
+
+@media (max-width:480px){
+  .extension-nav-v58 .ext-return-row{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    justify-content:center !important;
+    align-items:stretch !important;
+    gap:6px !important;
+    width:100% !important;
+  }
+  .extension-nav-v58 .ext-return-row button,
+  .extension-nav-v58 .ext-return-row button:nth-child(1),
+  .extension-nav-v58 .ext-return-row button:nth-child(2),
+  .extension-nav-v58 .ext-return-row button:nth-child(3){
+    grid-area:auto !important;
+    width:auto !important;
+    min-width:0 !important;
+    flex:1 1 0 !important;
+    padding-left:5px !important;
+    padding-right:5px !important;
+    font-size:14px !important;
+    white-space:nowrap !important;
+    word-break:keep-all !important;
+  }
+  .extension-nav-v58 .ext-return-row button:nth-child(2){
+    flex:.72 1 0 !important;
+  }
+}
+
 </style>
 </head>
 <body>
