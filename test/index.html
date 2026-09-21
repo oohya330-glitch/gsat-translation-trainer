@@ -1,0 +1,2947 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>歷屆翻譯練寫器</title>
+<style>
+:root{
+  --bg:#f7f5ed;--card:#fff;--ink:#24342e;--green:#365f50;--soft:#e7efe9;
+  --line:#d8dfd8;--gold:#f4e7b8;--bad:#f8e1dc;--muted:#68766f;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft YaHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);font-size:18px;line-height:1.7}
+button,textarea{font:inherit}
+button{cursor:pointer}
+.wrap{max-width:920px;margin:auto;padding:24px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.title h1{margin:0;font-size:30px;color:var(--green)}
+.title p{margin:2px 0 0;color:#52635b}
+.controls button,.actions button,.page-nav button,.home-btn{
+  border:1.5px solid var(--green);background:white;color:var(--green);border-radius:12px;
+  padding:9px 15px;font-weight:800
+}
+.actions .primary,.page-nav .primary{background:var(--green);color:white}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:18px;box-shadow:0 3px 12px #0000000b}
+.hero{padding:30px}
+.hero h2{margin:0 0 8px;color:var(--green);font-size:27px}
+.exam-tabs{display:flex;gap:10px;margin:18px 0 6px}
+.exam-tabs button{border:1.5px solid var(--green);background:white;color:var(--green);border-radius:999px;padding:9px 20px;font-weight:800}
+.exam-tabs button.active{background:var(--green);color:white}
+.exam-panel.hidden{display:none!important}
+.year-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.year-card{border:1.5px solid var(--line);background:white;border-radius:16px;padding:18px;text-align:left}
+.year-card strong{display:block;font-size:22px;color:var(--green)}
+.year-card small{color:var(--muted)}
+.year-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.year-actions button{border:1.5px solid var(--green);background:white;color:var(--green);border-radius:10px;padding:7px 10px;font-weight:800}
+.year-actions button.primary{background:var(--green);color:white}
+.coming{padding:28px;text-align:center;border:1.5px dashed #aebbb3;border-radius:15px;background:#fbfcfa;color:var(--muted)}
+.year-card.available:hover{border-color:var(--green);transform:translateY(-1px)}
+.year-card.locked{opacity:.55;cursor:default}
+.random-box{background:var(--soft)}
+.random-result{font-weight:800;color:var(--green);margin-top:10px;min-height:32px}
+.year-head{background:var(--soft);border-radius:18px;padding:18px;margin-top:18px}
+.qnav{display:flex;gap:10px;margin-top:12px}
+.qnav button,.steps button{border:0;border-radius:999px;padding:9px 14px;font-weight:800;background:#edf1ed;color:var(--ink)}
+.qnav button.active,.steps button.active{background:var(--green);color:white}
+.prompt{font-size:23px;font-weight:800}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.step-page{min-height:360px}
+.option{display:block;width:100%;text-align:left;margin:10px 0;padding:13px 15px;border:1px solid var(--line);background:white;border-radius:12px;font-weight:800}
+.key-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.key-card{border:1.5px solid var(--line);border-radius:15px;padding:15px;background:#fbfcfa}
+.key-card h4{margin:0 0 8px;color:var(--green);font-size:1.05em}
+.key-card .option{margin:7px 0;padding:9px 11px;line-height:1.45}
+.finish-box{margin-top:18px;padding:16px;border:1.5px solid #b8c9bd;border-radius:14px;background:#f4f8f4;text-align:center}
+.finish-box strong{display:block;color:var(--green);font-size:1.08em;margin-bottom:10px}
+.finish-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.finish-actions button{border:1.5px solid var(--green);background:white;color:var(--green);border-radius:12px;padding:10px 15px;font-weight:800}
+.finish-actions .primary{background:var(--green);color:white}
+
+.option.ok{background:#e2f0e7;border-color:#8bb59b}
+.option.no{background:var(--bad)}
+.option .zh{font-weight:500}
+.feedback{font-weight:800;margin-top:8px}
+.skeleton{background:#f3f7f4;border-left:5px solid var(--green);border-radius:10px;padding:13px 15px;margin:14px 0}
+.skeleton strong{font-size:1.08em}
+.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.chip{padding:11px 14px;border:1px solid var(--line);background:white;border-radius:10px;font-weight:800}
+.answerline{min-height:62px;border:2px dashed #a8b8ae;border-radius:12px;padding:10px;margin:12px 0;background:#fafcf9;display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
+.answerline .chip{background:#eef4ef;border-color:#9eb2a5}
+textarea{width:100%;min-height:140px;border:1.5px solid #aebbb3;border-radius:14px;padding:14px;resize:vertical;background:#fff}
+.hint,.refs,.extend{display:none;margin-top:14px;padding:15px;border-radius:12px;background:#f2f6f2}
+.refs{background:#fff8df}
+.extend{background:#eef4f6}
+.small{font-size:.92em;color:#56665f}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.page-nav{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,auto) minmax(0,1fr);gap:10px;margin-top:18px;align-items:center}
+.page-nav .next{text-align:right}
+.page-nav .home{text-align:center}
+.page-nav button:disabled{opacity:.4;cursor:default}
+.ref-answer{font-weight:800}
+.footer{text-align:center;color:var(--muted);font-size:14px;margin:28px 0}
+.hidden{display:none!important}
+@media(max-width:700px){
+ body{font-size:18px}.wrap{padding:15px}.title h1{font-size:26px}.prompt{font-size:21px}.card{padding:17px}
+ .controls{width:100%;display:flex;justify-content:flex-end}.steps{gap:6px}.steps button{font-size:15px;padding:7px 10px}
+ .year-grid{grid-template-columns:repeat(2,1fr)}.page-nav{grid-template-columns:1fr 1fr}.page-nav .home{grid-column:1/-1;grid-row:2}.page-nav .next{text-align:right}
+ .key-grid{grid-template-columns:1fr}.key-card{padding:12px}.key-card .option{padding:8px 10px;margin:6px 0}
+}
+
+/* v9：翻譯練寫器響應式易讀調整 */
+.translation-sentence,
+.prompt,
+.question-text,
+.source-sentence {
+  font-size: 1.18em;
+  line-height: 1.8;
+}
+.ref-answer {
+  font-size: 1.08em;
+  line-height: 1.75;
+}
+button, .option {
+  min-height: 44px;
+}
+textarea {
+  font-size: 1.08em;
+  line-height: 1.7;
+}
+@media (max-width: 900px) {
+  .translation-sentence,
+  .prompt,
+  .question-text,
+  .source-sentence {
+    font-size: 1.16em;
+    line-height: 1.8;
+  }
+  .card {
+    padding: 18px;
+  }
+  .option {
+    padding: 12px 14px;
+  }
+}
+@media (max-width: 600px) {
+  body {
+    font-size: 16px;
+  }
+  .translation-sentence,
+  .prompt,
+  .question-text,
+  .source-sentence {
+    font-size: 1.14em;
+    line-height: 1.85;
+  }
+  .ref-answer {
+    font-size: 1.05em;
+    line-height: 1.8;
+  }
+  .card {
+    padding: 15px;
+    border-radius: 14px;
+  }
+  .option {
+    font-size: 1em;
+    padding: 12px 13px;
+    margin: 7px 0;
+  }
+  textarea {
+    min-height: 170px;
+    font-size: 1.05em;
+  }
+  .page-nav,
+  .finish-actions {
+    gap: 8px;
+  }
+  .page-nav button,
+  .finish-actions button {
+    padding: 11px 13px;
+  }
+}
+
+
+/* v10：英文練習內容字級再放大一級 */
+.option {
+  font-size: 1.08em;
+}
+.translation-sentence,
+.prompt,
+.question-text,
+.source-sentence {
+  font-size: 1.24em;
+}
+.ref-answer {
+  font-size: 1.12em;
+}
+.key-card .option {
+  font-size: 1.08em;
+}
+@media (max-width: 900px) {
+  .option {
+    font-size: 1.08em;
+  }
+  .translation-sentence,
+  .prompt,
+  .question-text,
+  .source-sentence {
+    font-size: 1.22em;
+  }
+}
+@media (max-width: 600px) {
+  .option {
+    font-size: 1.07em;
+    line-height: 1.5;
+  }
+  .translation-sentence,
+  .prompt,
+  .question-text,
+  .source-sentence {
+    font-size: 1.18em;
+    line-height: 1.85;
+  }
+  .ref-answer {
+    font-size: 1.08em;
+    line-height: 1.8;
+  }
+}
+
+
+/* v11：首頁標題置中 */
+.home-title,
+.home-subtitle {
+  text-align: center;
+}
+
+
+/* v15：三裝置響應式調整；保留原有隨機挑一回功能 */
+
+/* 電腦 */
+@media (min-width:901px){
+  .option,.chip,.skeleton strong{font-size:1.12em}
+  .option,.chip{min-height:48px}
+  .page-nav button,.actions button,.home-btn,.controls button{min-height:44px}
+  textarea{min-height:150px;line-height:1.7}
+}
+
+/* 平板 */
+@media (min-width:601px) and (max-width:900px){
+  .option,.chip,.skeleton strong{font-size:1.10em}
+  .option,.chip{min-height:48px}
+  .page-nav button,.actions button,.home-btn,.controls button{min-height:46px}
+  textarea{min-height:160px;line-height:1.7}
+}
+
+/* 手機 */
+@media (max-width:600px){
+  .option,.chip,.skeleton strong{font-size:1.07em}
+  .option{
+    min-height:50px;
+    line-height:1.5;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+  .chip{
+    min-height:46px;
+    line-height:1.45;
+    white-space:normal;
+  }
+  .page-nav button,.actions button,.home-btn,.controls button{min-height:46px}
+  textarea{min-height:170px;line-height:1.7}
+}
+
+
+/* v16：首頁標題與副標以整個畫面中線置中 */
+#homeView .top{
+  position:relative;
+  justify-content:center;
+}
+#homeView .title{
+  width:100%;
+  text-align:center;
+}
+#homeView .title h1,
+#homeView .title p{
+  text-align:center;
+}
+
+
+/* v17：修正首頁標題真正以整個頁面中線置中 */
+.top{
+  display:grid !important;
+  grid-template-columns:1fr auto 1fr !important;
+  align-items:center !important;
+  width:100%;
+}
+.top .title{
+  grid-column:2 !important;
+  text-align:center !important;
+  width:auto !important;
+}
+.top .title h1,
+.top .title p{
+  text-align:center !important;
+}
+.top .controls{
+  grid-column:3 !important;
+  justify-self:end !important;
+  width:auto !important;
+  display:flex !important;
+}
+@media (max-width:600px){
+  .top{
+    grid-template-columns:1fr auto 1fr !important;
+  }
+  .top .title{
+    grid-column:2 !important;
+  }
+  .top .controls{
+    grid-column:3 !important;
+    justify-self:end !important;
+    width:auto !important;
+  }
+}
+
+
+/* v18：既有版面三裝置操作微調 */
+
+/* 字級控制：兩顆按鈕完全等大並保留舒適間距 */
+.controls{
+  display:flex !important;
+  gap:10px !important;
+}
+.controls button{
+  width:58px !important;
+  height:48px !important;
+  min-width:58px !important;
+  min-height:48px !important;
+  padding:0 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+/* 平板：控制鍵稍收斂但維持易點 */
+@media (min-width:601px) and (max-width:900px){
+  .controls{gap:9px !important}
+  .controls button{
+    width:56px !important;
+    height:46px !important;
+    min-width:56px !important;
+    min-height:46px !important;
+  }
+}
+
+/* 手機：沿用既有功能與結構，只把首頁壓縮成較舒適的操作密度 */
+@media (max-width:600px){
+  .wrap{padding:12px !important}
+
+  .top{
+    grid-template-columns:1fr auto 1fr !important;
+    gap:8px !important;
+    margin-bottom:8px;
+  }
+  .top .title{
+    grid-column:2 !important;
+    text-align:center !important;
+  }
+  .top .title h1{
+    font-size:23px !important;
+    line-height:1.25 !important;
+    white-space:nowrap;
+  }
+  .top .title p{
+    font-size:14px !important;
+    line-height:1.45 !important;
+    white-space:nowrap;
+  }
+  .top .controls{
+    grid-column:3 !important;
+    justify-self:end !important;
+    gap:7px !important;
+    width:auto !important;
+  }
+  .controls button{
+    width:46px !important;
+    height:44px !important;
+    min-width:46px !important;
+    min-height:44px !important;
+    border-radius:11px !important;
+  }
+
+  #homeView .hero{
+    padding:14px !important;
+    margin-top:10px !important;
+  }
+  #homeView .hero h2{
+    font-size:20px !important;
+    margin-bottom:2px !important;
+  }
+  #homeView .hero > p{
+    font-size:14px !important;
+    line-height:1.45 !important;
+    margin:2px 0 8px !important;
+  }
+  .exam-tabs{
+    margin:10px 0 4px !important;
+    gap:8px !important;
+  }
+  .exam-tabs button{
+    flex:1;
+    min-height:44px;
+    padding:7px 12px !important;
+  }
+  .year-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:9px !important;
+    margin-top:10px !important;
+  }
+  .year-card{
+    padding:12px !important;
+    border-radius:13px !important;
+  }
+  .year-card strong{font-size:18px !important}
+  .year-card small{font-size:12px !important;line-height:1.35 !important}
+  .year-actions{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:7px !important;
+    margin-top:9px !important;
+  }
+  .year-actions button{
+    width:100%;
+    min-height:42px !important;
+    padding:7px 8px !important;
+    font-size:14px !important;
+  }
+
+  .random-box{
+    margin-top:10px !important;
+    padding:13px !important;
+    text-align:center;
+  }
+  .random-box h3{
+    margin:0 0 2px !important;
+    font-size:18px !important;
+  }
+  .random-box p{
+    margin:2px 0 8px !important;
+    line-height:1.4 !important;
+  }
+  .random-box .home-btn{
+    width:100%;
+    min-height:44px !important;
+  }
+  .random-result{min-height:0 !important;margin-top:6px !important}
+  .footer{margin:16px 0 !important}
+}
+
+/* 極窄手機：標題仍置中，避免 A-/A+ 擠壓標題 */
+@media (max-width:390px){
+  .top{
+    grid-template-columns:1fr !important;
+  }
+  .top .title{
+    grid-column:1 !important;
+    grid-row:1 !important;
+  }
+  .top .controls{
+    grid-column:1 !important;
+    grid-row:2 !important;
+    justify-self:center !important;
+  }
+  .top .title h1{white-space:normal}
+  .top .title p{white-space:normal}
+}
+
+
+/* v23：把學習工具直接放進「不知道今天要練哪一回？」同一張卡片的右半部 */
+.random-box{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:0 !important;
+  align-items:stretch !important;
+  padding:0 !important;
+  overflow:hidden;
+}
+.random-left{
+  padding:28px 22px;
+  min-width:0;
+}
+.random-tools{
+  padding:24px 22px;
+  border-left:1px solid var(--line);
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.random-tools-head h3{
+  margin:0 0 4px;
+  color:var(--green);
+}
+.random-tools-head p{
+  margin:0 0 12px;
+}
+.tool-entry{
+  width:100%;
+  min-height:64px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:rgba(255,255,255,.78);
+  color:var(--green);
+  padding:11px 13px;
+  margin-top:9px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  text-align:center;
+  cursor:pointer;
+}
+.tool-entry span{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  min-width:0;
+}
+.tool-entry strong{font-weight:800}
+.tool-entry small{
+  color:var(--muted);
+  font-weight:600;
+  line-height:1.35;
+}
+.tool-entry b{
+  font-size:1.35em;
+  flex:0 0 auto;
+}
+.portal-entry{background:rgba(248,250,246,.9)}
+
+.mistake-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.mistake-head h2{margin:0 0 4px}
+.mistake-head p{margin:0}
+.mistake-list{margin-top:16px}
+.empty-mistakes{
+  padding:32px 18px;
+  text-align:center;
+  border:1px dashed var(--line);
+  border-radius:14px;
+  color:var(--muted);
+  line-height:1.65;
+}
+.mistake-row{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding:15px 0;
+  border-bottom:1px solid var(--line);
+}
+.mistake-row p{margin:5px 0 0;line-height:1.55}
+.mistake-row-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+}
+.mistake-row-actions button,.mistake-toggle{
+  min-height:42px;
+  border:1px solid var(--green);
+  background:white;
+  color:var(--green);
+  border-radius:10px;
+  padding:8px 12px;
+  font-weight:750;
+  cursor:pointer;
+}
+
+/* 平板：仍保留左右配置，但略收窄 */
+@media (min-width:601px) and (max-width:900px){
+  .random-box{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .random-left,.random-tools{padding:20px 17px}
+  .tool-entry{min-height:60px;padding:10px 11px}
+}
+
+/* 手機：同一張卡片改成上下排列，不擠壓文字與按鈕 */
+@media (max-width:600px){
+  .random-box{grid-template-columns:1fr}
+  .random-left{padding:17px 15px}
+  .random-tools{
+    padding:15px;
+    border-left:0;
+    border-top:1px solid var(--line);
+  }
+  .random-tools-head p{margin-bottom:7px}
+  .tool-entry{min-height:58px;margin-top:8px}
+  .mistake-head{align-items:flex-start}
+  .mistake-row{flex-direction:column}
+  .mistake-row-actions{width:100%}
+  .mistake-row-actions button{flex:1}
+}
+
+
+/* v25：只調整「不知道今天要練哪一回？」左半區內容置中 */
+.random-left{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-align:center !important;
+}
+.random-left .home-btn,
+.random-left button{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+
+/* v28：補回首頁個人識別。獨立定位，不參與主內容排版與置中計算。 */
+#homeView{position:relative}
+.home-brand{
+  position:absolute;
+  top:10px;
+  right:14px;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:2px;
+  color:var(--green);
+  line-height:1.2;
+  pointer-events:none;
+}
+.home-brand strong{
+  font-size:.92rem;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+.home-brand span{
+  font-size:.76rem;
+  color:var(--muted);
+  font-weight:650;
+}
+@media (max-width:900px){
+  .home-brand{
+    top:8px;
+    right:10px;
+  }
+}
+@media (max-width:600px){
+  .home-brand{
+    position:static;
+    align-items:center;
+    margin:4px auto 8px;
+    text-align:center;
+  }
+}
+
+
+/* v32：四階段題目呈現位置統一
+   - 上方只保留四個階段按鈕
+   - 中文原題移到每一階段的主要練習卡片最上方
+   - 三裝置都讓題目與當頁操作內容保持在同一視覺區域
+   - 不縮小原有文字
+*/
+.stage-nav-card{
+  padding-top:18px !important;
+  padding-bottom:18px !important;
+  margin-bottom:14px !important;
+}
+.stage-nav-card .steps{
+  margin-top:0 !important;
+}
+.step-page{
+  padding-top:24px !important;
+}
+.in-step-prompt{
+  margin:0 0 22px !important;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+}
+.in-step-prompt + h3{
+  margin-top:0 !important;
+}
+.in-step-prompt + p{
+  margin-top:0 !important;
+}
+@media (max-width:900px){
+  .stage-nav-card{
+    padding-top:14px !important;
+    padding-bottom:14px !important;
+    margin-bottom:12px !important;
+  }
+  .step-page{
+    padding-top:20px !important;
+  }
+  .in-step-prompt{
+    margin-bottom:18px !important;
+    padding-bottom:15px;
+  }
+}
+@media (max-width:600px){
+  .stage-nav-card{
+    padding-top:12px !important;
+    padding-bottom:12px !important;
+    margin-bottom:10px !important;
+  }
+  .step-page{
+    padding-top:18px !important;
+  }
+  .in-step-prompt{
+    margin-bottom:16px !important;
+    padding-bottom:14px;
+  }
+}
+
+
+/* v33：練習頁垂直空間與延伸挑戰整體調整 */
+.task-intro{
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:6px 18px;
+  margin:0 0 18px;
+}
+.task-intro strong{
+  flex:0 0 auto;
+  font-size:1.18em;
+  color:var(--ink);
+}
+.task-intro span{
+  min-width:0;
+  line-height:1.65;
+  color:var(--muted);
+}
+.extension-page-title{
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:6px 16px;
+  margin-bottom:22px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+}
+.extension-page-title strong{
+  font-size:1.25em;
+  color:var(--green);
+}
+.extension-page-title span{color:var(--muted)}
+.extension-question-block{
+  padding:4px 0 24px;
+}
+.extension-question-block + .extension-question-block{
+  border-top:1px solid var(--line);
+  padding-top:26px;
+}
+.extension-source{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 14px;
+  align-items:baseline;
+  margin-bottom:14px;
+}
+.extension-source strong{color:var(--green)}
+.extension-source span{font-weight:700}
+.extension-item{
+  margin:14px 0 20px;
+}
+.extension-item + .extension-item{
+  padding-top:16px;
+  border-top:1px dashed var(--line);
+}
+@media (min-width:901px){
+  .task-intro{flex-wrap:nowrap}
+}
+@media (max-width:600px){
+  .task-intro{
+    gap:4px 8px;
+    margin-bottom:14px;
+  }
+  .task-intro strong,
+  .task-intro span{
+    line-height:1.5;
+  }
+  .extension-page-title,
+  .extension-source{
+    display:block;
+  }
+  .extension-page-title span,
+  .extension-source span{
+    display:block;
+    margin-top:5px;
+  }
+}
+
+
+/* v34：兩層導覽緊湊化 + 延伸挑戰分成第1題／第2題兩頁
+   保留原字級與可點擊性，主要縮減上下 padding 與區塊間距。
+*/
+.qnav{
+  padding-top:10px !important;
+  padding-bottom:10px !important;
+  margin-bottom:10px !important;
+}
+.qnav button{
+  min-height:42px !important;
+  padding-top:8px !important;
+  padding-bottom:8px !important;
+}
+.stage-nav-card{
+  padding-top:9px !important;
+  padding-bottom:9px !important;
+  margin-bottom:10px !important;
+}
+.stage-nav-card .steps{
+  gap:8px !important;
+}
+.stage-nav-card .steps button{
+  min-height:42px !important;
+  padding-top:8px !important;
+  padding-bottom:8px !important;
+}
+@media (max-width:900px){
+  .qnav,
+  .stage-nav-card{
+    padding-top:8px !important;
+    padding-bottom:8px !important;
+    margin-bottom:9px !important;
+  }
+  .qnav button,
+  .stage-nav-card .steps button{
+    min-height:44px !important;
+    padding-top:8px !important;
+    padding-bottom:8px !important;
+  }
+}
+@media (max-width:600px){
+  .qnav,
+  .stage-nav-card{
+    padding-top:7px !important;
+    padding-bottom:7px !important;
+    margin-bottom:8px !important;
+  }
+  .qnav button,
+  .stage-nav-card .steps button{
+    min-height:44px !important;
+    padding-top:7px !important;
+    padding-bottom:7px !important;
+  }
+  .stage-nav-card .steps{
+    gap:6px !important;
+  }
+}
+
+
+/* v35：縮減題目導覽淡綠區塊高度 */
+.practice-head{
+  padding-top:14px !important;
+  padding-bottom:14px !important;
+  min-height:0 !important;
+}
+.practice-head h2,
+.practice-head h3{
+  margin-top:0 !important;
+  margin-bottom:10px !important;
+}
+.practice-head .qnav{
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+  padding-top:0 !important;
+  padding-bottom:0 !important;
+}
+@media (max-width:900px){
+  .practice-head{
+    padding-top:12px !important;
+    padding-bottom:12px !important;
+  }
+  .practice-head h2,
+  .practice-head h3{margin-bottom:8px !important}
+}
+@media (max-width:600px){
+  .practice-head{
+    padding-top:10px !important;
+    padding-bottom:10px !important;
+  }
+}
+
+
+.compact-extension-title{
+  margin-bottom:16px !important;
+  padding-bottom:14px !important;
+}
+@media (min-width:601px){
+  .compact-extension-title{
+    display:flex !important;
+    align-items:baseline !important;
+    flex-wrap:nowrap !important;
+    gap:14px !important;
+  }
+  .compact-extension-title strong{flex:0 0 auto}
+  .compact-extension-title span{min-width:0}
+}
+@media (max-width:600px){
+  .compact-extension-title{
+    display:block !important;
+  }
+  .compact-extension-title span{
+    display:block;
+    margin-top:5px;
+  }
+}
+
+
+/* v36：低捲動版面
+   原則：導覽退居次要、題目與操作區成為視覺焦點；
+   桌機四選項優先 2×2，平板視寬度 2×2，手機保持易讀易點。
+*/
+
+/* 年份／題號區：標題略大，按鈕較小，保留適量呼吸空間 */
+.practice-head{
+  padding:14px 18px !important;
+  min-height:0 !important;
+}
+.practice-head h2,
+.practice-head h3{
+  font-size:1.22em !important;
+  line-height:1.35 !important;
+  margin:0 0 12px !important;
+}
+.practice-head .qnav{
+  margin:0 !important;
+  padding:0 !important;
+  gap:8px !important;
+}
+.practice-head .qnav button{
+  font-size:.90em !important;
+  min-height:38px !important;
+  padding:6px 12px !important;
+}
+
+/* 四階段導覽：與題號按鈕同一視覺尺寸 */
+.stage-nav-card{
+  padding:8px 14px !important;
+  margin-bottom:10px !important;
+}
+.stage-nav-card .steps{
+  gap:8px !important;
+  margin:0 !important;
+}
+.stage-nav-card .steps button{
+  font-size:.90em !important;
+  min-height:38px !important;
+  padding:6px 12px !important;
+}
+
+/* 練習內容卡略緊湊，但不縮題目與主要英文練習字級 */
+.step-page{
+  padding-top:20px !important;
+  padding-bottom:20px !important;
+}
+.in-step-prompt{
+  margin-bottom:16px !important;
+  padding-bottom:14px !important;
+}
+.task-intro{
+  margin-bottom:14px !important;
+}
+
+/* 所有一般選擇題：桌機優先 2×2，減少四張直排造成的垂直浪費 */
+@media (min-width:901px){
+  .options{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px 12px !important;
+  }
+  .options button{
+    width:100% !important;
+    min-height:58px !important;
+    padding:10px 16px !important;
+    margin:0 !important;
+  }
+}
+
+/* 平板：足夠寬度時同樣 2×2 */
+@media (min-width:641px) and (max-width:900px){
+  .practice-head{
+    padding:12px 16px !important;
+  }
+  .practice-head h2,
+  .practice-head h3{
+    margin-bottom:10px !important;
+  }
+  .practice-head .qnav button,
+  .stage-nav-card .steps button{
+    font-size:.88em !important;
+    min-height:42px !important;
+    padding:7px 11px !important;
+  }
+  .options{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:9px 10px !important;
+  }
+  .options button{
+    width:100% !important;
+    min-height:54px !important;
+    padding:9px 12px !important;
+    margin:0 !important;
+  }
+}
+
+/* 手機：不硬塞 2×2；導覽緊湊但維持觸控尺寸 */
+@media (max-width:640px){
+  .practice-head{
+    padding:10px 12px !important;
+  }
+  .practice-head h2,
+  .practice-head h3{
+    font-size:1.12em !important;
+    margin-bottom:9px !important;
+  }
+  .practice-head .qnav{
+    gap:7px !important;
+  }
+  .practice-head .qnav button,
+  .stage-nav-card .steps button{
+    font-size:.84em !important;
+    min-height:44px !important;
+    padding:7px 9px !important;
+  }
+  .stage-nav-card{
+    padding:7px 9px !important;
+    margin-bottom:8px !important;
+  }
+  .step-page{
+    padding-top:16px !important;
+    padding-bottom:18px !important;
+  }
+  .in-step-prompt{
+    margin-bottom:13px !important;
+    padding-bottom:12px !important;
+  }
+  .task-intro{
+    margin-bottom:12px !important;
+  }
+  .options{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:8px !important;
+  }
+  .options button{
+    min-height:48px !important;
+    padding:8px 11px !important;
+    margin:0 !important;
+  }
+}
+
+
+/* v37：修正 v36 選項網格 selector，並重新平衡年份標題與題號按鈕 */
+.practice-head{
+  padding:14px 18px 13px !important;
+}
+.practice-head > strong{
+  display:block;
+  font-size:1.20em !important;
+  line-height:1.35 !important;
+  margin:0 0 14px !important;
+}
+.practice-head .qnav{
+  margin:0 !important;
+  gap:9px !important;
+}
+.practice-head .qnav button{
+  font-size:.86em !important;
+  min-height:36px !important;
+  padding:5px 11px !important;
+}
+
+/* 真正套用到 opts() 產生的選項 */
+.options-grid{
+  display:grid;
+  gap:10px 12px;
+  margin:10px 0 14px;
+}
+.options-grid .option{
+  width:100% !important;
+  margin:0 !important;
+  min-height:56px;
+  padding:10px 14px !important;
+}
+
+/* 電腦：2/3/4 選項都用兩欄，3 選項最後一張自然落左下 */
+@media (min-width:901px){
+  .options-grid.option-count-2,
+  .options-grid.option-count-3,
+  .options-grid.option-count-4{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+/* 平板：同樣優先兩欄 */
+@media (min-width:641px) and (max-width:900px){
+  .practice-head > strong{
+    margin-bottom:12px !important;
+  }
+  .options-grid.option-count-2,
+  .options-grid.option-count-3,
+  .options-grid.option-count-4{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .options-grid .option{
+    min-height:52px;
+  }
+}
+
+/* 手機：維持單欄，避免長選項擠壓 */
+@media (max-width:640px){
+  .practice-head{
+    padding:11px 13px 10px !important;
+  }
+  .practice-head > strong{
+    font-size:1.12em !important;
+    margin-bottom:11px !important;
+  }
+  .practice-head .qnav button{
+    font-size:.82em !important;
+    min-height:42px !important;
+    padding:6px 10px !important;
+  }
+  .options-grid{
+    grid-template-columns:1fr !important;
+    gap:8px;
+  }
+  .options-grid .option{
+    min-height:48px;
+    padding:8px 11px !important;
+  }
+}
+
+
+/* v38：依確認意見調整標題層級與延伸題目可讀性 */
+
+/* 年份標題真正高於導覽按鈕一級 */
+.practice-head > strong{
+  display:block !important;
+  font-size:1.30em !important;
+  font-weight:800 !important;
+  line-height:1.35 !important;
+  margin:0 0 14px !important;
+  color:var(--ink) !important;
+}
+
+/* 題號與四階段維持相同的小型導覽層級 */
+.practice-head .qnav button,
+.stage-nav-card .steps button{
+  font-size:.86em !important;
+}
+
+/* 延伸頁：原翻譯題目改為深色，清晰但不搶過「第N題延伸」 */
+.compact-extension-title span{
+  color:var(--ink) !important;
+  opacity:1 !important;
+  font-weight:500 !important;
+}
+
+@media (max-width:900px){
+  .practice-head > strong{
+    font-size:1.24em !important;
+    margin-bottom:12px !important;
+  }
+}
+@media (max-width:640px){
+  .practice-head > strong{
+    font-size:1.18em !important;
+    margin-bottom:11px !important;
+  }
+  .practice-head .qnav button,
+  .stage-nav-card .steps button{
+    font-size:.82em !important;
+  }
+}
+
+
+/* v39：練習內容視覺層級
+   中文原題降低一級；階段副標題再低一級；
+   所有需要學生判斷／作答的任務文字改為清楚深色。
+*/
+
+/* 中文原題：仍是內容區第一視覺層級，但較 v38 緊湊 */
+.in-step-prompt{
+  font-size:1.12em !important;
+  line-height:1.5 !important;
+  font-weight:700 !important;
+  color:var(--ink) !important;
+  margin-bottom:13px !important;
+  padding-bottom:11px !important;
+}
+
+/* 階段副標題 + 任務題目：副標題再比中文原題低一級 */
+.task-intro{
+  margin-bottom:12px !important;
+  gap:5px 14px !important;
+}
+.task-intro strong{
+  font-size:1em !important;
+  line-height:1.45 !important;
+  font-weight:800 !important;
+  color:var(--ink) !important;
+}
+/* 任務提問是作答內容，不再使用灰色 */
+.task-intro span{
+  font-size:1em !important;
+  line-height:1.5 !important;
+  color:var(--ink) !important;
+  opacity:1 !important;
+}
+
+/* 若個別頁面仍有直接位於 step-page 的任務文字，也保持清楚 */
+.step-page > p,
+.step-page .small{
+  color:var(--ink);
+}
+
+/* 延伸頁原翻譯題目同樣維持清楚深色 */
+.compact-extension-title span{
+  color:var(--ink) !important;
+  opacity:1 !important;
+}
+
+@media (max-width:900px){
+  .in-step-prompt{
+    font-size:1.08em !important;
+    margin-bottom:12px !important;
+    padding-bottom:10px !important;
+  }
+  .task-intro strong,
+  .task-intro span{
+    font-size:.98em !important;
+  }
+}
+@media (max-width:640px){
+  .in-step-prompt{
+    font-size:1.04em !important;
+    line-height:1.45 !important;
+    margin-bottom:11px !important;
+    padding-bottom:9px !important;
+  }
+  .task-intro{
+    margin-bottom:10px !important;
+    gap:4px 8px !important;
+  }
+  .task-intro strong,
+  .task-intro span{
+    font-size:.95em !important;
+    line-height:1.45 !important;
+  }
+}
+
+
+/* v40：教學提示／句型說明文字放大一級
+   不更動中文原題、階段副標題、任務題目與選項字級。
+*/
+.note{
+  font-size:1.08em !important;
+  line-height:1.65 !important;
+}
+.note b,
+.note strong{
+  font-weight:800 !important;
+}
+@media (max-width:900px){
+  .note{font-size:1.06em !important;}
+}
+@media (max-width:640px){
+  .note{font-size:1.04em !important;}
+}
+
+
+/* v41：核心語塊、任務層級、延伸入口 */
+
+/* 核心英文語塊字卡文字放大一級 */
+.chunk{
+  font-size:1.10em !important;
+  font-weight:800 !important;
+  line-height:1.5 !important;
+}
+
+/* 任務句：名稱＋提問形成一個完整句子；
+   整體低於中文翻譯原題一級，但維持深色清楚。 */
+.task-intro{
+  display:flex !important;
+  align-items:baseline !important;
+  flex-wrap:wrap !important;
+  gap:0 6px !important;
+  margin-bottom:11px !important;
+}
+.task-intro strong{
+  font-size:.98em !important;
+  font-weight:800 !important;
+  color:var(--ink) !important;
+  line-height:1.45 !important;
+}
+.task-intro span{
+  font-size:.98em !important;
+  font-weight:600 !important;
+  color:var(--ink) !important;
+  opacity:1 !important;
+  line-height:1.45 !important;
+}
+
+/* 自己翻譯頁的操作說明低於中文原題，不搶焦點 */
+.step-page > p:first-of-type{
+  font-size:.96em !important;
+  line-height:1.5 !important;
+}
+
+/* 延伸題目是額外入口，不視為第5階段；與前四個略作區隔 */
+.stage-nav-card .steps .extension-entry{
+  margin-left:8px !important;
+  font-size:.86em !important;
+  min-height:38px !important;
+  padding:6px 12px !important;
+  background:#fff !important;
+  color:var(--green) !important;
+  border:1px solid var(--green) !important;
+}
+.stage-nav-card .steps .extension-entry:hover{
+  background:var(--soft) !important;
+}
+
+/* 手機：自然換行，不縮到難讀 */
+@media (max-width:900px){
+  .chunk{font-size:1.08em !important;}
+}
+@media (max-width:640px){
+  .chunk{
+    font-size:1.05em !important;
+    white-space:normal !important;
+  }
+  .task-intro{
+    gap:0 5px !important;
+    margin-bottom:10px !important;
+  }
+  .task-intro strong,
+  .task-intro span{
+    font-size:.94em !important;
+  }
+  .stage-nav-card .steps .extension-entry{
+    margin-left:4px !important;
+    font-size:.82em !important;
+    min-height:44px !important;
+    padding:7px 9px !important;
+  }
+}
+
+
+/* v42：僅將核心英文語塊說明文字再放大一級 */
+.chunk{
+  font-size:1.20em !important;
+}
+@media (max-width:900px){
+  .chunk{font-size:1.18em !important;}
+}
+@media (max-width:640px){
+  .chunk{font-size:1.15em !important;}
+}
+
+
+/* v44：功能區視覺分區＋練習紀錄完整化 */
+.home-function-zone{
+  margin-top:28px;
+  padding:24px;
+  border:1px solid #cbd9cf;
+  border-radius:24px;
+  background:#edf5ef;
+}
+.home-function-zone-title{text-align:center;margin:0 0 18px;color:var(--green);font-size:1.18em;font-weight:900}
+.home-function-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin-top:18px;
+}
+.home-function-card{
+  appearance:none;
+  width:100%;
+  min-height:118px;
+  padding:20px 22px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:#fff;
+  color:var(--ink);
+  text-align:left;
+  cursor:pointer;
+  box-shadow:0 3px 12px rgba(45,72,54,.04);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:7px;
+}
+.home-function-icon{width:54px;height:54px;border-radius:16px;background:#f3f7f3;display:grid;place-items:center;margin-bottom:3px}
+.home-function-icon svg{width:34px;height:34px;stroke:#567963;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.home-function-card:hover{border-color:#9db7a3;background:#fbfdfb}
+.home-function-card strong{font-size:1.08em;color:var(--green);font-weight:850}
+.home-function-card span{font-size:.9em;line-height:1.55;color:var(--muted);font-weight:650}
+.home-function-card .random-result{margin-top:3px;color:var(--ink);font-size:.88em}
+.record-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}
+.record-head h2{margin:0;color:var(--green)}
+.record-name-box{padding:16px;border:1px solid var(--line);border-radius:14px;background:#fbfdfb;margin-bottom:16px}
+.record-name-row{display:flex;gap:8px;align-items:center;margin-top:9px}
+.record-name-row input{flex:1;min-width:0;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:inherit}
+.record-name-row button,.record-actions button{min-height:44px;border:1px solid var(--green);border-radius:10px;background:#fff;color:var(--green);font-weight:800;padding:8px 13px;cursor:pointer}
+.record-info{padding:13px 15px;border-radius:12px;background:#f5f8f5;color:#40554a;font-size:.9em;line-height:1.65;margin-bottom:16px}
+#recordView .small,#mistakeView .small{color:#40554a}
+.record-year-group{border:1px solid var(--line);border-radius:16px;padding:15px 16px;background:#fff}
+.record-year-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.record-year-head h3{margin:0;color:var(--green)}
+.record-year-head button,.record-tools button,.name-prompt-actions button{min-height:40px;border:1px solid var(--green);border-radius:9px;background:#fff;color:var(--green);font-weight:750;padding:7px 11px;cursor:pointer}
+.record-tools{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:16px}
+.record-name-prompt{padding:16px;border:1px solid #b9c8bd;border-radius:14px;background:#f7faf7;margin-bottom:16px}
+.record-name-prompt p{margin:0 0 10px;color:var(--muted)}
+.record-name-prompt input{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;margin-bottom:10px}
+.name-prompt-actions{display:flex;gap:8px;flex-wrap:wrap}
+.name-prompt-actions .primary{background:var(--green);color:#fff}
+.review-toast{margin-top:10px;padding:9px 11px;border-radius:10px;background:#edf5ef;color:#315f43;font-weight:750;font-size:.9em}
+.complete-confirm{margin-top:14px;padding:14px 16px;border:1px solid #cbd9cf;border-radius:13px;background:#f7faf7}
+.complete-confirm button{min-height:44px;border:1px solid var(--green);border-radius:10px;background:#fff;color:var(--green);font-weight:850;padding:9px 14px;cursor:pointer}
+.complete-confirm button.done{background:#edf5ef}
+
+.record-actions .primary{background:var(--green);color:#fff}
+.record-list{display:grid;gap:12px}
+.record-row{border:1px solid var(--line);border-radius:14px;padding:15px 16px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.record-row h3{margin:0 0 5px;color:var(--ink)}
+.record-row p{margin:2px 0;color:var(--muted);font-size:.9em}
+.record-row-actions{display:flex;gap:8px;flex-direction:column;flex-wrap:nowrap;margin-left:auto;align-items:flex-end}
+.record-row-actions button{min-height:40px;width:118px;border:1px solid var(--green);border-radius:9px;background:#fff;color:var(--green);font-weight:750;cursor:pointer;padding:7px 11px;white-space:nowrap}
+.empty-records{text-align:center;padding:30px 12px;color:var(--muted)}
+.share-record-card{
+  width:min(720px,100%);
+  margin:0 auto;
+  padding:34px 38px;
+  border:1px solid #b9c8bd;
+  border-radius:20px;
+  background:#fffdf8;
+  color:#26362c;
+}
+.share-record-card .rc-brand{text-align:center;color:var(--green);font-weight:850;font-size:1.05em}
+.share-record-card h2{text-align:center;margin:7px 0 22px;font-size:1.45em}
+.share-record-card .rc-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;padding-bottom:16px;border-bottom:1px solid #d9e1da}
+.share-record-card .rc-status{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:18px 0}
+.share-record-card .rc-review{padding:14px 16px;border-radius:12px;background:#f2f7f2}
+.share-record-card .rc-review strong{display:block;margin-bottom:7px}
+.share-record-card .rc-foot{text-align:center;margin-top:20px;color:#657269;font-size:.82em}
+.record-actions{display:flex;justify-content:center;gap:10px;margin-top:16px}
+@media(max-width:640px){
+  .home-function-zone{padding:18px 14px;border-radius:20px}
+  .home-function-grid{grid-template-columns:1fr;gap:10px}
+  .home-function-card{min-height:96px;padding:16px 17px}
+  .record-head,.record-row{align-items:flex-start}
+  .record-row{flex-direction:column}
+  .record-name-row{flex-wrap:wrap}
+  .record-name-row input{flex-basis:100%}
+  .share-record-card{padding:24px 20px}
+  .share-record-card .rc-meta,.share-record-card .rc-status{grid-template-columns:1fr}
+  .record-actions{flex-direction:column}
+  .record-actions button{width:100%}
+}
+
+
+/* v46 確認版：本輪已確認的功能區、紀錄與操作細節 */
+.home-function-card{min-height:156px;padding:20px 24px;gap:8px}
+.home-function-icon{width:66px;height:66px;border-radius:20px;margin-bottom:4px;overflow:hidden}
+.home-function-icon svg{width:48px;height:48px;stroke-width:1.8}
+.home-function-card strong{min-height:1.55em;display:flex;align-items:center;justify-content:center;text-align:center}
+.home-function-card span{min-height:3.1em;display:flex;align-items:flex-start;justify-content:center;text-align:center;line-height:1.55}
+.home-function-card .random-result{min-height:0;text-align:center}
+.home-function-icon.random{background:#fff}.home-function-icon.random img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.08)}
+.home-function-icon.review{background:#eef5ff}.home-function-icon.review svg{stroke:#315f43}.home-function-icon.review .paper{fill:#fff}.home-function-icon.review .clip{fill:#f3bf62}.home-function-icon.review .check{stroke:#66a96f}
+.home-function-icon.records{background:#fff6d9}.home-function-icon.records svg{stroke:#315f43}.home-function-icon.records .bar1{fill:#6fa8dc}.home-function-icon.records .bar2{fill:#77bf7a}.home-function-icon.records .bar3{fill:#f2b84b}
+.home-function-icon.portal{background:#f0ecff}.home-function-icon.portal svg{stroke:#315f43}.home-function-icon.portal .roof{fill:#ef765f}.home-function-icon.portal .wall{fill:#fff9e8}.home-function-icon.portal .door{fill:#73b7d8}.home-function-icon.portal .bush{fill:#7bbd6b}
+.record-page{position:relative}
+.record-page .record-head{display:block;margin-bottom:18px;text-align:center}
+.record-page .record-head > div{width:100%}
+.record-page .record-title-row{display:block;text-align:center}
+.record-page .record-title-row h2{margin:0;text-align:center}
+.record-page .record-top-home{position:absolute;top:22px;right:22px;white-space:nowrap}
+@media(max-width:640px){
+ .record-page{padding-top:74px}
+ .record-page .record-top-home{top:17px;right:17px}
+}
+.record-row-actions button:first-child{min-width:118px;white-space:nowrap}
+.bottom-home-wrap{display:flex;justify-content:center;margin-top:22px}
+.bottom-home-wrap .home-btn{min-height:44px;padding:9px 18px}
+@media(max-width:640px){
+ .home-function-card{min-height:142px;padding:18px 17px}
+ .home-function-icon{width:62px;height:62px}.home-function-icon svg{width:44px;height:44px}
+ .home-function-card span{min-height:0}
+}
+
+
+/* v52：三裝置紀錄文字可讀性＋隨機年份直接開始 */
+.record-info,
+#recordView .small,
+#mistakeView .small,
+.record-row p,
+.empty-records,
+.complete-confirm .small{
+  color:#34483c;
+  font-weight:650;
+}
+.record-info{font-size:.96em;line-height:1.72}
+.record-info span{color:#34483c;font-weight:650}
+.record-row p{font-size:.96em;line-height:1.62}
+.empty-records{color:#34483c;font-weight:650;line-height:1.65}
+.complete-confirm .small{color:#34483c;font-weight:650;line-height:1.6}
+.random-card{cursor:pointer}
+.random-result{width:100%}
+.random-picked{font-weight:800;color:var(--ink);line-height:1.45;margin-top:4px}
+.random-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.random-actions button{min-height:42px;border-radius:10px;padding:8px 13px;font:inherit;font-weight:800;cursor:pointer;white-space:nowrap}
+.random-start{border:1px solid var(--green);background:var(--green);color:#fff}
+.random-again{border:1px solid var(--green);background:#fff;color:var(--green)}
+@media(max-width:640px){
+  .record-info{font-size:1em;line-height:1.75}
+  #recordView .small,#mistakeView .small{font-size:1em;line-height:1.65}
+  .record-row p{font-size:1em;line-height:1.68}
+  .empty-records{font-size:1em;line-height:1.7}
+  .complete-confirm .small{font-size:1em;line-height:1.65}
+  .random-actions{flex-direction:column;align-items:stretch;width:100%}
+  .random-actions button{width:100%}
+}
+
+
+/* v53：本輪確認修改
+   1. 三裝置主標題提升一級；A− / A / A＋降低視覺份量但保留可操作尺寸。
+   2. 手機首頁「學測／指考」與主要「開始練寫」建立不同色彩層級。
+   3. 說明文字依可用寬度自然換行，換行後文字區塊左對齊且不拆語意單位。
+   4. 教學提示／核心語塊三裝置放大，維持中英文視覺平衡。
+   5. 手機完成頁導覽改為主要前後操作同列、回首頁獨立第二列。
+   6. 複習清單右上回首頁與紀錄操作按鈕避免中文字被拆行／溢出。
+*/
+
+/* 主標題：三裝置都提高一級，維持全頁中線 */
+.title h1,
+#homeView .home-title{
+  font-size:34px !important;
+  line-height:1.28 !important;
+}
+
+/* 字級控制是輔助工具：降低視覺重量，但維持至少 44px 觸控高度 */
+.controls{gap:8px !important;}
+.controls button{
+  width:52px !important;
+  height:44px !important;
+  min-width:52px !important;
+  min-height:44px !important;
+  padding:0 !important;
+  border-width:1px !important;
+  border-radius:10px !important;
+  font-size:.94em !important;
+  font-weight:750 !important;
+}
+@media (min-width:601px) and (max-width:900px){
+  .controls button{
+    width:50px !important;
+    min-width:50px !important;
+    height:44px !important;
+    min-height:44px !important;
+  }
+}
+@media (max-width:600px){
+  .title h1,
+  #homeView .home-title{
+    font-size:26px !important;
+    line-height:1.28 !important;
+  }
+  .controls{gap:6px !important;}
+  .controls button{
+    width:44px !important;
+    min-width:44px !important;
+    height:44px !important;
+    min-height:44px !important;
+    border-radius:10px !important;
+    font-size:.90em !important;
+  }
+
+  /* 手機首頁：分類標籤改為柔和暖色層級；主要開始按鈕維持綠色 */
+  #homeView .exam-tabs button{
+    background:#fffdf7 !important;
+    color:var(--green) !important;
+    border-color:#b9c8bd !important;
+  }
+  #homeView .exam-tabs button.active{
+    background:#f4e7b8 !important;
+    color:#34483c !important;
+    border-color:#d3bd76 !important;
+  }
+  #homeView .year-actions button.primary{
+    background:var(--green) !important;
+    color:#fff !important;
+    border-color:var(--green) !important;
+  }
+}
+
+/* 教學提示／核心語塊：三裝置一起放大；不改卡片外框與 Grid */
+.step-page #hint{
+  font-size:1.22em !important;
+  line-height:1.72 !important;
+  text-align:left !important;
+}
+.step-page .skeleton{
+  font-size:1.16em !important;
+  line-height:1.72 !important;
+  text-align:left !important;
+}
+.step-page .skeleton b,
+.step-page .skeleton strong,
+.step-page #hint b,
+.step-page #hint strong{
+  font-weight:800 !important;
+}
+@media (max-width:900px){
+  .step-page #hint{font-size:1.20em !important;}
+  .step-page .skeleton{font-size:1.14em !important;}
+}
+@media (max-width:640px){
+  .step-page #hint{font-size:1.18em !important;}
+  .step-page .skeleton{font-size:1.12em !important;}
+}
+
+/* 紀錄頁摘要：每個完整句子是一個不可拆的語意單位。
+   寬度夠時同一行；不足時只在兩句之間換行。 */
+.record-summary{
+  width:max-content;
+  max-width:100%;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:left;
+}
+.record-summary span{
+  display:inline-block;
+  white-space:nowrap;
+}
+.record-summary span + span{
+  margin-left:.35em;
+}
+@media (max-width:520px){
+  .record-summary span{
+    display:block;
+    margin-left:0 !important;
+  }
+}
+
+/* 複習清單右上回首頁：三字固定單行，不拆字 */
+.mistake-head .home-btn{
+  white-space:nowrap !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+  min-width:112px !important;
+  flex:0 0 auto !important;
+  text-align:center !important;
+}
+
+/* 紀錄列操作：等寬、靠右、文字完整置中，不縮字、不溢出 */
+.record-row-actions button,
+.record-row-actions button:first-child{
+  width:150px !important;
+  min-width:150px !important;
+  padding:8px 14px !important;
+  white-space:nowrap !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+  text-align:center !important;
+}
+
+/* 手機完成頁：上一頁＋下一步同列，回首頁獨立第二列 */
+@media (max-width:600px){
+  .finish-actions{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:12px 10px !important;
+    align-items:stretch !important;
+  }
+  .finish-actions button{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:44px !important;
+    padding:9px 10px !important;
+    white-space:nowrap !important;
+    word-break:keep-all !important;
+  }
+  .finish-actions button:nth-child(1){grid-column:1;grid-row:1;}
+  .finish-actions button:nth-child(3){grid-column:2;grid-row:1;}
+  .finish-actions button:nth-child(2){
+    grid-column:1 / -1;
+    grid-row:2;
+    width:auto !important;
+    min-width:112px !important;
+    justify-self:center !important;
+    padding-left:18px !important;
+    padding-right:18px !important;
+  }
+}
+
+
+/* v57：學測／指考頁籤柔和黃色、完全取消外框 */
+#homeView .exam-tabs button{
+  background:#fff9e9 !important;
+  color:#5b5130 !important;
+  border:none !important;
+}
+#homeView .exam-tabs button.active{
+  background:#f5e6ad !important;
+  color:#403819 !important;
+  border:none !important;
+}
+#homeView .home-function-icon{background:#f3f7f3 !important;}
+#homeView .home-function-icon svg{stroke:#365f50 !important;fill:none !important;}
+#homeView .home-function-icon svg .solid-green{fill:#365f50 !important;stroke:none !important;}
+
+
+/* v58：題目導覽置中；延伸頁導覽改為兩排，第二排固定回第1題／首頁／回第2題 */
+.practice-head{
+  text-align:center !important;
+}
+.practice-head > strong{
+  text-align:center !important;
+}
+.practice-head .qnav{
+  justify-content:center !important;
+}
+.extension-nav-v58{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:12px !important;
+  margin-top:18px !important;
+}
+.extension-nav-v58 .ext-nav-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.extension-nav-v58 .ext-nav-row.single-right{
+  justify-content:flex-end;
+}
+.extension-nav-v58 .ext-nav-row.single-left{
+  justify-content:flex-start;
+}
+.extension-nav-v58 .ext-return-row{
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.extension-nav-v58 .ext-return-row button{
+  min-width:132px;
+}
+/* v59：手機與平板的延伸頁第二排避免三顆按鈕硬塞同列。
+   第一列放回第1題／回第2題，回首頁獨立置中於下一列；桌機維持 v58。 */
+@media (max-width:900px){
+  .extension-nav-v58 .ext-nav-row{gap:10px;}
+  .extension-nav-v58 .ext-return-row{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    grid-template-areas:
+      "q1 q2"
+      "home home";
+    gap:12px 14px !important;
+    width:100%;
+    align-items:center;
+  }
+  .extension-nav-v58 .ext-return-row button{
+    min-width:0 !important;
+    width:100% !important;
+    padding-left:12px !important;
+    padding-right:12px !important;
+    white-space:nowrap !important;
+    word-break:keep-all !important;
+    overflow:visible !important;
+  }
+  .extension-nav-v58 .ext-return-row button:nth-child(1){grid-area:q1;}
+  .extension-nav-v58 .ext-return-row button:nth-child(2){
+    grid-area:home;
+    justify-self:center;
+    width:auto !important;
+    min-width:132px !important;
+  }
+  .extension-nav-v58 .ext-return-row button:nth-child(3){grid-area:q2;}
+}
+@media (max-width:480px){
+  .extension-nav-v58 .ext-return-row{gap:10px 10px !important;}
+  .extension-nav-v58 .ext-return-row button{
+    padding-left:9px !important;
+    padding-right:9px !important;
+  }
+}
+
+
+/* v60：以 v59 為基礎，只調整三項響應式版面。
+   1. 平板直式年份卡內容置中，不改卡片尺寸與 Grid。
+   2. 平板直／橫式的五個階段導覽降低橫向擁擠感，保留原字級與可點擊高度。
+   3. 手機延伸頁的「回第1題／回首頁／回第2題」改為同一排，避免截字與橫向捲動。
+*/
+@media (min-width:701px) and (max-width:900px) and (orientation:portrait){
+  #homeView .year-card{
+    text-align:center !important;
+  }
+  #homeView .year-actions{
+    justify-content:center !important;
+  }
+}
+
+@media (min-width:701px) and (max-width:1200px){
+  .stage-nav-card .steps{
+    gap:6px !important;
+  }
+  .stage-nav-card .steps button{
+    padding-left:10px !important;
+    padding-right:10px !important;
+  }
+}
+@media (min-width:701px) and (max-width:900px) and (orientation:portrait){
+  .stage-nav-card .steps{
+    gap:5px !important;
+  }
+  .stage-nav-card .steps button{
+    padding-left:8px !important;
+    padding-right:8px !important;
+  }
+}
+
+@media (max-width:480px){
+  .extension-nav-v58 .ext-return-row{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    justify-content:center !important;
+    align-items:stretch !important;
+    gap:6px !important;
+    width:100% !important;
+  }
+  .extension-nav-v58 .ext-return-row button,
+  .extension-nav-v58 .ext-return-row button:nth-child(1),
+  .extension-nav-v58 .ext-return-row button:nth-child(2),
+  .extension-nav-v58 .ext-return-row button:nth-child(3){
+    grid-area:auto !important;
+    width:auto !important;
+    min-width:0 !important;
+    flex:1 1 0 !important;
+    padding-left:5px !important;
+    padding-right:5px !important;
+    font-size:14px !important;
+    white-space:nowrap !important;
+    word-break:keep-all !important;
+  }
+  .extension-nav-v58 .ext-return-row button:nth-child(2){
+    flex:.72 1 0 !important;
+  }
+}
+
+
+/* v61：完成頁三按鈕響應式調整——單行優先、保留間距；窄手機改為 2+1 */
+.finish-actions{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  flex-wrap:nowrap !important;
+  gap:14px !important;
+}
+.finish-actions button{
+  width:auto !important;
+  min-width:0 !important;
+  min-height:44px !important;
+  padding:10px 16px !important;
+  white-space:nowrap !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+}
+@media (min-width:601px) and (max-width:1180px){
+  .finish-actions{gap:12px !important;}
+  .finish-actions button{padding-left:14px !important;padding-right:14px !important;}
+}
+@media (max-width:600px){
+  .finish-actions{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:12px 10px !important;
+    align-items:stretch !important;
+  }
+  .finish-actions button{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:44px !important;
+    padding:9px 8px !important;
+  }
+  .finish-actions button:nth-child(1){grid-column:1;grid-row:1;}
+  .finish-actions button:nth-child(3){grid-column:2;grid-row:1;}
+  .finish-actions button:nth-child(2){
+    grid-column:1 / -1;
+    grid-row:2;
+    width:auto !important;
+    min-width:112px !important;
+    justify-self:center !important;
+    padding-left:18px !important;
+    padding-right:18px !important;
+  }
+}
+
+/* v62：完成頁三按鈕依可用寬度調整間距；保持單行、不擁擠 */
+.finish-actions{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  flex-wrap:nowrap !important;
+  gap:clamp(18px, 3.2vw, 44px) !important;
+}
+.finish-actions button{
+  width:auto !important;
+  min-width:0 !important;
+  min-height:44px !important;
+  padding:10px 16px !important;
+  white-space:nowrap !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+}
+@media (min-width:901px){
+  .finish-actions{gap:clamp(28px, 3vw, 48px) !important;}
+  .finish-actions button{padding-left:18px !important;padding-right:18px !important;}
+}
+@media (min-width:601px) and (max-width:900px){
+  .finish-actions{gap:clamp(18px, 2.6vw, 30px) !important;}
+  .finish-actions button{padding-left:14px !important;padding-right:14px !important;}
+}
+@media (max-width:600px){
+  .finish-actions{
+    display:grid !important;
+    grid-template-columns:max-content max-content !important;
+    justify-content:center !important;
+    gap:14px 16px !important;
+  }
+  .finish-actions button{
+    width:auto !important;
+    min-width:0 !important;
+    padding:9px 12px !important;
+  }
+  .finish-actions button:nth-child(1){grid-column:1;grid-row:1;}
+  .finish-actions button:nth-child(3){grid-column:2;grid-row:1;}
+  .finish-actions button:nth-child(2){
+    grid-column:1 / -1;
+    grid-row:2;
+    justify-self:center !important;
+    min-width:112px !important;
+    padding-left:18px !important;
+    padding-right:18px !important;
+  }
+}
+@media (min-width:430px) and (max-width:600px){
+  .finish-actions{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    gap:clamp(10px, 2.5vw, 16px) !important;
+  }
+  .finish-actions button{padding-left:10px !important;padding-right:10px !important;}
+}
+
+/* v69：作答後提示、參考譯法開闔與建議說明易讀性 */
+.post-answer-note{display:none}
+.takeaway-note{font-size:1.06em;font-weight:700;line-height:1.75;overflow-wrap:anywhere;word-break:normal}
+.ext-note{font-size:.98em;font-weight:700;line-height:1.7;margin-top:10px;overflow-wrap:anywhere;word-break:normal}
+@media(max-width:700px){
+  .takeaway-note,.ext-note{white-space:normal;overflow-wrap:anywhere;word-break:normal}
+}
+
+/* v70：說明文字中的編號參考譯法使用懸掛式縮排；選項維持原排版 */
+.numbered-ref{
+  padding-left:1.55em;
+  text-indent:-1.55em;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+
+
+/* v71：只調整手機與平板（含平板直式）的文字排版；電腦版維持 v70 */
+@media (max-width:900px){
+  /* 練習紀錄說明：以完整句子為閱讀單位，避免窄螢幕出現零碎斷行 */
+  .record-info{
+    text-align:left !important;
+    overflow-wrap:normal !important;
+    word-break:normal !important;
+  }
+  .record-info .record-info-sentence,
+  .record-info .record-info-note{
+    display:block;
+    width:100%;
+  }
+  .record-info .record-info-sentence + .record-info-sentence,
+  .record-info .record-info-note{
+    margin-top:.48em;
+  }
+  .record-info .record-info-note{
+    font-size:.92em;
+  }
+
+  /* 複習清單／練習紀錄空白狀態：依語意分行，不改卡片尺寸與按鈕 */
+  .empty-mistakes span,
+  .empty-records span{
+    display:block;
+    max-width:100%;
+    margin-left:auto;
+    margin-right:auto;
+    word-break:normal;
+    overflow-wrap:normal;
+  }
+}
+
+/* 平板（含直式）：保留較寬閱讀區，不套用手機的窄版擠壓方式 */
+@media (min-width:601px) and (max-width:900px){
+  .record-info{
+    font-size:1em !important;
+    line-height:1.72 !important;
+  }
+  .empty-mistakes,
+  .empty-records{
+    font-size:1em !important;
+    line-height:1.72 !important;
+  }
+  .empty-mistakes span,
+  .empty-records span{
+    width:max-content;
+    max-width:100%;
+  }
+}
+
+/* 手機：文字區塊置中，但每一行維持自然完整的語意換行 */
+@media (max-width:600px){
+  .empty-mistakes,
+  .empty-records{
+    line-height:1.72 !important;
+  }
+  .empty-mistakes span,
+  .empty-records span{
+    width:100%;
+  }
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="title">
+      <h1 class="home-title">歷屆翻譯練寫器</h1>
+      <p class="home-subtitle">從理解句子，到自己寫出完整翻譯</p>
+    </div>
+    <div class="controls"><button onclick="zoom(-1)">A−</button> <button onclick="zoomReset()" title="恢復原始字級 100%">A</button> <button onclick="zoom(1)">A＋</button></div>
+  </div>
+
+  <section id="homeView">
+    <div class="home-brand" aria-label="Lulu Wu">
+      <strong>Lulu Wu</strong>
+      <span>@oohya330</span>
+    </div>
+    <div class="card hero">
+      <h2>選擇年份開始練習</h2>
+      <p>每回 2 題，透過不同練習一步步完成翻譯。</p>
+      <div class="exam-tabs">
+        <button id="tabGsat" class="active" onclick="switchExam('gsat')">學測</button>
+        <button id="tabAst" onclick="switchExam('ast')">指考</button>
+      </div>
+      <div id="gsatPanel" class="exam-panel">
+        <div class="year-grid">
+          <div class="year-card available">
+            <strong>114 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(114)">開始練寫</button>
+              <button onclick="showAnswers(114)">題目與答案</button>
+            </div>
+          </div>
+          <div class="year-card available">
+            <strong>113 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(113)">開始練寫</button>
+              <button onclick="showAnswers(113)">題目與答案</button>
+            </div>
+          </div>
+          <div class="year-card available">
+            <strong>112 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(112)">開始練寫</button>
+              <button onclick="showAnswers(112)">題目與答案</button>
+            </div>
+          </div>
+<div class="year-card available">
+            <strong>111 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(111)">開始練寫</button>
+              <button onclick="showAnswers(111)">題目與答案</button>
+            </div>
+          </div>
+<div class="year-card available">
+            <strong>110 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(110)">開始練寫</button>
+              <button onclick="showAnswers(110)">題目與答案</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="astPanel" class="exam-panel hidden">
+        <div class="coming"><strong>指考歷屆翻譯</strong><br>題目整理中，之後可逐年加入。</div>
+      </div>
+    </div>
+    <div class="home-function-zone">
+      <div class="home-function-zone-title">功能區</div>
+      <div class="home-function-grid">
+        <div class="home-function-card random-card" role="button" tabindex="0" onclick="randomYear()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();randomYear();}">
+          <div class="home-function-icon random"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="9" width="30" height="30" rx="7"/><circle class="solid-green" cx="17" cy="17" r="2.3"/><circle class="solid-green" cx="31" cy="17" r="2.3"/><circle class="solid-green" cx="24" cy="24" r="2.3"/><circle class="solid-green" cx="17" cy="31" r="2.3"/><circle class="solid-green" cx="31" cy="31" r="2.3"/></svg></div>
+          <strong>隨機挑一回</strong>
+          <span>不知道今天練哪一回？交給系統幫你選。</span>
+          <div id="randomResult" class="random-result"></div>
+        </div>
+        <button class="home-function-card" type="button" onclick="openMistakes()">
+          <div class="home-function-icon review"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="11" y="12" width="26" height="29" rx="4"/><path d="M17 12V9h14v6"/><path d="m16 24 3 3 5-6M16 34l3 3 5-6M27 24h6M27 34h6"/></svg></div>
+          <strong>我的複習清單</strong><span id="mistakeCount">收藏想再練習的題目與語塊</span>
+        </button>
+        <button class="home-function-card" type="button" onclick="openRecords()">
+          <div class="home-function-icon records"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 39h33"/><rect x="10" y="28" width="7" height="11" rx="2"/><rect x="21" y="21" width="7" height="18" rx="2"/><rect x="32" y="13" width="7" height="26" rx="2"/><path d="m10 21 11-8 9 3 10-8"/></svg></div>
+          <strong>練習紀錄</strong><span id="recordCount">查看每次練習與需要再複習的內容</span>
+        </button>
+        <button class="home-function-card" type="button" onclick="portalNotice()">
+          <div class="home-function-icon portal"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 23 24 9l17 14-4 4-13-10-13 10z"/><path d="M12 23v17h24V23L24 14z"/><rect x="21" y="29" width="7" height="11" rx="1"/><path d="M9 40c0-5 7-6 9 0M30 40c1-6 9-5 9 0"/></svg></div>
+          <strong>回到 Lulu 英文挑戰地圖</strong><span>課程學生專屬</span>
+        </button>
+      </div>
+    </div>  </section>
+
+  <section id="mistakeView" class="hidden">
+    <div class="card">
+      <div class="mistake-head">
+        <div>
+          <h2>我的複習清單</h2>
+          <p class="small">你加入的題目會保存在這個瀏覽器中。</p>
+        </div>
+        <button class="home-btn" type="button" onclick="returnHomeFromMistakes()">回首頁</button>
+      </div>
+      <div id="mistakeList" class="mistake-list"></div>
+      <div class="bottom-home-wrap"><button class="home-btn" type="button" onclick="returnHomeFromMistakes()">回首頁</button></div>
+    </div>
+  </section>
+
+  <section id="recordView" class="hidden">
+    <div class="card record-page">
+      <button class="home-btn record-top-home" type="button" onclick="goHome()">← 回首頁</button>
+      <div class="record-head">
+        <div>
+          <div class="record-title-row"><h2>練習紀錄</h2></div>
+          <p class="small record-summary"><span>紀錄保存在這個瀏覽器中。</span><span>完整翻譯不自動評分。</span></p>
+        </div>
+      </div>
+
+      <div class="record-info"><span class="record-info-sentence">每個年份最多保留 3 次練習紀錄。</span><span class="record-info-sentence">若已有 3 次紀錄，想保留新的練習紀錄時，請先刪除其中一筆。</span><span class="record-info-sentence">作答時需要再加強的內容，會自動加入「這次可以再複習」。</span><span class="record-info-sentence">紀錄會保留在目前使用的裝置與瀏覽器中，你也可以自行刪除。</span><span class="record-info-note">清除瀏覽器資料後，紀錄可能無法保留。</span></div>
+      <div id="recordList" class="record-list"></div>
+      <div class="record-tools"><button type="button" onclick="clearAllRecords()">清除全部練習紀錄</button></div>
+      <div class="bottom-home-wrap"><button class="home-btn" type="button" onclick="goHome()">← 回首頁</button></div>
+    </div>
+  </section>
+
+  <section id="recordCardView" class="hidden">
+    <div class="card record-card-page">
+      <div class="record-head">
+        <div>
+          <h2>練習紀錄卡</h2>
+          <p class="small">可產生 PNG 圖片，或使用裝置的系統分享功能。</p>
+        </div>
+        <button class="home-btn" type="button" onclick="openRecords()">返回紀錄</button>
+      </div>
+      <div id="recordNamePrompt" class="record-name-prompt hidden">
+        <p><strong>姓名／暱稱（選填）</strong><br>可填寫姓名或暱稱，也可以直接略過。填寫後會記住在這台裝置。</p>
+        <input id="recordNameCard" type="text" maxlength="30" placeholder="姓名／暱稱">
+        <div class="name-prompt-actions"><button class="primary" type="button" onclick="applyRecordName()">套用姓名</button><button type="button" onclick="skipRecordName()">略過</button><button type="button" onclick="clearStoredRecordName()">清除姓名</button></div>
+      </div>
+      <div id="recordCard" class="share-record-card"></div>
+      <div class="record-tools"><button type="button" onclick="editRecordName()">修改姓名</button></div>
+      <div class="record-actions">
+        <button type="button" onclick="downloadRecordImage()">儲存紀錄圖片</button>
+        <button class="primary" type="button" onclick="shareRecordImage()">分享紀錄</button>
+      </div>
+      <p id="recordShareStatus" class="small" style="text-align:center"></p>
+      <div class="bottom-home-wrap"><button class="home-btn" type="button" onclick="goHome()">← 回首頁</button></div>
+    </div>
+  </section>
+
+  <section id="answerView" class="hidden">
+    <div class="card">
+      <div id="answerContent"></div>
+      <div style="text-align:center;margin-top:22px"><button class="home-btn" onclick="goHome()">回首頁</button></div>
+    </div>
+  </section>
+
+  <section id="practiceView" class="hidden">
+    <div class="year-head practice-head">
+      <strong id="practiceYearTitle">114 學測中譯英</strong>
+      <div class="qnav">
+        <button id="qb1" class="active" onclick="showQ(1)">第 1 題</button>
+        <button id="qb2" onclick="showQ(2)">第 2 題</button>
+      </div>
+    </div>
+    <div id="app"></div>
+  </section>
+
+  <div class="footer"></div>
+</div>
+
+<script>
+/* v70：本次依使用者指示以 v69 確認版為修改基礎；處理 114 提示、113 延伸題中英對應、首頁隨機挑題文案與說明文字懸掛式縮排。
+   v69：本次依使用者指示以 v68 確認版為修改基礎；調整 114/112/111/110 指定內容、作答後提示顯示、參考答案開闔與延伸題雙參考譯法。
+   v68：本次以使用者指定的 v67 為修改基礎；僅校訂 110～114 練習內容提示與一處語塊說明，不動版面、功能與互動流程。
+   v64：以正式母版 v62 為基礎；校訂 110～114 題目內容，並補充答案頁說明。
+   v47：以 v46 為基礎；修正實際選項答案位置、首頁 A=100% 字級、隨機挑一回骰子圖示。
+   v32：延續 v31 選擇題答案位置分散規則；另統一四階段題目呈現位置。\n   v31：全面調整選擇題正確答案位置。
+   正解分散，避免固定在第一個選項，也避免形成固定輪替規律。
+   僅調整選項順序與正解索引，不更動題目內容、版面、功能或學習流程。 */
+const allData={
+114:{
+  1:{
+    cn:'人類的想像和創意是科技進步最大的驅動力。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>這一句最適合先用哪一種基本結構來組織？</span></div>
+       ${opts(['A + be + B','A + make + B','There + be + A + B'],0)}
+       <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>Human imagination and creativity + is + ______</strong></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-grid">
+         <div class="key-card"><h4>科技進步</h4>${opts(['progressive technology','technological progress','technology progress','technological progressive'],1)}</div>
+         <div class="key-card"><h4>……最大的驅動力</h4>${opts(['the greatest driving force behind','the greatest driven force behind','the greatest driving force to','the greatest driving force with'],0)}</div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>句子架構已經決定了。現在把後半部的核心表達排成自然的英文。</span></div>
+       <div class="skeleton"><strong>Human imagination and creativity + is + ______</strong></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">behind</button>
+         <button class="chip" onclick="addChip(this)">technological progress</button>
+         <button class="chip" onclick="addChip(this)">the greatest driving force</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('the greatest driving force behind technological progress')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(114,1)
+    ],
+    refs:[
+      `Human imagination and creativity is the greatest driving force behind technological progress.`,
+      `Human imagination and creativity together form the greatest driving force behind advances in technology.`
+    ],
+    take:'the greatest / biggest driving force behind + N　……背後最大的驅動力',
+    hint:'<b>the greatest / biggest driving force behind + N</b>',
+    ext:[
+      ['好奇心是許多重要發現背後的驅動力。','Curiosity is the driving force behind many important discoveries.'],
+      ['年輕人的創意可能成為社會改變背後的重要驅動力。',"Young people's creativity may become an important driving force behind social change."]
+    ]
+  },
+  2:{
+    cn:'過去在科幻電影中出現的神奇物件，現在正逐一成真。',
+    steps:['句子架構','句型選擇','關鍵表達','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>這句話真正要說「什麼東西」正在成真？</span></div>
+       ${opts(['科幻電影','過去','現在','神奇物件'],3)}
+       <div class="skeleton"><span class="small">先看句子架構：</span><br><strong>Magical objects + are now + ______</strong></div>`,
+      `<div class="task-intro"><strong>處理「過去在科幻電影中出現的」：</strong><span>哪一種結構較自然？</span></div>
+       ${opts(['magical objects that appeared in science fiction movies','magical objects appeared in science fiction movies'],0)}
+       <p class="small post-answer-note">可以用關係子句 <b>that appeared...</b> 補充說明前面的 <b>objects</b>。</p>`,
+      `<div class="task-intro"><strong>選出適合的關鍵表達：</strong><span>「逐一成真」哪一個較自然？</span></div>
+       ${opts(['become reality one by one','become realities one by one','become reality one after one','turn to reality one by one'],0)}
+       <div class="skeleton post-answer-note"><b>become reality</b> = 成真<br><b>one by one</b> = 逐一</div>`,
+      write(114,2)
+    ],
+    refs:[
+      `Amazing objects that appeared in science fiction movies in the past are now becoming reality one by one.`,
+      `Amazing things once seen in science fiction movies are now becoming reality one by one.`
+    ],
+    take:'become reality　成真　／　one by one　逐一',
+    hint:'<b>become reality</b><br><b>one by one</b>',
+    ext:[
+      ['隨著科技進步，許多過去看似不可能的想法正在成真。','With advances in technology, many ideas that once seemed impossible are coming true.'],
+      ['她努力多年，終於看到自己的夢想逐一成真。','After years of hard work, she finally saw her dreams come true one by one.']
+    ]
+  }
+},
+113:{
+  1:{
+    cn:'每逢選舉季節，總會看到政治人物造訪各地著名廟宇。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>中文沒有明說「誰看到」，英文可以怎麼處理比較自然？</span></div>
+       ${opts(['politicians can see + V-ing','there can see politicians + V-ing','politicians can be seen + V-ing'],2)}
+       <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>Every election season + politicians can be seen + ______</strong></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-grid">
+         <div class="key-card"><h4>政治人物</h4>${opts(['politics','politicals','politician people','politicians'],3)}</div>
+         <div class="key-card"><h4>各地著名廟宇</h4>${opts(['famous temples in different areas','different famous temple areas','famous temple in different area','temples famous at different areas'],0)}</div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把後半部排成自然的英文。點字卡放入排列區；排錯時，再點排列區中的字卡即可放回。</span></div>
+       <div class="skeleton"><strong>Every election season, politicians can be seen + ______</strong></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">in different areas</button>
+         <button class="chip" onclick="addChip(this)">visiting</button>
+         <button class="chip" onclick="addChip(this)">famous temples</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('visiting famous temples in different areas')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(113,1)
+    ],
+    refs:[
+      `Every election season, politicians can be seen visiting famous temples in different areas.`,
+      `During every election season, it is common to see politicians visiting famous temples throughout the country.`
+    ],
+    take:'can be seen + V-ing　可以看到……正在做某事',
+    hint:'<b>can be seen + V-ing</b><br><b>in different places / areas</b>',
+    ext:[
+      ['假日期間，常可看到遊客在老街拍照。','During holidays, visitors can often be seen taking photos on old streets.'],
+      ['春天時，常可看到人們在公園欣賞花朵。','In spring, people can often be seen enjoying the flowers in parks.']
+    ]
+  },
+  2:{
+    cn:'除了祈求好的選舉結果，他們也希望展現對在地文化與習俗的尊重。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「除了做 A，也希望做 B」可以先用哪個架構？</span></div>
+       ${opts(['Besides + V, S + also + V-ing','Besides + V-ing, S + also + V','Except + V-ing, S + only + V'],1)}
+       <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>Besides + V-ing..., they also hope to + ______</strong></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-grid">
+         <div class="key-card"><h4>祈求好的選舉結果</h4>${opts(['pray good election results','pray to good election results','pray for good election results','pray for election good results'],2)}</div>
+         <div class="key-card"><h4>展現對……的尊重</h4>${opts(['show respect of','give respect for','show respectful for','show respect for'],3)}</div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>現在把「展現對在地文化與習俗的尊重」排成自然的英文。</span></div>
+       <div class="skeleton"><strong>they also hope to + ______</strong></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">local culture and customs</button>
+         <button class="chip" onclick="addChip(this)">show respect for</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('show respect for local culture and customs')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(113,2)
+    ],
+    refs:[
+      `Besides praying for favorable election results, they also hope to show respect for local culture and customs.`,
+      `In addition to praying for good election results, they also hope to show respect for local culture and customs.`
+    ],
+    take:'show respect for + N　展現對……的尊重',
+    hint:'<b>Besides / In addition to + V-ing</b><br><b>show respect for + N</b>',
+    ext:[
+      ['除了學習當地語言，遊客也應該尊重當地文化與習俗。','Besides learning the local language, visitors should also show respect for local culture and customs.'],
+      ['人們到廟宇祈求健康與平安。','People visit temples to pray for good health and safety.']
+    ]
+  }
+},
+112:{
+  1:{
+cn:'歷史一再證明，戰爭會造成極為可怕的災難。',
+steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>這句話最適合先抓哪個主要架構？</span></div>${opts(['History + proves that + 子句','History + is proved + 子句','There + proves + history'],0)}<div class="skeleton"><strong>History + has repeatedly proved that + ______</strong></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>一再證明</h4>${opts(['has repeated proved','has repeatedly proved','repeatedly has prove','has proved repeat'],1)}</div><div class="key-card"><h4>造成極為可怕的災難</h4>${opts(['make extremely terrible disaster','cause extremely terrible disasters','cause terrible extremely disasters','lead extremely terrible disaster'],1)}</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把 that 後面的內容排成自然的英文。</span></div><div class="skeleton"><strong>History has repeatedly proved that + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">extremely terrible disasters</button><button class="chip" onclick="addChip(this)">wars</button><button class="chip" onclick="addChip(this)">can cause</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('wars can cause extremely terrible disasters')">提交</button></div><div id="fb" class="feedback"></div>`,
+write(112,1)],
+refs:[`History has repeatedly proved that wars can cause extremely terrible disasters.`,`History has shown time and again that wars can lead to extremely horrible disasters.`],
+take:'cause / lead to + N　造成、導致……',
+hint:'<b>time and again / repeatedly</b><br><b>cause / lead to + N</b>',
+ext:[['歷史一再證明，合作能幫助人們克服困難。','History has repeatedly proved that cooperation can help people overcome difficulties.'],['氣候變遷可能造成嚴重的自然災害。',['Climate change can cause serious natural disasters.','Climate change can lead to serious natural disasters.']]]
+},
+  2:{
+cn:'避免衝突、確保世界和平應該是所有人類追求的目標。',
+steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>「避免衝突、確保世界和平」一起當主詞，哪種寫法較自然？</span></div>${opts(['Avoiding conflicts and ensuring world peace + should be...','Avoid conflicts and ensure world peace + should be...','To avoiding conflicts and ensuring world peace + should be...'],0)}<div class="skeleton"><strong>Avoiding conflicts and ensuring world peace + should be + ______</strong></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>避免衝突</h4>${opts(['avoid to conflicts','escape conflicts','avoid from conflicts','avoid conflicts'],3)}</div><div class="key-card"><h4>所有人類追求的目標</h4>${opts(['the goal pursued by all human beings','a goal of all humans pursuing','all humanity pursue goal','a goal to all humanity pursue'],0)}</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把後半部排成自然的英文。</span></div><div class="skeleton"><strong>... should be + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">by all human beings</button><button class="chip" onclick="addChip(this)">pursued</button><button class="chip" onclick="addChip(this)">the goal</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('the goal pursued by all human beings')">提交</button></div><div id="fb" class="feedback"></div>`,
+write(112,2)],
+refs:[`Avoiding conflicts and ensuring world peace should be the goal pursued by all human beings.`,`To avoid conflicts and ensure world peace should be a goal for all humanity to pursue.`],
+take:'avoid + N / V-ing　避免……　／　ensure + N　確保……',
+hint:'<b>avoid conflicts / ensure world peace</b><br><b>pursue a goal</b>',
+ext:[['減少浪費、保護環境應該是每個人共同追求的目標。',['Reducing waste and protecting the environment should be goals for everyone to pursue.','Reducing waste and protecting the environment should be goals pursued by everyone.']],['政府應採取措施避免衝突並確保公共安全。',['The government should take measures to avoid conflict and ensure public safety.','The government should take measures to avoid conflicts and ensure public safety.'],'<b>conflict</b> 泛指「衝突」；<b>conflicts</b> 指不同或多次的衝突，兩者皆可。']]
+}
+},
+111:{
+  1:{
+cn:'飼養寵物並非一項短暫的人生體驗，而是一個對動物的終生承諾。',
+steps:['句子架構','句型選擇','關鍵表達','自己翻譯'],
+contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>「飼養寵物」在句首當主詞，哪一種寫法較自然？</span></div>${opts(['Keep a pet + is...','To keeping a pet + is...','Keeping a pet + is...'],2)}<div class="skeleton"><strong>Keeping a pet + is + ______</strong></div>`,
+`<div class="task-intro"><strong>句型選擇：</strong><span>「並非 A，而是 B」最適合哪個結構？</span></div>${opts(['not only A but also B','neither A nor B','either A or B','not A but B'],3)}<div class="skeleton post-answer-note"><strong>Keeping a pet is not A but B.</strong></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>短暫的人生體驗</h4>${opts(['a short-term life experience','a short life-term experience','a briefly life experience','a short-term living experience'],0)}</div><div class="key-card"><h4>終生承諾</h4>${opts(['a life-long commit','a lifelong commitment','a lifetime committing','a lifelong committing'],1)}</div></div>`,
+write(111,1)],
+refs:[`Keeping a pet is not a short-term life experience but a lifelong commitment to an animal.`,`Having a pet is not a temporary experience in life but a lifelong commitment to the animal.`],
+take:'not A but B　不是 A，而是 B　／　a lifelong commitment　終生承諾',
+hint:'<b>not A but B</b><br><b>a lifelong commitment</b>',
+ext:[['學習一種語言不是短期任務，而是長期的投入。','Learning a language is not a short-term task but a long-term commitment.'],['養寵物需要時間，也需要長期的承諾。','Keeping a pet takes time and requires a long-term commitment.','', '<b>require</b> = 需要']]
+},
+  2:{
+cn:'在享受寵物所帶來的歡樂時，我們不該忽略要善盡照顧他們的責任。',
+steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>「在享受……時」放在句首，可以怎麼開始？</span></div>${opts(['While enjoy..., we should not...','During enjoy..., we should not...','While enjoying..., we should not...'],2)}<div class="skeleton"><strong>While enjoying + N, we should not + ______</strong></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>忽略責任</h4>${opts(['ignore to responsibility','neglect to our responsible','miss our responsibility to','neglect our responsibility'],3)}</div><div class="key-card"><h4>善盡照顧寵物</h4>${opts(['take good care of our pets','take care our pets well','care good for our pets','take caring good of pets'],0)}</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把主要句子的後半部排成自然的英文。</span></div><div class="skeleton"><strong>we should not + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">to take good care of them</button><button class="chip" onclick="addChip(this)">our responsibility</button><button class="chip" onclick="addChip(this)">neglect</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('neglect our responsibility to take good care of them')">提交</button></div><div id="fb" class="feedback"></div>`,
+write(111,2)],
+refs:[`While enjoying the joy that pets bring us, we should not neglect our responsibility to take good care of them.`,`While enjoying the happiness our pets bring us, we should not forget our responsibility to take care of them well.`],
+take:'while + V-ing　在……的同時　／　take responsibility for + N / V-ing　負起……責任',
+hint:'<b>neglect / ignore one’s responsibility</b><br><b>take good care of + N</b>',
+ext:[['在享受網路便利的同時，我們不應忽略保護個人資料的責任。','While enjoying the convenience of the Internet, we should not neglect our responsibility to protect personal information.'],['照顧動物需要耐心與責任感。','Taking care of animals requires patience and a sense of responsibility.']]
+}
+},
+110:{
+  1:{
+cn:'根據新聞報導，每年全球有超過百萬人在道路事故中喪失性命。',
+steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>這句話的主要主詞應該是什麼？</span></div>${opts(['news reports','over a million people worldwide','road accidents','every year'],1)}<div class="skeleton"><strong>According to news reports, + over a million people worldwide + ______</strong></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>根據新聞報導</h4>${opts(['according news reports','based to news reports','according to news reports','according with the news'],2)}</div><div class="key-card"><h4>在道路事故中喪失性命</h4>${opts(['lose their life on road accident','lost their lives by road accidents','lose lives at road accident','lose their lives in road accidents'],3)}</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把主要內容排成自然的英文。</span></div><div class="skeleton"><strong>According to news reports, + ______ + every year.</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">in road accidents</button><button class="chip" onclick="addChip(this)">over a million people worldwide</button><button class="chip" onclick="addChip(this)">lose their lives</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('over a million people worldwide lose their lives in road accidents')">提交</button></div><div id="fb" class="feedback"></div>`,
+write(110,1)],
+refs:[`According to news reports, over a million people worldwide lose their lives in road accidents every year.`,`According to news reports, more than one million people around the world die in road accidents each year.`],
+take:'according to + N　根據……　／　lose one’s life　喪生',
+hint:'<b>around the world / worldwide</b><br><b>lose one’s life in road accidents</b>',
+ext:[['根據研究，每年有許多人因空氣污染而喪生。','According to research, many people lose their lives because of air pollution every year.'],['世界各地每天都會發生道路事故。','Road accidents occur around the world every day.']]
+},
+  2:{
+cn:'因此，交通法規必須嚴格執行，以確保所有用路人的安全。',
+steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>「交通法規必須嚴格執行」需要使用哪種語態？</span></div>${opts(['must + be + p.p.','must + V-ing','must + have + p.p.','must + be + V-ing'],0)}<div class="skeleton"><strong>Traffic regulations + must be + ______ + to ensure...</strong></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>嚴格執行</h4>${opts(['strictly enforce','strictly enforced','strict enforced','enforced strict'],1)}</div><div class="key-card"><h4>確保……的安全</h4>${opts(['ensure safety to','make sure the safe of','ensure the safety of','ensure the safe for'],2)}</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把目的表達排成自然的英文。</span></div><div class="skeleton"><strong>Traffic regulations must be strictly enforced + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">of all road users</button><button class="chip" onclick="addChip(this)">the safety</button><button class="chip" onclick="addChip(this)">to ensure</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('to ensure the safety of all road users')">提交</button></div><div id="fb" class="feedback"></div>`,
+write(110,2)],
+refs:[`Therefore, traffic regulations must be strictly enforced to ensure the safety of all road users.`,`Therefore, traffic laws must be strictly enforced in order to ensure the safety of everyone on the road.`],
+take:'must be + p.p.　必須被……　／　to ensure + N　以確保……',
+hint:'<b>be strictly enforced</b><br><b>ensure the safety of road users</b>',
+ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。','School safety rules must be strictly enforced to ensure the safety of all students.'],['食品安全標準必須嚴格執行。','Food safety standards must be strictly enforced.']]
+}
+}
+};
+
+let currentYear=114,q=1,step=0,fs=18;
+
+function data(){return allData[currentYear]}
+function opts(a,ans){
+ const targets=[
+   1,3,0,2,1,3,  /* 114: B D A C B D */
+   2,0,3,1,2,0,  /* 113: C A D B C A */
+   0,2,1,2,3,0,  /* 112: A C B C D A */
+   1,3,0,2,1,3,0,/* 111: B D A C B D A */
+   3,1,2,0,3,1   /* 110: D B C A D B */
+ ];
+ const seq=opts._seq||0; opts._seq=seq+1;
+ const target=Math.max(0,Math.min(targets[seq]!==undefined?targets[seq]:0,a.length-1));
+ const items=a.map((text,i)=>({text,correct:i===ans}));
+ const correct=items.find(x=>x.correct);
+ const ordered=items.filter(x=>!x.correct);
+ ordered.splice(target,0,correct);
+ return `<div class="options-grid option-count-${a.length}" data-target-pos="${target}" data-choice-seq="${seq}">`+
+   ordered.map((x,i)=>`<button class="option" data-correct="${x.correct?'1':'0'}" data-answer="${escapeHtml(a[ans])}" onclick="choose(this,${x.correct})">${String.fromCharCode(65+i)}. <b>${x.text}</b></button>`).join('')+
+   `</div>`;
+}
+function write(y,n){
+ return `<p><b>先不要看提示，試著自己完成整句。</b></p>
+ <textarea id="student" placeholder="你可以在這裡輸入，也可以拿紙筆寫寫看。"></textarea>
+ <div class="actions">
+   <button onclick="toggleHint()">需要提示</button>
+   <button class="primary" onclick="showRefs()">查看參考答案</button>
+ </div>
+ <div class="complete-confirm"><button id="completeBtn" type="button" onclick="confirmQuestionComplete()">✓ 我完成這一題了</button><div class="small" style="margin-top:7px">完成整句翻譯後，點一下留下練習紀錄。</div></div>
+ <div id="hint" class="hint"></div>
+ <div id="refs" class="refs"></div>`;
+}
+function switchExam(type){
+ const gsat=type==='gsat';
+ document.getElementById('gsatPanel').classList.toggle('hidden',!gsat);
+ document.getElementById('astPanel').classList.toggle('hidden',gsat);
+ document.getElementById('tabGsat').classList.toggle('active',gsat);
+ document.getElementById('tabAst').classList.toggle('active',!gsat);
+}
+function showAnswers(y){
+ currentYear=y;
+ const d=allData[y];
+ document.getElementById('answerContent').innerHTML=`
+   <h2 style="margin-top:0;color:var(--green)">${y} 學測　題目與答案</h2>
+   <p class="small">以下譯文供學習參考。翻譯不只有一種正確寫法；參考譯法以大考中心公布資料與可接受表達為主要依據。</p>
+   ${[1,2].map((n,i)=>`
+     ${i?'<hr style="border:0;border-top:1px solid var(--line)">':''}
+     <div style="margin:18px 0">
+       <b>第 ${n} 題</b>
+       <p class="prompt" style="font-size:1.05em">${d[n].cn}</p>
+       <div class="actions"><button onclick="toggleAnswerRefs(${n})">查看參考答案</button></div>
+       <div id="answerRefs${n}" class="hint">${d[n].refs.map((r,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${r}</span></p>`).join('')}</div>
+     </div>`).join('')}`;
+ document.getElementById('homeView').classList.add('hidden');
+ ['recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+ document.getElementById('practiceView').classList.add('hidden');
+ document.getElementById('answerView').classList.remove('hidden');
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleAnswerRefs(n){const x=document.getElementById('answerRefs'+n);if(x)x.style.display=x.style.display==='block'?'none':'block';}
+function enterYear(y){
+ currentYear=y;
+ if(typeof startNewPracticeAttempt==='function')startNewPracticeAttempt(y);
+ document.getElementById('homeView').classList.add('hidden');
+ ['recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+ document.getElementById('answerView').classList.add('hidden');
+ document.getElementById('practiceView').classList.remove('hidden');
+ document.getElementById('practiceYearTitle').textContent=y+' 學測中譯英';
+ q=1;step=0;showQ(1);
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function goHome(){
+ document.getElementById('practiceView').classList.add('hidden');
+ document.getElementById('answerView').classList.add('hidden');
+ ['mistakeView','recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+ document.getElementById('homeView').classList.remove('hidden');
+ document.getElementById('randomResult').textContent='';
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function randomYear(){
+ const box=document.getElementById('randomResult');
+ const years=[114,113,112,111,110];
+ let i=0;
+ box.textContent='正在挑選…';
+ const timer=setInterval(()=>{
+   box.textContent=years[i%years.length]+' 學測';
+   i++;
+   if(i>5){
+     clearInterval(timer);
+     const picked=years[Math.floor(Math.random()*years.length)];
+     box.innerHTML=`<div class="random-picked">今天來練 <b>${picked} 學測</b>！</div><div class="random-actions"><button type="button" class="random-start" onclick="event.stopPropagation();enterYear(${picked})">開始練寫 ${picked} →</button><button type="button" class="random-again" onclick="event.stopPropagation();randomYear()">再挑一次</button></div>`;
+   }
+ },120);
+}
+function render(){
+ let d=data()[q];
+ document.getElementById('practiceYearTitle').textContent=currentYear+' 學測中譯英';
+ document.getElementById('app').innerHTML=`
+ <div class="card stage-nav-card">
+   <div class="steps">${d.steps.map((s,i)=>`<button class="${i===step?'active':''}" onclick="go(${i})">${i+1}. ${s}</button>`).join('')}<button class="extension-entry" onclick="showExtensionPage(q)">延伸題目</button></div>
+ </div>
+ <div class="card step-page">
+   <div class="prompt in-step-prompt">${d.cn}</div>
+   ${d.contents[step]}
+ </div>
+ ${step<3 ? `<div class="page-nav">
+   <div><button onclick="prevPage()" ${q===1 && step===0?'disabled':''}>← 上一頁</button></div>
+   <div class="home"><button onclick="goHome()">回首頁</button></div>
+   <div class="next"><button class="primary" onclick="nextPage()">下一頁 →</button></div>
+ </div>` : q===1 ? `<div class="finish-box">
+   <strong>這一題練完了</strong>
+   <div class="finish-actions">
+     <button onclick="prevPage()">← 上一頁</button>
+     <button onclick="goHome()">回首頁</button>
+     <button onclick="showQ(2)">練第 2 題 →</button>
+   </div>
+ </div>` : `<div class="finish-box">
+   <strong>${currentYear} 學測兩題練習完成</strong>
+   <div class="finish-actions">
+     <button onclick="prevPage()">← 上一頁</button>
+     <button onclick="goHome()">回首頁</button>
+     <button onclick="showExtensionPage(1)">第 1 題延伸 →</button>
+   </div>
+ </div>`}`;
+ if(step===0){
+   const stageSkeleton=document.querySelector('#app .step-page .skeleton');
+   if(stageSkeleton) stageSkeleton.style.display='none';
+ }
+ if(step===3){
+   const hint=document.getElementById('hint');
+   if(hint) hint.innerHTML=d.hint;
+   if(typeof syncCompleteButton==='function')syncCompleteButton();
+ }
+ if(typeof normalizeOptionPositions==='function')normalizeOptionPositions();
+}
+function showQ(n){
+ q=n;step=0;
+ document.getElementById('qb1').classList.toggle('active',n===1);
+ document.getElementById('qb2').classList.toggle('active',n===2);
+ render();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function go(i){step=i;render()}
+function prevPage(){
+ if(step>0){step--;render();return;}
+ if(q===2){
+   q=1;step=3;
+   document.getElementById('qb1').classList.add('active');
+   document.getElementById('qb2').classList.remove('active');
+   render();
+ }
+}
+function nextPage(){
+ if(step<3){step++;render();return;}
+ if(q===1){showQ(2);}
+}
+function choose(el,ok){
+ el.parentNode.querySelectorAll('.option').forEach(x=>x.classList.remove('ok','no'));
+ el.classList.add(ok?'ok':'no');
+ let old=el.parentNode.querySelector('.feedback');if(old)old.remove();
+ let f=document.createElement('div');f.className='feedback';f.textContent=ok?'答對了。':'再想想看。';
+ el.parentNode.insertBefore(f,el.nextSibling);
+ if(ok && step===0){
+   const stageSkeleton=document.querySelector('#app .step-page .skeleton');
+   if(stageSkeleton) stageSkeleton.style.display='block';
+ }
+ if(ok){
+   const reveal=el.parentNode.nextElementSibling;
+   if(reveal && reveal.classList.contains('post-answer-note')) reveal.style.display='block';
+ }
+ if(typeof recordFixedAttempt==='function')recordFixedAttempt(el,ok,el.dataset.answer||'');
+}
+function addChip(el){
+ const build=document.getElementById('build');
+ const b=document.createElement('button');
+ b.className='chip';b.textContent=el.textContent;b.dataset.origin=el.textContent;
+ b.onclick=function(){returnChip(this)};
+ build.appendChild(b);el.style.display='none';
+ document.getElementById('fb').textContent='';
+}
+function returnChip(el){
+ const t=el.dataset.origin;
+ document.querySelectorAll('#pool .chip').forEach(x=>{if(x.textContent===t)x.style.display='inline-block'});
+ el.remove();document.getElementById('fb').textContent='';
+}
+function resetChips(){
+ document.getElementById('build').innerHTML='';
+ document.querySelectorAll('#pool .chip').forEach(x=>x.style.display='inline-block');
+ document.getElementById('fb').textContent='';
+}
+function checkBuild(ans){
+ const got=[...document.querySelectorAll('#build .chip')].map(x=>x.textContent).join(' ');
+ const ok=got===ans;
+ document.getElementById('fb').textContent=ok?'排列正確。':'再調整一下順序。';
+ if(typeof recordBuildAttempt==='function')recordBuildAttempt(ok,ans);
+}
+function toggleHint(){
+ let x=document.getElementById('hint');x.style.display=x.style.display==='block'?'none':'block';
+}
+function showRefs(){
+ let x=document.getElementById('refs');
+ if(x.style.display==='block'){x.style.display='none';return;}
+ let d=data()[q],txt=document.getElementById('student').value.trim(),html='';
+ if(txt) html+=`<b>你的答案</b><p>${escapeHtml(txt)}</p>`;
+ html+=`<b>參考譯法</b>${d.refs.map((r,i)=>`<p class="ref-answer numbered-ref">${i+1}. ${r}</p>`).join('')}
+ <p class="takeaway-note"><b>這題建議記住</b><br>${d.take}</p>`;
+ x.innerHTML=html;x.style.display='block';
+}
+function extRefs(e){return Array.isArray(e[1])?e[1]:[e[1]];}
+function extRefsHtml(e){const rs=extRefs(e);return rs.map((r,i)=>`<div class="ref-answer${rs.length>1?' numbered-ref':''}">${rs.length>1?(i+1)+'. ':''}${r}</div>`).join('');}
+function toggleExtHint(id){let x=document.getElementById(id);if(x)x.style.display=x.style.display==='block'?'none':'block';}
+function extensionPanel(){
+ let d=data()[q];
+ return `<div class="card" style="border:2px solid #b8c9bd;background:#f4f8f4">
+   <h3 style="margin-top:0;color:var(--green)">延伸挑戰</h3>
+   <p><b>剛才學到的表達，換一個情境還會用嗎？</b></p>
+   <p class="small">先自己完成翻譯。可以在這裡輸入，也可以拿紙筆寫寫看；完成後再查看參考答案。</p>
+   ${d.ext.map((e,i)=>`<div style="margin:20px 0;padding-top:${i?'18px':'0'};border-top:${i?'1px solid var(--line)':'0'}">
+     <p><b>${i+1}. ${e[0]}</b></p>
+     <textarea id="ex${i}" placeholder="先自己寫寫看。"></textarea>
+     <div class="actions">${e[3]?`<button onclick="toggleExtHint(\'exhint${i}\')">需要提示</button>`:''}<button onclick="toggleExtAnswer(${i})">查看參考答案</button></div>
+     ${e[3]?`<div id="exhint${i}" class="hint">${e[3]}</div>`:''}
+     <div id="exa${i}" class="hint"><b>參考譯法</b><br>${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
+   </div>`).join('')}
+ </div>`;
+}
+
+function showExtensionPage(n){
+  const d=data()[n];
+  document.getElementById('practiceYearTitle').textContent=currentYear+' 學測延伸挑戰';
+  document.getElementById('qb1').classList.toggle('active',n===1);
+  document.getElementById('qb2').classList.toggle('active',n===2);
+  document.getElementById('app').innerHTML=`
+    <div class="card extension-page">
+      <div class="extension-page-title compact-extension-title">
+        <strong>第 ${n} 題延伸</strong>
+        <span>${d.cn}</span>
+      </div>
+      ${d.ext.map((e,i)=>`
+        <div class="extension-item">
+          <p><b>${i+1}. ${e[0]}</b></p>
+          <textarea id="yex${n}_${i}" placeholder="先自己寫寫看。"></textarea>
+          <div class="actions">${e[3]?`<button onclick="toggleExtHint(\'yexhint${n}_${i}\')">需要提示</button>`:''}<button onclick="toggleYearExtAnswer(${n},${i})">查看參考答案</button></div>
+          ${e[3]?`<div id="yexhint${n}_${i}" class="hint">${e[3]}</div>`:''}
+          <div id="yexa${n}_${i}" class="hint"><b>參考譯法</b><br>${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
+        </div>`).join('')}
+    </div>
+    <div class="extension-nav-v58">
+      <div class="ext-nav-row ${n===1?'single-right':'single-left'}">
+        ${n===1
+          ? '<button onclick="showExtensionPage(2)">第 2 題延伸 →</button>'
+          : '<button onclick="showExtensionPage(1)">← 第 1 題延伸</button>'}
+      </div>
+      <div class="ext-nav-row ext-return-row">
+        <button onclick="returnToQuestion(1)">← 回到第 1 題</button>
+        <button onclick="goHome()">回首頁</button>
+        <button onclick="returnToQuestion(2)">回到第 2 題 →</button>
+      </div>
+    </div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleYearExtAnswer(n,i){
+  const x=document.getElementById('yexa'+n+'_'+i);
+  if(x)x.style.display=x.style.display==='block'?'none':'block';
+}
+function returnToQuestion(n){
+  document.getElementById('practiceYearTitle').textContent=currentYear+' 學測中譯英';
+  showQ(n);
+}
+
+function backToQ2Translation(){
+  q=2;step=3;
+  document.getElementById('practiceYearTitle').textContent=currentYear+' 學測中譯英';
+  document.getElementById('qb1').classList.remove('active');
+  document.getElementById('qb2').classList.add('active');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleExtAnswer(i){
+ let x=document.getElementById('exa'+i);if(x){
+   const opening=x.style.display!=='block';
+   x.style.display=opening?'block':'none';
+   if(opening&&typeof markExtensionComplete==='function')markExtensionComplete(q);
+ }
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function zoom(n){fs=Math.max(16,Math.min(24,fs+n));document.body.style.fontSize=fs+'px'}
+function zoomReset(){fs=18;document.body.style.fontSize='18px'}
+</script>
+
+<script>
+/* v29：複習清單支援 113、114 年；「再練一次」直接回到該年該題第4階段。 */
+const MISTAKE_KEY='translationTrainerMistakesV1';
+function readMistakes(){try{return JSON.parse(localStorage.getItem(MISTAKE_KEY)||'[]')}catch(e){return []}}
+function writeMistakes(items){try{localStorage.setItem(MISTAKE_KEY,JSON.stringify(items))}catch(e){} updateMistakeCount()}
+function getCurrentMistake(){
+  const d=allData[currentYear]&&allData[currentYear][q];
+  if(!d)return null;
+  return {id:currentYear+'-'+q,year:currentYear+' 學測',yearNum:currentYear,q:q,zh:d.cn};
+}
+function isSavedMistake(){
+  const cur=getCurrentMistake();return !!cur&&readMistakes().some(x=>x.id===cur.id);
+}
+function toggleMistake(){
+  const cur=getCurrentMistake();if(!cur)return;
+  let items=readMistakes(),i=items.findIndex(x=>x.id===cur.id);
+  if(i>=0)items.splice(i,1);else items.push(cur);
+  writeMistakes(items);syncMistakeButton();
+}
+function syncMistakeButton(){
+  const b=document.getElementById('mistakeToggle');
+  if(b)b.textContent=isSavedMistake()?'✓ 已加入':'＋ 加入複習';
+}
+function addMistakeButton(){
+  if(step!==3||document.getElementById('mistakeToggle'))return;
+  const host=document.querySelector('#practiceView .actions');if(!host)return;
+  const b=document.createElement('button');
+  b.id='mistakeToggle';b.type='button';b.className='mistake-toggle';b.onclick=toggleMistake;
+  host.appendChild(b);syncMistakeButton();
+}
+function updateMistakeCount(){
+  const el=document.getElementById('mistakeCount');if(!el)return;
+  const n=readMistakes().length;el.textContent=n?`已加入 ${n} 題`:'目前沒有複習題目';
+}
+function openMistakes(){
+  ['homeView','answerView','practiceView','recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+  document.getElementById('mistakeView').classList.remove('hidden');renderMistakes();
+}
+function renderMistakes(){
+  const box=document.getElementById('mistakeList'),items=readMistakes();
+  if(!items.length){
+    box.innerHTML='<div class="empty-mistakes"><span>目前沒有複習題目。</span><span>完成翻譯時，可以按「加入複習」</span><span>留待之後再練。</span></div>';return;
+  }
+  box.innerHTML=items.map(x=>`
+    <div class="mistake-row">
+      <div><strong>${x.year} 第 ${x.q} 題</strong><p>${x.zh}</p></div>
+      <div class="mistake-row-actions">
+        <button type="button" onclick="practiceMistake(${x.yearNum||114},${x.q})">再練一次</button>
+        <button type="button" onclick="removeMistake('${x.id}')">移除</button>
+      </div>
+    </div>`).join('');
+}
+function removeMistake(id){writeMistakes(readMistakes().filter(x=>x.id!==id));renderMistakes()}
+function practiceMistake(y,num){
+  document.getElementById('mistakeView').classList.add('hidden');
+  document.getElementById('homeView').classList.add('hidden');
+  document.getElementById('answerView').classList.add('hidden');
+  document.getElementById('practiceView').classList.remove('hidden');
+  currentYear=y;q=num;step=3;
+  document.getElementById('practiceYearTitle').textContent=y+' 學測中譯英';
+  document.getElementById('qb1').classList.toggle('active',num===1);
+  document.getElementById('qb2').classList.toggle('active',num===2);
+  render();window.scrollTo({top:0,behavior:'smooth'});
+}
+function portalNotice(){alert('課程學生專屬，目前不對外開放。')}
+
+/* v44 練習紀錄：每年份最多 3 次；完成確認＋錯題複習重點 */
+const RECORD_KEY='translationTrainerRecordsV2';
+const RECORD_NAME_KEY='translationTrainerRecordNameV1';
+let activeRecordId=null;
+let activeAttemptByYear={};
+let pendingNameRecordId=null;
+function readRecords(){try{return JSON.parse(localStorage.getItem(RECORD_KEY)||'[]')}catch(e){return []}}
+function writeRecords(items){try{localStorage.setItem(RECORD_KEY,JSON.stringify(items))}catch(e){}updateRecordCount()}
+function getRecordName(){try{return localStorage.getItem(RECORD_NAME_KEY)||''}catch(e){return ''}}
+function todayString(){const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()} / ${p(d.getMonth()+1)} / ${p(d.getDate())}`}
+function yearRecords(y){return readRecords().filter(r=>Number(r.year)===Number(y)).sort((a,b)=>(b.created||0)-(a.created||0))}
+function startNewPracticeAttempt(y){
+  delete activeAttemptByYear[y];
+  return preparePracticeAttempt(y);
+}
+function preparePracticeAttempt(y){
+  if(activeAttemptByYear[y])return activeAttemptByYear[y];
+  const items=yearRecords(y);
+  if(items.length>=3){
+    activeAttemptByYear[y]=null;
+    return null;
+  }
+  const id=`${y}-${Date.now()}`;activeAttemptByYear[y]=id;return id;
+}
+function getActiveRecord(create=true){
+  let id=activeAttemptByYear[currentYear];
+  if(!id)id=preparePracticeAttempt(currentYear);
+  if(!id)return null;
+  let items=readRecords(),r=items.find(x=>x.id===id);
+  if(!r&&create){
+    r={id,year:currentYear,date:todayString(),created:Date.now(),q1:false,q2:false,ext1:false,ext2:false,review:[],firstAttempts:{}};
+    items.unshift(r);writeRecords(items);
+  }
+  return r||null;
+}
+function updateActiveRecord(mutator){
+  const r=getActiveRecord(true);if(!r)return null;
+  let items=readRecords(),i=items.findIndex(x=>x.id===r.id);if(i<0)return null;
+  mutator(items[i]);items[i].date=todayString();writeRecords(items);return items[i];
+}
+function confirmQuestionComplete(){
+  const r=updateActiveRecord(x=>x['q'+q]=true);if(!r)return;
+  syncCompleteButton();
+}
+function syncCompleteButton(){
+  const b=document.getElementById('completeBtn');if(!b)return;
+  const id=activeAttemptByYear[currentYear],r=id&&readRecords().find(x=>x.id===id),done=r&&r['q'+q];
+  if(done){b.textContent='✓ 已記錄';b.classList.add('done')}else{b.textContent='✓ 我完成這一題了';b.classList.remove('done')}
+}
+function markExtensionComplete(n){
+  updateActiveRecord(x=>x['ext'+n]=true);
+}
+function interactionKeyForOption(el){
+  const grids=[...document.querySelectorAll('.step-page .options-grid')];
+  const idx=Math.max(0,grids.indexOf(el.closest('.options-grid')));
+  return `q${q}-s${step}-o${idx}`;
+}
+function showReviewToast(anchor,text){
+  const parent=anchor.closest('.options-grid')||anchor.parentNode;
+  let t=parent.parentNode.querySelector('.review-toast[data-for="'+interactionKeyForOption(anchor)+'"]');
+  if(!t){t=document.createElement('div');t.className='review-toast';t.dataset.for=interactionKeyForOption(anchor);parent.insertAdjacentElement('afterend',t)}
+  t.textContent=`已加入本次複習重點：${text}`;
+}
+function recordFixedAttempt(el,ok,answer){
+  const key=interactionKeyForOption(el),r=getActiveRecord(true);if(!r)return;
+  if(r.firstAttempts&&Object.prototype.hasOwnProperty.call(r.firstAttempts,key))return;
+  updateActiveRecord(x=>{
+    x.firstAttempts=x.firstAttempts||{};x.firstAttempts[key]=ok;
+    if(!ok&&answer&&!x.review.includes(answer))x.review.push(answer);
+  });
+  if(!ok&&answer)showReviewToast(el,answer);
+}
+function recordBuildAttempt(ok,answer){
+  const key=`q${q}-s${step}-build`,r=getActiveRecord(true);if(!r)return;
+  if(r.firstAttempts&&Object.prototype.hasOwnProperty.call(r.firstAttempts,key))return;
+  const updated=updateActiveRecord(x=>{
+    x.firstAttempts=x.firstAttempts||{};x.firstAttempts[key]=ok;
+    if(!ok&&answer&&!x.review.includes(answer))x.review.push(answer);
+  });
+  if(!ok&&updated){
+    const fb=document.getElementById('fb');if(fb){const t=document.createElement('div');t.className='review-toast';t.textContent=`已加入本次複習重點：${answer}`;fb.insertAdjacentElement('afterend',t)}
+  }
+}
+function normalizeOptionPositions(){
+  document.querySelectorAll('.step-page .options-grid').forEach(grid=>{
+    [...grid.querySelectorAll('.option')].forEach((b,i)=>{
+      const strong=b.querySelector('b');
+      if(strong)b.innerHTML=`${String.fromCharCode(65+i)}. <b>${strong.textContent}</b>`;
+    });
+  });
+}
+function updateRecordCount(){
+  const el=document.getElementById('recordCount');if(!el)return;
+  const items=readRecords(),years=new Set(items.map(r=>r.year)).size;
+  el.textContent=items.length?`已有 ${years} 個年份、${items.length} 次練習紀錄`:'查看每次練習與需要再複習的內容';
+}
+function openRecords(){
+  ['homeView','answerView','practiceView','mistakeView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+  document.getElementById('recordView').classList.remove('hidden');renderRecords();window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderRecords(){
+  const box=document.getElementById('recordList');if(!box)return;
+  const items=readRecords();
+  if(!items.length){box.innerHTML='<div class="empty-records"><span>目前還沒有練習紀錄。</span><span>完成整句翻譯後，按「我完成這一題了」</span><span>即可留下紀錄。</span></div>';return}
+  const years=[...new Set(items.map(r=>r.year))].sort((a,b)=>b-a);
+  box.innerHTML=years.map(y=>{
+    const rows=items.filter(r=>r.year===y).sort((a,b)=>(b.created||0)-(a.created||0));
+    return `<div class="record-year-group"><div class="record-year-head"><h3>${y} 學測</h3><button type="button" onclick="clearYearRecords(${y})">清除此年份</button></div>${rows.map((r,i)=>`
+      <div class="record-row"><div><h3>第 ${rows.length-i} 次練習</h3><p>${r.date}</p><p>第 1 題 ${r.q1?'✓ 已完成':'尚未完成'}　　第 2 題 ${r.q2?'✓ 已完成':'尚未完成'}</p><p>這次可以再複習：${(r.review||[]).length?(r.review||[]).map(escapeHtml).join('、'):'目前沒有新增複習重點'}</p></div><div class="record-row-actions"><button type="button" onclick="showRecordCard('${r.id}')">產生紀錄卡</button><button type="button" onclick="deleteRecord('${r.id}')">刪除紀錄</button></div></div>`).join('')}</div>`
+  }).join('');
+}
+function deleteRecord(id){
+  if(!confirm('確定要刪除這筆練習紀錄嗎？清除後無法復原。'))return;
+  const r=readRecords().find(x=>x.id===id);writeRecords(readRecords().filter(x=>x.id!==id));
+  if(r&&activeAttemptByYear[r.year]===id)delete activeAttemptByYear[r.year];renderRecords();
+}
+function clearYearRecords(y){
+  if(!confirm(`確定要清除 ${y} 學測的所有練習紀錄嗎？清除後無法復原。`))return;
+  writeRecords(readRecords().filter(x=>x.year!==y));delete activeAttemptByYear[y];renderRecords();
+}
+function clearAllRecords(){
+  if(!readRecords().length)return;
+  if(!confirm('確定要清除所有練習紀錄嗎？清除後無法復原。'))return;
+  writeRecords([]);activeAttemptByYear={};renderRecords();
+}
+function showRecordCard(id){
+  activeRecordId=id;pendingNameRecordId=id;const r=readRecords().find(x=>x.id===id);if(!r)return;
+  ['homeView','answerView','practiceView','mistakeView','recordView'].forEach(x=>{const el=document.getElementById(x);if(el)el.classList.add('hidden')});
+  document.getElementById('recordCardView').classList.remove('hidden');
+  const prompt=document.getElementById('recordNamePrompt');
+  if(getRecordName()){prompt.classList.add('hidden');renderRecordCard(id)}else{prompt.classList.remove('hidden');document.getElementById('recordNameCard').value='';renderRecordCard(id)}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function applyRecordName(){const el=document.getElementById('recordNameCard'),v=el?el.value.trim():'';if(v){try{localStorage.setItem(RECORD_NAME_KEY,v)}catch(e){}}document.getElementById('recordNamePrompt').classList.add('hidden');renderRecordCard(pendingNameRecordId)}
+function skipRecordName(){document.getElementById('recordNamePrompt').classList.add('hidden');renderRecordCard(pendingNameRecordId)}
+function clearStoredRecordName(){try{localStorage.removeItem(RECORD_NAME_KEY)}catch(e){}const el=document.getElementById('recordNameCard');if(el)el.value='';document.getElementById('recordNamePrompt').classList.add('hidden');renderRecordCard(pendingNameRecordId)}
+function editRecordName(){const p=document.getElementById('recordNamePrompt'),el=document.getElementById('recordNameCard');p.classList.remove('hidden');if(el)el.value=getRecordName()}
+function renderRecordCard(id){
+  const r=readRecords().find(x=>x.id===id);if(!r)return;const name=getRecordName(),review=r.review||[];
+  document.getElementById('recordCard').innerHTML=`<div class="rc-brand">歷屆翻譯練寫器</div><h2>${r.year} 學測　練習紀錄</h2><div class="rc-meta"><div><strong>姓名／暱稱</strong>　${name?escapeHtml(name):'—'}</div><div><strong>完成日期</strong>　${r.date}</div></div><div class="rc-status"><div>第 1 題　${r.q1?'✓ 已完成':'—'}</div><div>第 2 題　${r.q2?'✓ 已完成':'—'}</div><div>第 1 題延伸　${r.ext1?'✓ 已完成':'—'}</div><div>第 2 題延伸　${r.ext2?'✓ 已完成':'—'}</div></div><div class="rc-review"><strong>這次可以再複習</strong>${review.length?review.map(x=>`<div>${escapeHtml(x)}</div>`).join(''):'<div>目前沒有新增複習重點</div>'}</div><div class="rc-foot">Lulu Wu · 歷屆翻譯練寫器</div>`;
+}
+function recordCardCanvas(){
+  const r=readRecords().find(x=>x.id===activeRecordId);if(!r)return null;const name=getRecordName(),review=r.review||[];
+  const c=document.createElement('canvas');c.width=1200;c.height=900;const x=c.getContext('2d');x.fillStyle='#fffdf8';x.fillRect(0,0,c.width,c.height);x.fillStyle='#315f43';x.textAlign='center';x.font='700 34px "Microsoft YaHei",sans-serif';x.fillText('歷屆翻譯練寫器',600,78);x.fillStyle='#26362c';x.font='700 48px "Microsoft YaHei",sans-serif';x.fillText(`${r.year} 學測  練習紀錄`,600,145);x.textAlign='left';x.font='28px "Microsoft YaHei",sans-serif';x.fillText(`姓名／暱稱：${name||'—'}`,100,220);x.fillText(`完成日期：${r.date}`,680,220);x.strokeStyle='#d9e1da';x.beginPath();x.moveTo(100,255);x.lineTo(1100,255);x.stroke();x.font='30px "Microsoft YaHei",sans-serif';x.fillText(`第 1 題    ${r.q1?'✓ 已完成':'—'}`,120,325);x.fillText(`第 2 題    ${r.q2?'✓ 已完成':'—'}`,650,325);x.fillText(`第 1 題延伸    ${r.ext1?'✓ 已完成':'—'}`,120,385);x.fillText(`第 2 題延伸    ${r.ext2?'✓ 已完成':'—'}`,650,385);x.fillStyle='#f2f7f2';x.fillRect(100,450,1000,240);x.fillStyle='#26362c';x.font='700 30px "Microsoft YaHei",sans-serif';x.fillText('這次可以再複習',135,505);x.font='28px "Microsoft YaHei",sans-serif';const lines=review.length?review:['目前沒有新增複習重點'];lines.slice(0,4).forEach((s,i)=>x.fillText('• '+s,145,560+i*48));x.textAlign='center';x.fillStyle='#657269';x.font='24px "Microsoft YaHei",sans-serif';x.fillText('Lulu Wu · 歷屆翻譯練寫器',600,820);return c;
+}
+function downloadRecordImage(){const c=recordCardCanvas();if(!c)return;const a=document.createElement('a');a.download=`${activeRecordId}_學測練習紀錄.png`;a.href=c.toDataURL('image/png');a.click()}
+async function shareRecordImage(){const c=recordCardCanvas(),status=document.getElementById('recordShareStatus');if(!c)return;const blob=await new Promise(res=>c.toBlob(res,'image/png'));const file=new File([blob],`${activeRecordId}_學測練習紀錄.png`,{type:'image/png'});try{if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'歷屆翻譯練寫器 練習紀錄'});if(status)status.textContent='已開啟裝置分享功能。'}else{downloadRecordImage();if(status)status.textContent='此瀏覽器不支援直接分享圖片，已改為產生 PNG 圖片。'}}catch(e){if(status&&e.name!=='AbortError')status.textContent='分享未完成，你仍可使用「儲存紀錄圖片」。'}}
+window.addEventListener('DOMContentLoaded',()=>{updateMistakeCount();updateRecordCount();const originalRender=render;window.render=function(){const out=originalRender.apply(this,arguments);setTimeout(addMistakeButton,0);return out}});
+
+</script>
+
+
+<script>
+/* v24：修正「我的複習清單 → 回首頁」 */
+function returnHomeFromMistakes(){
+  const mistakeView=document.getElementById('mistakeView');
+  if(mistakeView)mistakeView.classList.add('hidden');
+  goHome();
+  if(typeof updateMistakeCount==='function')updateMistakeCount();
+}
+</script>
+
+</body>
+</html>
