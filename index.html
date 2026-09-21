@@ -1945,6 +1945,149 @@ textarea {
   }
   .finish-actions button{padding-left:10px !important;padding-right:10px !important;}
 }
+
+/* v69：作答後提示、參考譯法開闔與建議說明易讀性 */
+.post-answer-note{display:none}
+.takeaway-note{font-size:1.06em;font-weight:700;line-height:1.75;overflow-wrap:anywhere;word-break:normal}
+.ext-note{font-size:.98em;font-weight:700;line-height:1.7;margin-top:10px;overflow-wrap:anywhere;word-break:normal}
+@media(max-width:700px){
+  .takeaway-note,.ext-note{white-space:normal;overflow-wrap:anywhere;word-break:normal}
+}
+
+/* v70：說明文字中的編號參考譯法使用懸掛式縮排；選項維持原排版 */
+.numbered-ref{
+  padding-left:1.55em;
+  text-indent:-1.55em;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+
+
+/* v71：只調整手機與平板（含平板直式）的文字排版；電腦版維持 v70 */
+@media (max-width:900px){
+  /* 練習紀錄說明：以完整句子為閱讀單位，避免窄螢幕出現零碎斷行 */
+  .record-info{
+    text-align:left !important;
+    overflow-wrap:normal !important;
+    word-break:normal !important;
+  }
+  .record-info .record-info-sentence,
+  .record-info .record-info-note{
+    display:block;
+    width:100%;
+  }
+  .record-info .record-info-sentence + .record-info-sentence,
+  .record-info .record-info-note{
+    margin-top:.48em;
+  }
+  .record-info .record-info-note{
+    font-size:.92em;
+  }
+
+  /* 複習清單／練習紀錄空白狀態：依語意分行，不改卡片尺寸與按鈕 */
+  .empty-mistakes span,
+  .empty-records span{
+    display:block;
+    max-width:100%;
+    margin-left:auto;
+    margin-right:auto;
+    word-break:normal;
+    overflow-wrap:normal;
+  }
+}
+
+/* 平板（含直式）：保留較寬閱讀區，不套用手機的窄版擠壓方式 */
+@media (min-width:601px) and (max-width:900px){
+  .record-info{
+    font-size:1em !important;
+    line-height:1.72 !important;
+  }
+  .empty-mistakes,
+  .empty-records{
+    font-size:1em !important;
+    line-height:1.72 !important;
+  }
+  .empty-mistakes span,
+  .empty-records span{
+    width:max-content;
+    max-width:100%;
+  }
+}
+
+/* 手機：文字區塊置中，但每一行維持自然完整的語意換行 */
+@media (max-width:600px){
+  .empty-mistakes,
+  .empty-records{
+    line-height:1.72 !important;
+  }
+  .empty-mistakes span,
+  .empty-records span{
+    width:100%;
+  }
+}
+
+
+/* v73：重新以 v71 為基礎，只處理本回合確認的兩項排版 */
+@media (max-width:900px){
+  /* 1. 複習清單與練習紀錄：以語意片段換行，避免中文詞組被切開 */
+  .mistake-summary span{
+    display:block;
+    white-space:nowrap;
+  }
+  .record-info .record-info-line{
+    display:block;
+    width:100%;
+  }
+  .record-info .record-info-line + .record-info-line,
+  .record-info .record-info-note{
+    margin-top:.48em;
+  }
+  .record-info .keep-phrase{
+    display:inline-block;
+    white-space:nowrap;
+    word-break:keep-all;
+    overflow-wrap:normal;
+  }
+  .empty-mistakes span,
+  .empty-records span{
+    white-space:nowrap;
+    word-break:keep-all;
+    overflow-wrap:normal;
+  }
+}
+
+@media (max-width:600px){
+  /* 2. 我的翻譯完成區：維持 2+1 與原垂直高度，只把第一排向左右兩側拉開 */
+  .finish-actions{
+    width:100% !important;
+    grid-template-columns:1fr 1fr !important;
+    column-gap:28px !important;
+    row-gap:14px !important;
+    justify-content:stretch !important;
+  }
+  .finish-actions button:nth-child(1){
+    justify-self:start !important;
+  }
+  .finish-actions button:nth-child(3){
+    justify-self:end !important;
+  }
+  .finish-actions button:nth-child(2){
+    justify-self:center !important;
+  }
+}
+
+/* 覆蓋 v71 在 430–600px 將三顆按鈕改回單排 flex 的規則；手機一律維持 2+1 */
+@media (min-width:430px) and (max-width:600px){
+  .finish-actions{
+    display:grid !important;
+    flex-wrap:initial !important;
+    width:100% !important;
+    grid-template-columns:1fr 1fr !important;
+    column-gap:28px !important;
+    row-gap:14px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2018,7 +2161,7 @@ textarea {
         <div class="home-function-card random-card" role="button" tabindex="0" onclick="randomYear()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();randomYear();}">
           <div class="home-function-icon random"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="9" width="30" height="30" rx="7"/><circle class="solid-green" cx="17" cy="17" r="2.3"/><circle class="solid-green" cx="31" cy="17" r="2.3"/><circle class="solid-green" cx="24" cy="24" r="2.3"/><circle class="solid-green" cx="17" cy="31" r="2.3"/><circle class="solid-green" cx="31" cy="31" r="2.3"/></svg></div>
           <strong>隨機挑一回</strong>
-          <span>不知道今天要練哪一回？<br>從已完成的年份中隨機挑選。</span>
+          <span>不知道今天練哪一回？交給系統幫你選。</span>
           <div id="randomResult" class="random-result"></div>
         </div>
         <button class="home-function-card" type="button" onclick="openMistakes()">
@@ -2041,7 +2184,7 @@ textarea {
       <div class="mistake-head">
         <div>
           <h2>我的複習清單</h2>
-          <p class="small">你加入的題目會保存在這個瀏覽器中。</p>
+          <p class="small mistake-summary"><span>你加入的題目會保存在</span><span>這個瀏覽器中。</span></p>
         </div>
         <button class="home-btn" type="button" onclick="returnHomeFromMistakes()">回首頁</button>
       </div>
@@ -2060,7 +2203,13 @@ textarea {
         </div>
       </div>
 
-      <div class="record-info">每個年份最多保留 3 次練習紀錄。若已有 3 次紀錄，想保留新的練習紀錄時，請先刪除其中一筆。作答時需要再加強的內容，會自動加入「這次可以再複習」。紀錄會保留在目前使用的裝置與瀏覽器中，你也可以自行刪除。<br><span style="font-size:.92em">清除瀏覽器資料後，紀錄可能無法保留。</span></div>
+      <div class="record-info">
+        <span class="record-info-line"><span class="keep-phrase">每個年份最多保留 3 次練習紀錄。</span></span>
+        <span class="record-info-line"><span class="keep-phrase">若已有 3 次紀錄，</span><span class="keep-phrase">想保留新的練習紀錄時，</span><span class="keep-phrase">請先刪除其中一筆。</span></span>
+        <span class="record-info-line"><span class="keep-phrase">作答時需要再加強的內容，</span><span class="keep-phrase">會自動加入「這次可以再複習」。</span></span>
+        <span class="record-info-line"><span class="keep-phrase">紀錄會保留在目前使用的</span><span class="keep-phrase">裝置與瀏覽器中，</span><span class="keep-phrase">你也可以自行刪除。</span></span>
+        <span class="record-info-note keep-phrase">清除瀏覽器資料後，紀錄可能無法保留。</span>
+      </div>
       <div id="recordList" class="record-list"></div>
       <div class="record-tools"><button type="button" onclick="clearAllRecords()">清除全部練習紀錄</button></div>
       <div class="bottom-home-wrap"><button class="home-btn" type="button" onclick="goHome()">← 回首頁</button></div>
@@ -2114,7 +2263,10 @@ textarea {
 </div>
 
 <script>
-/* v64：以正式母版 v62 為基礎；校訂 110～114 題目內容，並補充答案頁說明。
+/* v70：本次依使用者指示以 v69 確認版為修改基礎；處理 114 提示、113 延伸題中英對應、首頁隨機挑題文案與說明文字懸掛式縮排。
+   v69：本次依使用者指示以 v68 確認版為修改基礎；調整 114/112/111/110 指定內容、作答後提示顯示、參考答案開闔與延伸題雙參考譯法。
+   v68：本次以使用者指定的 v67 為修改基礎；僅校訂 110～114 練習內容提示與一處語塊說明，不動版面、功能與互動流程。
+   v64：以正式母版 v62 為基礎；校訂 110～114 題目內容，並補充答案頁說明。
    v47：以 v46 為基礎；修正實際選項答案位置、首頁 A=100% 字級、隨機挑一回骰子圖示。
    v32：延續 v31 選擇題答案位置分散規則；另統一四階段題目呈現位置。\n   v31：全面調整選擇題正確答案位置。
    正解分散，避免固定在第一個選項，也避免形成固定輪替規律。
@@ -2131,7 +2283,7 @@ const allData={
       `<h3>關鍵表達</h3>
        <div class="key-grid">
          <div class="key-card"><h4>科技進步</h4>${opts(['progressive technology','technological progress','technology progress','technological progressive'],1)}</div>
-         <div class="key-card"><h4>……最大的驅動力</h4>${opts(['the greatest driving force behind','the greatest driven force behind','the greatest driving force to','the greatest driving force with'],0)}<p class="small">「最大的」可用 <b>the greatest / the biggest</b>。</p></div>
+         <div class="key-card"><h4>……最大的驅動力</h4>${opts(['the greatest driving force behind','the greatest driven force behind','the greatest driving force to','the greatest driving force with'],0)}</div>
        </div>`,
       `<div class="task-intro"><strong>整合練習：</strong><span>句子架構已經決定了。現在把後半部的核心表達排成自然的英文。</span></div>
        <div class="skeleton"><strong>Human imagination and creativity + is + ______</strong></div>
@@ -2150,7 +2302,7 @@ const allData={
       `Human imagination and creativity together form the greatest driving force behind advances in technology.`
     ],
     take:'the greatest / biggest driving force behind + N　……背後最大的驅動力',
-    hint:'<b>imagination and creativity</b><br><b>the greatest / biggest driving force behind</b><br><b>technological progress</b>',
+    hint:'<b>the greatest / biggest driving force behind + N</b>',
     ext:[
       ['好奇心是許多重要發現背後的驅動力。','Curiosity is the driving force behind many important discoveries.'],
       ['年輕人的創意可能成為社會改變背後的重要驅動力。',"Young people's creativity may become an important driving force behind social change."]
@@ -2165,10 +2317,10 @@ const allData={
        <div class="skeleton"><span class="small">先看句子架構：</span><br><strong>Magical objects + are now + ______</strong></div>`,
       `<div class="task-intro"><strong>處理「過去在科幻電影中出現的」：</strong><span>哪一種結構較自然？</span></div>
        ${opts(['magical objects that appeared in science fiction movies','magical objects appeared in science fiction movies'],0)}
-       <p class="small">可以用關係子句 <b>that appeared...</b> 補充說明前面的 <b>objects</b>。</p>`,
+       <p class="small post-answer-note">可以用關係子句 <b>that appeared...</b> 補充說明前面的 <b>objects</b>。</p>`,
       `<div class="task-intro"><strong>選出適合的關鍵表達：</strong><span>「逐一成真」哪一個較自然？</span></div>
        ${opts(['become reality one by one','become realities one by one','become reality one after one','turn to reality one by one'],0)}
-       <div class="skeleton"><b>become reality</b> = 成真<br><b>one by one</b> = 逐一</div>`,
+       <div class="skeleton post-answer-note"><b>become reality</b> = 成真<br><b>one by one</b> = 逐一</div>`,
       write(114,2)
     ],
     refs:[
@@ -2176,7 +2328,7 @@ const allData={
       `Amazing things once seen in science fiction movies are now becoming reality one by one.`
     ],
     take:'become reality　成真　／　one by one　逐一',
-    hint:'<b>that appeared...</b><br><b>become reality</b><br><b>one by one</b>',
+    hint:'<b>become reality</b><br><b>one by one</b>',
     ext:[
       ['隨著科技進步，許多過去看似不可能的想法正在成真。','With advances in technology, many ideas that once seemed impossible are coming true.'],
       ['她努力多年，終於看到自己的夢想逐一成真。','After years of hard work, she finally saw her dreams come true one by one.']
@@ -2213,9 +2365,9 @@ const allData={
       `During every election season, it is common to see politicians visiting famous temples throughout the country.`
     ],
     take:'can be seen + V-ing　可以看到……正在做某事',
-    hint:'<b>every election season</b><br><b>politicians can be seen + V-ing</b><br><b>famous temples in different areas</b>',
+    hint:'<b>can be seen + V-ing</b><br><b>in different places / areas</b>',
     ext:[
-      ['假日期間，常可看到遊客在老街拍照。','During the holiday season, visitors can often be seen taking photos on old streets.'],
+      ['假日期間，常可看到遊客在老街拍照。','During holidays, visitors can often be seen taking photos on old streets.'],
       ['春天時，常可看到人們在公園欣賞花朵。','In spring, people can often be seen enjoying the flowers in parks.']
     ]
   },
@@ -2247,7 +2399,7 @@ const allData={
       `In addition to praying for good election results, they also hope to show respect for local culture and customs.`
     ],
     take:'show respect for + N　展現對……的尊重',
-    hint:'<b>Besides / In addition to + V-ing</b><br><b>pray for good election results</b><br><b>show respect for local culture and customs</b>',
+    hint:'<b>Besides / In addition to + V-ing</b><br><b>show respect for + N</b>',
     ext:[
       ['除了學習當地語言，遊客也應該尊重當地文化與習俗。','Besides learning the local language, visitors should also show respect for local culture and customs.'],
       ['人們到廟宇祈求健康與平安。','People visit temples to pray for good health and safety.']
@@ -2265,21 +2417,21 @@ contents:[
 write(112,1)],
 refs:[`History has repeatedly proved that wars can cause extremely terrible disasters.`,`History has shown time and again that wars can lead to extremely horrible disasters.`],
 take:'cause / lead to + N　造成、導致……',
-hint:'<b>History has repeatedly proved that...</b><br><b>wars can cause...</b><br><b>extremely terrible disasters</b>',
-ext:[['歷史一再證明，合作能幫助人們克服困難。','History has repeatedly proved that cooperation can help people overcome difficulties.'],['氣候變遷可能造成嚴重的自然災害。','Climate change can cause serious natural disasters.']]
+hint:'<b>time and again / repeatedly</b><br><b>cause / lead to + N</b>',
+ext:[['歷史一再證明，合作能幫助人們克服困難。','History has repeatedly proved that cooperation can help people overcome difficulties.'],['氣候變遷可能造成嚴重的自然災害。',['Climate change can cause serious natural disasters.','Climate change can lead to serious natural disasters.']]]
 },
   2:{
 cn:'避免衝突、確保世界和平應該是所有人類追求的目標。',
 steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
 contents:[
 `<div class="task-intro"><strong>句子架構：</strong><span>「避免衝突、確保世界和平」一起當主詞，哪種寫法較自然？</span></div>${opts(['Avoiding conflicts and ensuring world peace + should be...','Avoid conflicts and ensure world peace + should be...','To avoiding conflicts and ensuring world peace + should be...'],0)}<div class="skeleton"><strong>Avoiding conflicts and ensuring world peace + should be + ______</strong></div>`,
-`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>避免衝突</h4>${opts(['avoid to conflicts','escape conflicts','avoid from conflicts','avoid conflicts'],3)}</div><div class="key-card"><h4>所有人類追求的目標</h4>${opts(['a goal of all humans pursuing','a goal for all humanity to pursue','all humanity pursue goal','a goal to all humanity pursue'],1)}</div></div>`,
-`<div class="task-intro"><strong>整合練習：</strong><span>把後半部排成自然的英文。</span></div><div class="skeleton"><strong>... should be + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">to pursue</button><button class="chip" onclick="addChip(this)">for all humanity</button><button class="chip" onclick="addChip(this)">a goal</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('a goal for all humanity to pursue')">提交</button></div><div id="fb" class="feedback"></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>避免衝突</h4>${opts(['avoid to conflicts','escape conflicts','avoid from conflicts','avoid conflicts'],3)}</div><div class="key-card"><h4>所有人類追求的目標</h4>${opts(['the goal pursued by all human beings','a goal of all humans pursuing','all humanity pursue goal','a goal to all humanity pursue'],0)}</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把後半部排成自然的英文。</span></div><div class="skeleton"><strong>... should be + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">by all human beings</button><button class="chip" onclick="addChip(this)">pursued</button><button class="chip" onclick="addChip(this)">the goal</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('the goal pursued by all human beings')">提交</button></div><div id="fb" class="feedback"></div>`,
 write(112,2)],
 refs:[`Avoiding conflicts and ensuring world peace should be the goal pursued by all human beings.`,`To avoid conflicts and ensure world peace should be a goal for all humanity to pursue.`],
 take:'avoid + N / V-ing　避免……　／　ensure + N　確保……',
-hint:'<b>Avoiding conflicts and ensuring world peace</b><br><b>should be the goal</b><br><b>pursued by all human beings</b>',
-ext:[['減少浪費、保護環境應該是每個人共同追求的目標。','Reducing waste and protecting the environment should be goals for everyone to pursue.'],['政府應採取措施避免衝突並確保公共安全。','The government should take measures to avoid conflict and ensure public safety.']]
+hint:'<b>avoid conflicts / ensure world peace</b><br><b>pursue a goal</b>',
+ext:[['減少浪費、保護環境應該是每個人共同追求的目標。',['Reducing waste and protecting the environment should be goals for everyone to pursue.','Reducing waste and protecting the environment should be goals pursued by everyone.']],['政府應採取措施避免衝突並確保公共安全。',['The government should take measures to avoid conflict and ensure public safety.','The government should take measures to avoid conflicts and ensure public safety.'],'<b>conflict</b> 泛指「衝突」；<b>conflicts</b> 指不同或多次的衝突，兩者皆可。']]
 }
 },
 111:{
@@ -2288,13 +2440,13 @@ cn:'飼養寵物並非一項短暫的人生體驗，而是一個對動物的終�
 steps:['句子架構','句型選擇','關鍵表達','自己翻譯'],
 contents:[
 `<div class="task-intro"><strong>句子架構：</strong><span>「飼養寵物」在句首當主詞，哪一種寫法較自然？</span></div>${opts(['Keep a pet + is...','To keeping a pet + is...','Keeping a pet + is...'],2)}<div class="skeleton"><strong>Keeping a pet + is + ______</strong></div>`,
-`<div class="task-intro"><strong>句型選擇：</strong><span>「並非 A，而是 B」最適合哪個結構？</span></div>${opts(['not only A but also B','neither A nor B','either A or B','not A but B'],3)}<div class="skeleton"><strong>Keeping a pet is not A but B.</strong></div>`,
+`<div class="task-intro"><strong>句型選擇：</strong><span>「並非 A，而是 B」最適合哪個結構？</span></div>${opts(['not only A but also B','neither A nor B','either A or B','not A but B'],3)}<div class="skeleton post-answer-note"><strong>Keeping a pet is not A but B.</strong></div>`,
 `<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>短暫的人生體驗</h4>${opts(['a short-term life experience','a short life-term experience','a briefly life experience','a short-term living experience'],0)}</div><div class="key-card"><h4>終生承諾</h4>${opts(['a life-long commit','a lifelong commitment','a lifetime committing','a lifelong committing'],1)}</div></div>`,
 write(111,1)],
 refs:[`Keeping a pet is not a short-term life experience but a lifelong commitment to an animal.`,`Having a pet is not a temporary experience in life but a lifelong commitment to the animal.`],
 take:'not A but B　不是 A，而是 B　／　a lifelong commitment　終生承諾',
-hint:'<b>Keeping / Having a pet</b><br><b>not A but B</b><br><b>a lifelong commitment to an animal</b>',
-ext:[['學習一種語言不是短期任務，而是長期的投入。','Learning a language is not a short-term task but a long-term commitment.'],['養寵物需要時間，也代表一份長期的承諾。','Keeping a pet takes time and also involves a long-term commitment.']]
+hint:'<b>not A but B</b><br><b>a lifelong commitment</b>',
+ext:[['學習一種語言不是短期任務，而是長期的投入。','Learning a language is not a short-term task but a long-term commitment.'],['養寵物需要時間，也需要長期的承諾。','Keeping a pet takes time and requires a long-term commitment.','', '<b>require</b> = 需要']]
 },
   2:{
 cn:'在享受寵物所帶來的歡樂時，我們不該忽略要善盡照顧他們的責任。',
@@ -2305,8 +2457,8 @@ contents:[
 `<div class="task-intro"><strong>整合練習：</strong><span>把主要句子的後半部排成自然的英文。</span></div><div class="skeleton"><strong>we should not + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">to take good care of them</button><button class="chip" onclick="addChip(this)">our responsibility</button><button class="chip" onclick="addChip(this)">neglect</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('neglect our responsibility to take good care of them')">提交</button></div><div id="fb" class="feedback"></div>`,
 write(111,2)],
 refs:[`While enjoying the joy that pets bring us, we should not neglect our responsibility to take good care of them.`,`While enjoying the happiness our pets bring us, we should not forget our responsibility to take care of them well.`],
-take:'while + V-ing　在……的同時　／　take responsibility for / to V　負起……責任',
-hint:'<b>While enjoying...</b><br><b>we should not neglect...</b><br><b>our responsibility to take good care of them</b>',
+take:'while + V-ing　在……的同時　／　take responsibility for + N / V-ing　負起……責任',
+hint:'<b>neglect / ignore one’s responsibility</b><br><b>take good care of + N</b>',
 ext:[['在享受網路便利的同時，我們不應忽略保護個人資料的責任。','While enjoying the convenience of the Internet, we should not neglect our responsibility to protect personal information.'],['照顧動物需要耐心與責任感。','Taking care of animals requires patience and a sense of responsibility.']]
 }
 },
@@ -2321,7 +2473,7 @@ contents:[
 write(110,1)],
 refs:[`According to news reports, over a million people worldwide lose their lives in road accidents every year.`,`According to news reports, more than one million people around the world die in road accidents each year.`],
 take:'according to + N　根據……　／　lose one’s life　喪生',
-hint:'<b>According to news reports</b><br><b>over a million people worldwide</b><br><b>lose their lives in road accidents</b>',
+hint:'<b>around the world / worldwide</b><br><b>lose one’s life in road accidents</b>',
 ext:[['根據研究，每年有許多人因空氣污染而喪生。','According to research, many people lose their lives because of air pollution every year.'],['世界各地每天都會發生道路事故。','Road accidents occur around the world every day.']]
 },
   2:{
@@ -2334,8 +2486,8 @@ contents:[
 write(110,2)],
 refs:[`Therefore, traffic regulations must be strictly enforced to ensure the safety of all road users.`,`Therefore, traffic laws must be strictly enforced in order to ensure the safety of everyone on the road.`],
 take:'must be + p.p.　必須被……　／　to ensure + N　以確保……',
-hint:'<b>traffic regulations</b><br><b>must be strictly enforced</b><br><b>to ensure the safety of all road users</b>',
-ext:[['校園安全規定必須確實執行，以確保所有學生的安全。','School safety rules must be properly enforced to ensure the safety of all students.'],['食品安全標準必須嚴格執行。','Food safety standards must be strictly enforced.']]
+hint:'<b>be strictly enforced</b><br><b>ensure the safety of road users</b>',
+ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。','School safety rules must be strictly enforced to ensure the safety of all students.'],['食品安全標準必須嚴格執行。','Food safety standards must be strictly enforced.']]
 }
 }
 };
@@ -2390,7 +2542,8 @@ function showAnswers(y){
      <div style="margin:18px 0">
        <b>第 ${n} 題</b>
        <p class="prompt" style="font-size:1.05em">${d[n].cn}</p>
-       ${d[n].refs.map((r,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${r}</span></p>`).join('')}
+       <div class="actions"><button onclick="toggleAnswerRefs(${n})">查看參考答案</button></div>
+       <div id="answerRefs${n}" class="hint">${d[n].refs.map((r,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${r}</span></p>`).join('')}</div>
      </div>`).join('')}`;
  document.getElementById('homeView').classList.add('hidden');
  ['recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
@@ -2398,6 +2551,7 @@ function showAnswers(y){
  document.getElementById('answerView').classList.remove('hidden');
  window.scrollTo({top:0,behavior:'smooth'});
 }
+function toggleAnswerRefs(n){const x=document.getElementById('answerRefs'+n);if(x)x.style.display=x.style.display==='block'?'none':'block';}
 function enterYear(y){
  currentYear=y;
  if(typeof startNewPracticeAttempt==='function')startNewPracticeAttempt(y);
@@ -2504,6 +2658,10 @@ function choose(el,ok){
    const stageSkeleton=document.querySelector('#app .step-page .skeleton');
    if(stageSkeleton) stageSkeleton.style.display='block';
  }
+ if(ok){
+   const reveal=el.parentNode.nextElementSibling;
+   if(reveal && reveal.classList.contains('post-answer-note')) reveal.style.display='block';
+ }
  if(typeof recordFixedAttempt==='function')recordFixedAttempt(el,ok,el.dataset.answer||'');
 }
 function addChip(el){
@@ -2534,12 +2692,17 @@ function toggleHint(){
  let x=document.getElementById('hint');x.style.display=x.style.display==='block'?'none':'block';
 }
 function showRefs(){
+ let x=document.getElementById('refs');
+ if(x.style.display==='block'){x.style.display='none';return;}
  let d=data()[q],txt=document.getElementById('student').value.trim(),html='';
  if(txt) html+=`<b>你的答案</b><p>${escapeHtml(txt)}</p>`;
- html+=`<b>參考譯法</b>${d.refs.map((r,i)=>`<p class="ref-answer">${i+1}. ${r}</p>`).join('')}
- <p><b>這題建議記住</b><br>${d.take}</p>`;
- let x=document.getElementById('refs');x.innerHTML=html;x.style.display='block';
+ html+=`<b>參考譯法</b>${d.refs.map((r,i)=>`<p class="ref-answer numbered-ref">${i+1}. ${r}</p>`).join('')}
+ <p class="takeaway-note"><b>這題建議記住</b><br>${d.take}</p>`;
+ x.innerHTML=html;x.style.display='block';
 }
+function extRefs(e){return Array.isArray(e[1])?e[1]:[e[1]];}
+function extRefsHtml(e){const rs=extRefs(e);return rs.map((r,i)=>`<div class="ref-answer${rs.length>1?' numbered-ref':''}">${rs.length>1?(i+1)+'. ':''}${r}</div>`).join('');}
+function toggleExtHint(id){let x=document.getElementById(id);if(x)x.style.display=x.style.display==='block'?'none':'block';}
 function extensionPanel(){
  let d=data()[q];
  return `<div class="card" style="border:2px solid #b8c9bd;background:#f4f8f4">
@@ -2549,8 +2712,9 @@ function extensionPanel(){
    ${d.ext.map((e,i)=>`<div style="margin:20px 0;padding-top:${i?'18px':'0'};border-top:${i?'1px solid var(--line)':'0'}">
      <p><b>${i+1}. ${e[0]}</b></p>
      <textarea id="ex${i}" placeholder="先自己寫寫看。"></textarea>
-     <div class="actions"><button onclick="toggleExtAnswer(${i})">查看參考答案</button></div>
-     <div id="exa${i}" class="hint"><b>參考譯法</b><br><span class="ref-answer">${e[1]}</span></div>
+     <div class="actions">${e[3]?`<button onclick="toggleExtHint(\'exhint${i}\')">需要提示</button>`:''}<button onclick="toggleExtAnswer(${i})">查看參考答案</button></div>
+     ${e[3]?`<div id="exhint${i}" class="hint">${e[3]}</div>`:''}
+     <div id="exa${i}" class="hint"><b>參考譯法</b><br>${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
    </div>`).join('')}
  </div>`;
 }
@@ -2570,8 +2734,9 @@ function showExtensionPage(n){
         <div class="extension-item">
           <p><b>${i+1}. ${e[0]}</b></p>
           <textarea id="yex${n}_${i}" placeholder="先自己寫寫看。"></textarea>
-          <div class="actions"><button onclick="toggleYearExtAnswer(${n},${i})">查看參考答案</button></div>
-          <div id="yexa${n}_${i}" class="hint"><b>參考譯法</b><br><span class="ref-answer">${e[1]}</span></div>
+          <div class="actions">${e[3]?`<button onclick="toggleExtHint(\'yexhint${n}_${i}\')">需要提示</button>`:''}<button onclick="toggleYearExtAnswer(${n},${i})">查看參考答案</button></div>
+          ${e[3]?`<div id="yexhint${n}_${i}" class="hint">${e[3]}</div>`:''}
+          <div id="yexa${n}_${i}" class="hint"><b>參考譯法</b><br>${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
         </div>`).join('')}
     </div>
     <div class="extension-nav-v58">
@@ -2659,7 +2824,7 @@ function openMistakes(){
 function renderMistakes(){
   const box=document.getElementById('mistakeList'),items=readMistakes();
   if(!items.length){
-    box.innerHTML='<div class="empty-mistakes">目前沒有複習題目。<br>完成翻譯時，可以按「加入複習」留待之後再練。</div>';return;
+    box.innerHTML='<div class="empty-mistakes"><span>目前沒有複習題目。</span><span>完成翻譯後，可以加入複習，</span><span>之後再回來重新練習。</span></div>';return;
   }
   box.innerHTML=items.map(x=>`
     <div class="mistake-row">
@@ -2787,7 +2952,7 @@ function openRecords(){
 function renderRecords(){
   const box=document.getElementById('recordList');if(!box)return;
   const items=readRecords();
-  if(!items.length){box.innerHTML='<div class="empty-records">目前還沒有練習紀錄。<br>完成整句翻譯後，按「我完成這一題了」即可留下紀錄。</div>';return}
+  if(!items.length){box.innerHTML='<div class="empty-records"><span>目前還沒有練習紀錄。</span><span>完成整句翻譯後，按「我完成這一題了」，</span><span>就能留下這次的練習紀錄。</span></div>';return}
   const years=[...new Set(items.map(r=>r.year))].sort((a,b)=>b-a);
   box.innerHTML=years.map(y=>{
     const rows=items.filter(r=>r.year===y).sort((a,b)=>(b.created||0)-(a.created||0));
