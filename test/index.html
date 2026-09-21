@@ -2027,60 +2027,64 @@ textarea {
 }
 
 
-
-/* v72：本回合只處理兩項——複習清單／練習紀錄文字排版，以及手機完成頁三按鈕排列。 */
+/* v73：重新以 v71 為基礎，只處理本回合確認的兩項排版 */
 @media (max-width:900px){
-  /* 練習紀錄說明改回自然連續排版，避免每一句被強制切成獨立一行／一段。 */
-  .record-info .record-info-sentence,
+  /* 1. 複習清單與練習紀錄：以語意片段換行，避免中文詞組被切開 */
+  .mistake-summary span{
+    display:block;
+    white-space:nowrap;
+  }
+  .record-info .record-info-line{
+    display:block;
+    width:100%;
+  }
+  .record-info .record-info-line + .record-info-line,
   .record-info .record-info-note{
-    display:inline !important;
-    width:auto !important;
-    margin-top:0 !important;
+    margin-top:.48em;
   }
-  .record-info .record-info-sentence + .record-info-sentence::before,
-  .record-info .record-info-note::before{
-    content:" ";
+  .record-info .keep-phrase{
+    display:inline-block;
+    white-space:nowrap;
+    word-break:keep-all;
+    overflow-wrap:normal;
   }
-
-  /* 空白狀態維持語意分行；平板與手機只依可用寬度自然換行。 */
   .empty-mistakes span,
   .empty-records span{
-    display:block !important;
-    width:max-content !important;
-    max-width:100% !important;
-    margin-left:auto !important;
-    margin-right:auto !important;
-    white-space:normal !important;
-    word-break:normal !important;
-    overflow-wrap:normal !important;
+    white-space:nowrap;
+    word-break:keep-all;
+    overflow-wrap:normal;
   }
 }
 
 @media (max-width:600px){
-  /* 手機完成頁維持 2+1 與原垂直高度，只把上排兩顆按鈕往左右兩側拉開。 */
-  .finish-actions,
-  .finish-actions:not(:has(*)){
-    display:grid !important;
-    grid-template-columns:max-content max-content !important;
-    justify-content:space-between !important;
-    column-gap:24px !important;
-    row-gap:14px !important;
+  /* 2. 我的翻譯完成區：維持 2+1 與原垂直高度，只把第一排向左右兩側拉開 */
+  .finish-actions{
     width:100% !important;
+    grid-template-columns:1fr 1fr !important;
+    column-gap:28px !important;
+    row-gap:14px !important;
+    justify-content:stretch !important;
   }
   .finish-actions button:nth-child(1){
-    grid-column:1 !important;
-    grid-row:1 !important;
     justify-self:start !important;
   }
   .finish-actions button:nth-child(3){
-    grid-column:2 !important;
-    grid-row:1 !important;
     justify-self:end !important;
   }
   .finish-actions button:nth-child(2){
-    grid-column:1 / -1 !important;
-    grid-row:2 !important;
     justify-self:center !important;
+  }
+}
+
+/* 覆蓋 v71 在 430–600px 將三顆按鈕改回單排 flex 的規則；手機一律維持 2+1 */
+@media (min-width:430px) and (max-width:600px){
+  .finish-actions{
+    display:grid !important;
+    flex-wrap:initial !important;
+    width:100% !important;
+    grid-template-columns:1fr 1fr !important;
+    column-gap:28px !important;
+    row-gap:14px !important;
   }
 }
 
@@ -2180,7 +2184,7 @@ textarea {
       <div class="mistake-head">
         <div>
           <h2>我的複習清單</h2>
-          <p class="small">你加入的題目會保存在這個瀏覽器中。</p>
+          <p class="small mistake-summary"><span>你加入的題目會保存在</span><span>這個瀏覽器中。</span></p>
         </div>
         <button class="home-btn" type="button" onclick="returnHomeFromMistakes()">回首頁</button>
       </div>
@@ -2199,7 +2203,13 @@ textarea {
         </div>
       </div>
 
-      <div class="record-info"><span class="record-info-sentence">每個年份最多保留 3 次練習紀錄。</span><span class="record-info-sentence">若已有 3 次紀錄，想保留新的練習紀錄時，請先刪除其中一筆。</span><span class="record-info-sentence">作答時需要再加強的內容，會自動加入「這次可以再複習」。</span><span class="record-info-sentence">紀錄會保留在目前使用的裝置與瀏覽器中，你也可以自行刪除。</span><span class="record-info-note">清除瀏覽器資料後，紀錄可能無法保留。</span></div>
+      <div class="record-info">
+        <span class="record-info-line"><span class="keep-phrase">每個年份最多保留 3 次練習紀錄。</span></span>
+        <span class="record-info-line"><span class="keep-phrase">若已有 3 次紀錄，</span><span class="keep-phrase">想保留新的練習紀錄時，</span><span class="keep-phrase">請先刪除其中一筆。</span></span>
+        <span class="record-info-line"><span class="keep-phrase">作答時需要再加強的內容，</span><span class="keep-phrase">會自動加入「這次可以再複習」。</span></span>
+        <span class="record-info-line"><span class="keep-phrase">紀錄會保留在目前使用的</span><span class="keep-phrase">裝置與瀏覽器中，</span><span class="keep-phrase">你也可以自行刪除。</span></span>
+        <span class="record-info-note keep-phrase">清除瀏覽器資料後，紀錄可能無法保留。</span>
+      </div>
       <div id="recordList" class="record-list"></div>
       <div class="record-tools"><button type="button" onclick="clearAllRecords()">清除全部練習紀錄</button></div>
       <div class="bottom-home-wrap"><button class="home-btn" type="button" onclick="goHome()">← 回首頁</button></div>
