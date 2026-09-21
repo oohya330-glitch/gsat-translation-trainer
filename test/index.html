@@ -2824,7 +2824,7 @@ function openMistakes(){
 function renderMistakes(){
   const box=document.getElementById('mistakeList'),items=readMistakes();
   if(!items.length){
-    box.innerHTML='<div class="empty-mistakes"><span>目前沒有複習題目。</span><span>完成翻譯時，可以按「加入複習」</span><span>留待之後再練。</span></div>';return;
+    box.innerHTML='<div class="empty-mistakes"><span>目前沒有複習題目。</span><span>完成翻譯後，可以加入複習，</span><span>之後再回來重新練習。</span></div>';return;
   }
   box.innerHTML=items.map(x=>`
     <div class="mistake-row">
@@ -2952,7 +2952,7 @@ function openRecords(){
 function renderRecords(){
   const box=document.getElementById('recordList');if(!box)return;
   const items=readRecords();
-  if(!items.length){box.innerHTML='<div class="empty-records"><span>目前還沒有練習紀錄。</span><span>完成整句翻譯後，按「我完成這一題了」</span><span>即可留下紀錄。</span></div>';return}
+  if(!items.length){box.innerHTML='<div class="empty-records"><span>目前還沒有練習紀錄。</span><span>完成整句翻譯後，按「我完成這一題了」，</span><span>就能留下這次的練習紀錄。</span></div>';return}
   const years=[...new Set(items.map(r=>r.year))].sort((a,b)=>b-a);
   box.innerHTML=years.map(y=>{
     const rows=items.filter(r=>r.year===y).sort((a,b)=>(b.created||0)-(a.created||0));
