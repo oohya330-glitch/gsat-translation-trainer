@@ -2026,6 +2026,64 @@ textarea {
   }
 }
 
+
+
+/* v72：本回合只處理兩項——複習清單／練習紀錄文字排版，以及手機完成頁三按鈕排列。 */
+@media (max-width:900px){
+  /* 練習紀錄說明改回自然連續排版，避免每一句被強制切成獨立一行／一段。 */
+  .record-info .record-info-sentence,
+  .record-info .record-info-note{
+    display:inline !important;
+    width:auto !important;
+    margin-top:0 !important;
+  }
+  .record-info .record-info-sentence + .record-info-sentence::before,
+  .record-info .record-info-note::before{
+    content:" ";
+  }
+
+  /* 空白狀態維持語意分行；平板與手機只依可用寬度自然換行。 */
+  .empty-mistakes span,
+  .empty-records span{
+    display:block !important;
+    width:max-content !important;
+    max-width:100% !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    white-space:normal !important;
+    word-break:normal !important;
+    overflow-wrap:normal !important;
+  }
+}
+
+@media (max-width:600px){
+  /* 手機完成頁維持 2+1 與原垂直高度，只把上排兩顆按鈕往左右兩側拉開。 */
+  .finish-actions,
+  .finish-actions:not(:has(*)){
+    display:grid !important;
+    grid-template-columns:max-content max-content !important;
+    justify-content:space-between !important;
+    column-gap:24px !important;
+    row-gap:14px !important;
+    width:100% !important;
+  }
+  .finish-actions button:nth-child(1){
+    grid-column:1 !important;
+    grid-row:1 !important;
+    justify-self:start !important;
+  }
+  .finish-actions button:nth-child(3){
+    grid-column:2 !important;
+    grid-row:1 !important;
+    justify-self:end !important;
+  }
+  .finish-actions button:nth-child(2){
+    grid-column:1 / -1 !important;
+    grid-row:2 !important;
+    justify-self:center !important;
+  }
+}
+
 </style>
 </head>
 <body>
