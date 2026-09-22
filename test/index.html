@@ -2282,7 +2282,7 @@ const allData={
        <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>Human imagination and creativity + is + ______</strong></div>`,
       `<h3>關鍵表達</h3>
        <div class="key-grid">
-         <div class="key-card"><h4>科技進步</h4>${opts(['progressive technology','technological progress','technology progress','technological progressive'],1)}</div>
+         <div class="key-card"><h4>科技進步</h4>${opts(['progressive technology','technological advances','technology progress','technological progressive'],1)}</div>
          <div class="key-card"><h4>……最大的驅動力</h4>${opts(['the greatest driving force behind','the greatest driven force behind','the greatest driving force to','the greatest driving force with'],0)}</div>
        </div>`,
       `<div class="task-intro"><strong>整合練習：</strong><span>句子架構已經決定了。現在把後半部的核心表達排成自然的英文。</span></div>
@@ -2290,15 +2290,15 @@ const allData={
        <div class="answerline" id="build"></div>
        <div class="chips" id="pool">
          <button class="chip" onclick="addChip(this)">behind</button>
-         <button class="chip" onclick="addChip(this)">technological progress</button>
+         <button class="chip" onclick="addChip(this)">technological advances</button>
          <button class="chip" onclick="addChip(this)">the greatest driving force</button>
        </div>
-       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('the greatest driving force behind technological progress')">提交</button></div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('the greatest driving force behind technological advances')">提交</button></div>
        <div id="fb" class="feedback"></div>`,
       write(114,1)
     ],
     refs:[
-      `Human imagination and creativity is the greatest driving force behind technological progress.`,
+      `Human imagination and creativity is the greatest driving force behind technological advances.`,
       `Human imagination and creativity together form the greatest driving force behind advances in technology.`
     ],
     take:'the greatest / biggest driving force behind + N　……背後最大的驅動力',
