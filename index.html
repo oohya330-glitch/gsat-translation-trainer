@@ -2149,6 +2149,13 @@ textarea {
               <button onclick="showAnswers(110)">題目與答案</button>
             </div>
           </div>
+<div class="year-card available">
+            <strong>109 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(109)">開始練寫</button>
+              <button onclick="showAnswers(109)">題目與答案</button>
+            </div>
+          </div>
         </div>
       </div>
       <div id="astPanel" class="exam-panel hidden">
@@ -2271,6 +2278,7 @@ textarea {
    v32：延續 v31 選擇題答案位置分散規則；另統一四階段題目呈現位置。\n   v31：全面調整選擇題正確答案位置。
    正解分散，避免固定在第一個選項，也避免形成固定輪替規律。
    僅調整選項順序與正解索引，不更動題目內容、版面、功能或學習流程。 */
+/* v75 確認版：以 v74 正式母版為唯一基礎，只新增 109 學測兩題、109 首頁年份卡與隨機年份；其餘既有功能與版面保留。 */
 const allData={
 114:{
   1:{
@@ -2489,6 +2497,77 @@ take:'must be + p.p.　必須被……　／　to ensure + N　以確保……',
 hint:'<b>be strictly enforced</b><br><b>ensure the safety of road users</b>',
 ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。','School safety rules must be strictly enforced to ensure the safety of all students.'],['食品安全標準必須嚴格執行。','Food safety standards must be strictly enforced.']]
 }
+},
+109:{
+  1:{
+    cn:'我們有時會違背自己的意願去做某些事情，就只為了要取悅朋友。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「就只為了要取悅朋友」最適合使用哪個英文結構？</span></div>
+       ${opts(['because + S + V','just to + V','although + S + V','if + S + V'],1)}
+       <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>S + may + V ... + just to + V ...</strong><p class="small" style="margin-bottom:0"><b>just to + V</b> = 就只是為了……；<b>only to + V</b>、<b>simply to + V</b> 也可表達相近意思。</p></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-grid">
+         <div class="key-card"><h4>違背自己的意願</h4>${opts(["according to one's will","against one's will","of one's own free will","with one's permission"],1)}<p class="small post-answer-note"><b>against one's will</b> = 違背某人的意願；這裡的 <b>will</b> 表示「意願」。</p></div>
+         <div class="key-card"><h4>取悅某人</h4>${opts(['please someone','please to someone','please for someone','please with someone'],0)}<p class="small post-answer-note"><b>please + 人</b> = 取悅某人；例如：<b>please our friends</b> = 取悅我們的朋友。</p></div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。點字卡放入排列區；排錯時，再點排列區中的字卡即可放回。</span></div>
+       <div class="skeleton"><strong>Sometimes, we may do certain things + ______</strong></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">our friends</button>
+         <button class="chip" onclick="addChip(this)">against our will</button>
+         <button class="chip" onclick="addChip(this)">please</button>
+         <button class="chip" onclick="addChip(this)">just to</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('against our will just to please our friends')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(109,1)
+    ],
+    refs:[
+      `Sometimes, we may do certain things against our will just to please our friends.`,
+      `Sometimes, we may do certain things against our will simply to please our friends.`
+    ],
+    take:'<b>against one’s will</b>　違背某人的意願<br><b>just to + V</b>　就只是為了……<br><b>please + 人</b>　取悅某人',
+    hint:'想想「違背自己的意願」和「只是為了……」可以怎麼表達。',
+    ext:[
+      ['有些青少年會假裝喜歡某些事，只為了融入團體。','Some teenagers pretend to like certain things just to fit in.','', '<b>fit in</b> = 融入']
+    ]
+  },
+  2:{
+    cn:'其實，在面對同儕壓力的時候，我們應該學習堅持自己的原則。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>若使用 <b>be faced</b> 表達「面對同儕壓力時」，哪個搭配正確？</span></div>
+       ${opts(['when faced by + N','when faced to + N','when faced with + N','when faced at + N'],2)}
+       <div class="skeleton"><span class="small">被動形式可以先想成：</span><br><strong>When faced with + N, S + should + V ...</strong><p class="small" style="margin-bottom:0"><b>face + N</b> 也可表示「面對……」，例如 <b>when facing peer pressure</b>；被動形式則是 <b>when faced with peer pressure</b>。</p></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-grid">
+         <div class="key-card"><h4>同儕壓力</h4>${opts(['peer pressure','peers pressure','peer pressures','pressure peer'],0)}<p class="small post-answer-note"><b>peer pressure</b> = 同儕壓力。</p></div>
+         <div class="key-card"><h4>自己的原則</h4>${opts(['rules','orders','principles','instructions'],2)}<p class="small post-answer-note"><b>principle</b> = 原則、信念；<b>rule</b> 通常指規則、規定。<br><b>stick to one's principles</b> = 堅持自己的原則。</p></div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div>
+       <div class="skeleton"><strong>Actually, we should learn to + ______</strong></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">peer pressure</button>
+         <button class="chip" onclick="addChip(this)">stick to our principles</button>
+         <button class="chip" onclick="addChip(this)">when faced with</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('stick to our principles when faced with peer pressure')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(109,2)
+    ],
+    refs:[
+      `Actually, we should learn to stick to our principles when faced with peer pressure.`,
+      `Actually, we should learn to hold on to our principles when facing peer pressure.`
+    ],
+    take:'<b>be faced with + N</b>　面對……<br><b>peer pressure</b>　同儕壓力<br><b>stick to one’s principles</b>　堅持自己的原則',
+    hint:'想想「面對……」和「堅持自己的原則」可以怎麼表達。',
+    ext:[
+      ['面對別人的批評時，我們仍應堅持自己的原則。','When faced with criticism from others, we should still stick to our principles.','', '<b>criticism</b> = 批評']
+    ]
+  }
 }
 };
 
@@ -2501,7 +2580,8 @@ function opts(a,ans){
    2,0,3,1,2,0,  /* 113: C A D B C A */
    0,2,1,2,3,0,  /* 112: A C B C D A */
    1,3,0,2,1,3,0,/* 111: B D A C B D A */
-   3,1,2,0,3,1   /* 110: D B C A D B */
+   3,1,2,0,3,1,  /* 110: D B C A D B */
+   2,0,3,1          /* 109: C A D B */
  ];
  const seq=opts._seq||0; opts._seq=seq+1;
  const target=Math.max(0,Math.min(targets[seq]!==undefined?targets[seq]:0,a.length-1));
@@ -2573,7 +2653,7 @@ function goHome(){
 }
 function randomYear(){
  const box=document.getElementById('randomResult');
- const years=[114,113,112,111,110];
+ const years=[114,113,112,111,110,109];
  let i=0;
  box.textContent='正在挑選…';
  const timer=setInterval(()=>{
