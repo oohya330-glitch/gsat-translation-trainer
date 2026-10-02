@@ -31,8 +31,8 @@ button{cursor:pointer}
 .exam-panel.hidden{display:none!important}
 .year-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
 .year-card{border:1.5px solid var(--line);background:white;border-radius:16px;padding:18px;text-align:left}
-.year-card strong{display:block;font-size:22px;color:var(--green)}
-.year-card small{color:var(--muted)}
+.year-card strong{display:block;font-size:22px;color:var(--green);text-align:center}
+.year-card small{display:block;color:var(--muted);text-align:center}
 .year-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .year-actions button{border:1.5px solid var(--green);background:white;color:var(--green);border-radius:10px;padding:7px 10px;font-weight:800}
 .year-actions button.primary{background:var(--green);color:white}
@@ -1411,6 +1411,7 @@ textarea {
 .complete-confirm{margin-top:14px;padding:14px 16px;border:1px solid #cbd9cf;border-radius:13px;background:#f7faf7}
 .complete-confirm button{min-height:44px;border:1px solid var(--green);border-radius:10px;background:#fff;color:var(--green);font-weight:850;padding:9px 14px;cursor:pointer}
 .complete-confirm button.done{background:#edf5ef}
+.extension-complete-confirm{margin-top:22px}
 
 .record-actions .primary{background:var(--green);color:#fff}
 .record-list{display:grid;gap:12px}
@@ -1995,8 +1996,8 @@ textarea {
     overflow-wrap:normal;
   }
 }
-
-/* 平板（含直式）：保留較寬閱讀區，不套用手機的窄版擠壓方式 */@media (min-width:601px) and (max-width:900px){
+/* 平板（含直式）：保留較寬閱讀區，不套用手機的窄版擠壓方式 */
+@media (min-width:601px) and (max-width:900px){
   .record-info{
     font-size:1em !important;
     line-height:1.72 !important;
@@ -2992,9 +2993,9 @@ function toggleHint(){
  let x=document.getElementById('hint');x.style.display=x.style.display==='block'?'none':'block';
 }
 function showRefs(){
- let x=document.getElementById('refs'); if(x.style.display==='block'){x.style.display='none';return;}
- let d=data()[q],txt=document.getElementById('student').value.trim(),html='';
- if(txt) html+=`<b>你的答案</b><p>${escapeHtml(txt)}</p>`;
+ let x=document.getElementById('refs');
+ if(x.style.display==='block'){x.style.display='none';return;}
+ let d=data()[q],txt=document.getElementById('student').value.trim(),html=''; if(txt) html+=`<b>你的答案</b><p>${escapeHtml(txt)}</p>`;
  html+=`<b>參考譯法</b>${d.refs.map((r,i)=>`<p class="ref-answer numbered-ref">${i+1}. ${r}</p>`).join('')}`;
  if(d.take) html+=`<p class="takeaway-note"><b>這題建議記住</b><br>${d.take}</p>`;
  x.innerHTML=html;x.style.display='block';
@@ -3037,6 +3038,10 @@ function showExtensionPage(n){
           ${e[3]?`<div id="yexhint${n}_${i}" class="hint">${e[3]}</div>`:''}
           <div id="yexa${n}_${i}" class="hint"><b>參考譯法</b><br>${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
         </div>`).join('')}
+      <div class="complete-confirm extension-complete-confirm">
+        <button id="extCompleteBtn" type="button" onclick="confirmExtensionComplete(${n})">✓ 完成延伸題</button>
+        <div class="small" style="margin-top:7px">完成後，點一下記錄完成狀態。</div>
+      </div>
     </div>
     <div class="extension-nav-v58">
       <div class="ext-nav-row ${n===1?'single-right':'single-left'}">
@@ -3050,6 +3055,7 @@ function showExtensionPage(n){
         <button onclick="returnToQuestion(2)">回到第 2 題 →</button>
       </div>
     </div>`;
+  if(typeof syncExtensionCompleteButton==='function')syncExtensionCompleteButton(n);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function toggleYearExtAnswer(n,i){
@@ -3074,7 +3080,6 @@ function toggleExtAnswer(i){
  let x=document.getElementById('exa'+i);if(x){
    const opening=x.style.display!=='block';
    x.style.display=opening?'block':'none';
-   if(opening&&typeof markExtensionComplete==='function')markExtensionComplete(q);
  }
 }
 function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
@@ -3224,8 +3229,30 @@ function syncCompleteButton(){
   }
 }
 
-function markExtensionComplete(n){
-  updateActiveRecord(x=>x['ext'+n]=true);
+function confirmExtensionComplete(n){
+  const r=updateActiveRecord(x=>x['ext'+n]=true);
+  if(!r){
+    if(yearRecords(currentYear).length>=3)recordLimitMessage(currentYear);
+    syncExtensionCompleteButton(n);
+    return;
+  }
+  syncExtensionCompleteButton(n);
+}
+function syncExtensionCompleteButton(n){
+  const b=document.getElementById('extCompleteBtn');if(!b)return;
+  const id=activeAttemptByYear[currentYear];
+  const r=id&&readRecords().find(x=>x.id===id);
+  const done=!!(r&&r['ext'+n]);
+  if(done){
+    b.textContent='✓ 已完成延伸題';
+    b.classList.add('done');
+  }else if(!id&&yearRecords(currentYear).length>=3){
+    b.textContent='練習紀錄已滿';
+    b.classList.remove('done');
+  }else{
+    b.textContent='✓ 完成延伸題';
+    b.classList.remove('done');
+  }
 }
 function interactionKeyForOption(el){
   const grids=[...document.querySelectorAll('.step-page .options-grid')];
