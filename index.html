@@ -997,8 +997,7 @@ textarea {
 /* 手機：不硬塞 2×2；導覽緊湊但維持觸控尺寸 */
 @media (max-width:640px){
   .practice-head{
-    padding:10px 12px !important;
-  }
+    padding:10px 12px !important;  }
   .practice-head h2,
   .practice-head h3{
     font-size:1.12em !important;
@@ -1997,8 +1996,7 @@ textarea {
   }
 }
 
-/* 平板（含直式）：保留較寬閱讀區，不套用手機的窄版擠壓方式 */
-@media (min-width:601px) and (max-width:900px){
+/* 平板（含直式）：保留較寬閱讀區，不套用手機的窄版擠壓方式 */@media (min-width:601px) and (max-width:900px){
   .record-info{
     font-size:1em !important;
     line-height:1.72 !important;
@@ -2090,6 +2088,26 @@ textarea {
 }
 
 </style>
+
+<style id="v85-home-year-collapse">
+/* v85：首頁年份區三端響應式＋最新六年顯示，其餘年份收合 */
+#gsatPanel .year-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+.older-years-toggle-wrap{display:flex;justify-content:center;margin:16px 0 2px;}
+.older-years-toggle{
+  border:0;background:transparent;color:var(--green);font:inherit;font-weight:800;
+  padding:9px 14px;min-height:42px;cursor:pointer;border-radius:10px;
+}
+.older-years-toggle:hover{background:var(--soft);}
+#olderYearsGrid{margin-top:14px;}
+#olderYearsGrid[hidden]{display:none !important;}
+@media (min-width:601px) and (max-width:900px){
+  #gsatPanel .year-grid{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
+}
+@media (max-width:600px){
+  #gsatPanel .year-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+  .older-years-toggle-wrap{margin-top:13px;}
+}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -2171,7 +2189,18 @@ textarea {
               <button onclick="showAnswers(107)">題目與答案</button>
             </div>
           </div>
+          <div class="year-card available">
+            <strong>106 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(106)">開始練寫</button>
+              <button onclick="showAnswers(106)">題目與答案</button>
+            </div>
+          </div>
         </div>
+        <div id="olderYearsToggleWrap" class="older-years-toggle-wrap" hidden>
+          <button id="olderYearsToggle" class="older-years-toggle" type="button" aria-expanded="false" aria-controls="olderYearsGrid" onclick="toggleOlderYears()">查看更早年份 ▼</button>
+        </div>
+        <div id="olderYearsGrid" class="year-grid" hidden></div>
       </div>
       <div id="astPanel" class="exam-panel hidden">
         <div class="coming"><strong>指考歷屆翻譯</strong><br>題目整理中，之後可逐年加入。</div>
@@ -2671,10 +2700,16 @@ ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。'
        <div class="skeleton post-answer-note">逗號後是在補充說明前面的 <b>super typhoons</b>，這裡用 <b>which</b> 連接。</div>`,
       write(107,1)
     ],
-    refs:[`In recent years, there have been more and more super typhoons, which often cause serious damage.`,`In recent years, there have been more and more super typhoons, which often result in severe damage.`],
-    take:'',hint:'',
+    refs:[
+      `In recent years, there have been more and more super typhoons, which often cause serious damage.`,
+      `In recent years, there have been more and more super typhoons, which often result in severe damage.`
+    ],
+    take:'',
+    hint:'',
     afterRefs:'<div class="takeaway-note"><b>可替換表達</b><br><b>serious</b> → <b>severe</b><br><b>cause</b> → <b>result in</b></div>',
-    ext:[['近年來，越來越多人選擇同時從事不同的工作，而不是只依賴一份全職工作。','In recent years, more and more people have chosen to take on different jobs rather than rely on a single full-time job.','', '<b>take on</b> = 從事／承擔<br><b>full-time job</b> = 全職工作']]
+    ext:[
+      ['近年來，越來越多人選擇同時從事不同的工作，而不是只依賴一份全職工作。','In recent years, more and more people have chosen to take on different jobs rather than rely on a single full-time job.','', '<b>take on</b> = 從事／承擔<br><b>full-time job</b> = 全職工作']
+    ]
   },
   2:{
     cn:'颱風來襲時，我們應準備足夠的食物，並待在室內，若有必要，應迅速移動至安全的地方。',
@@ -2687,18 +2722,39 @@ ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。'
        ${opts(['quickly relocate to a safe place','quickly move to a safe place','quickly evacuate to a safe place'],1)}
        <div class="skeleton post-answer-note"><b>move to</b> 最直接對應原文的「移動至」；<b>relocate</b> 偏向「搬遷／重新安置」，<b>evacuate</b> 則帶有「撤離／疏散」的意思。</div>`,
       `<div class="task-intro"><strong>整合練習：</strong><span>把三個完整意義單位排成自然的英文。</span></div>
-       <div class="answerline" id="build"></div><div class="chips" id="pool">
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
          <button class="chip" onclick="addChip(this)">If necessary, we should quickly move to a safe place.</button>
          <button class="chip" onclick="addChip(this)">When a typhoon strikes,</button>
          <button class="chip" onclick="addChip(this)">we should prepare enough food and stay indoors.</button>
-       </div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('When a typhoon strikes, we should prepare enough food and stay indoors. If necessary, we should quickly move to a safe place.')">提交</button></div><div id="fb" class="feedback"></div>`,
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('When a typhoon strikes, we should prepare enough food and stay indoors. If necessary, we should quickly move to a safe place.')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
       write(107,2)
     ],
-    refs:[`When a typhoon strikes, we should prepare enough food and stay indoors. If necessary, we should quickly move to a safe place.`,`When a typhoon hits, we should prepare sufficient food and stay indoors. If necessary, we should swiftly move to a safe place.`],
-    take:'',hint:'<b>strike</b> = 來襲<br><b>indoors</b> = 在室內',
+    refs:[
+      `When a typhoon strikes, we should prepare enough food and stay indoors. If necessary, we should quickly move to a safe place.`,
+      `When a typhoon hits, we should prepare sufficient food and stay indoors. If necessary, we should swiftly move to a safe place.`
+    ],
+    take:'',
+    hint:'<b>strike</b> = 來襲<br><b>indoors</b> = 在室內',
     afterRefs:'<div class="takeaway-note"><b>可替換表達</b><br><b>strikes</b> → <b>hits</b><br><b>enough</b> → <b>sufficient</b><br><b>quickly</b> → <b>swiftly</b></div>',
-    ext:[['與他人合作時，我們應清楚表達自己的想法，若有必要，也應願意調整自己的做法。','When we work with others, we should express our ideas clearly. If necessary, we should also be willing to adjust our approach.','', '<b>approach</b> = 做法／方式']]
+    ext:[
+      ['與他人合作時，我們應清楚表達自己的想法，若有必要，也應願意調整自己的做法。','When we work with others, we should express our ideas clearly. If necessary, we should also be willing to adjust our approach.','', '<b>approach</b> = 做法／方式']
+    ]
   }
+},
+106:{
+1:{cn:'玉山在冬天常常覆蓋著厚厚的積雪，使整個山頂閃耀如玉。',steps:['句子架構','關鍵表達','整合練習','自己翻譯'],contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>「玉山……覆蓋著……」主要應採用哪一種結構？</span></div>${opts(['Jade Mountain + be covered ...','Jade Mountain + cover ...','There be ... + Jade Mountain ...'],0)}<div class="skeleton post-answer-note"><strong>Jade Mountain + be covered ...</strong></div>`,
+`<h3>關鍵表達</h3><div class="skeleton"><strong>be covered with thick snow</strong> = 覆蓋著厚厚的積雪</div><div class="key-card"><h4>使整個山頂閃耀如玉</h4>${opts(['make the entire peak shine like jade','make the entire peak shines like jade','make the entire peak to shine like jade'],0)}</div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的表達重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">making the entire peak shine like jade</button><button class="chip" onclick="addChip(this)">Jade Mountain</button><button class="chip" onclick="addChip(this)">with thick snow in winter</button><button class="chip" onclick="addChip(this)">is often covered</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Jade Mountain is often covered with thick snow in winter making the entire peak shine like jade')">提交</button></div><div id="fb" class="feedback"></div>`,write(106,1)],
+refs:[`Jade Mountain is often covered with thick snow in winter, making the entire peak shine like jade.`,`Jade Mountain is often covered with thick snow in winter, which makes the entire peak shine like jade.`],take:'be covered with thick snow　覆蓋著厚厚的積雪　／　make + O + V　使……做……',hint:'<b>be covered with ...</b><br><b>make + O. + V.</b>',ext:[['城市常常籠罩在厚厚的霧霾中，使居民很難看清遠方的建築物。','The city is often covered with thick smog, making it difficult for residents to see buildings in the distance.','', '<b>be covered with ...</b><br><b>make it + adj. + for + 人 + to V.</b>']]},
+2:{cn:'征服玉山一直是國內外登山者最困難的挑戰之一。',steps:['核心用字','關鍵表達','整合練習','自己翻譯'],contents:[
+`<div class="task-intro"><strong>核心用字：</strong><span>「征服玉山」哪個英文表達最合適？</span></div>${opts(['Conquering Jade Mountain ...','Overcoming Jade Mountain ...','Defeating Jade Mountain ...'],0)}<div class="skeleton post-answer-note"><strong>Conquering Jade Mountain ...</strong></div>`,
+`<h3>關鍵表達</h3><h4 style="margin-bottom:6px;color:var(--green)">另外取得</h4><div class="skeleton"><strong>has always been</strong> = 一直是<br><strong>one of the most difficult challenges</strong> = 最困難的挑戰之一</div><div class="key-card"><h4>國內外登山者</h4><div class="task-intro"><span>下列哪一個「不適合」用來表達「國內外登山者」？</span></div>${opts(['mountain climbers at home and abroad','local and foreign mountain climbers','domestic and foreign mountain climbers','mountain climbers inside and outside'],3)}</div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">one of the most difficult challenges</button><button class="chip" onclick="addChip(this)">for mountain climbers at home and abroad</button><button class="chip" onclick="addChip(this)">Conquering Jade Mountain</button><button class="chip" onclick="addChip(this)">has always been</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Conquering Jade Mountain has always been one of the most difficult challenges for mountain climbers at home and abroad')">提交</button></div><div id="fb" class="feedback"></div>`,write(106,2)],
+refs:[`Conquering Jade Mountain has always been one of the most difficult challenges for mountain climbers at home and abroad.`,`Conquering Jade Mountain has always been one of the toughest challenges for local and foreign mountain climbers.`],take:'conquer + a mountain　征服／成功攀登一座山　／　at home and abroad　在國內外',hint:'<b>V-ing ...</b><br><b>has always been ...</b><br><b>one of the + 最高級 + 複數名詞</b>',ext:[['適應新的學習環境，對許多學生來說是一大挑戰。','Adapting to a new learning environment is a major challenge for many students.','', '<b>adapt to ...</b><br><b>V-ing ... + be a major challenge for ...</b>']]}
 }
 };
 
@@ -2786,7 +2842,7 @@ function goHome(){
 }
 function randomYear(){
  const box=document.getElementById('randomResult');
- const years=[114,113,112,111,110,109,108,107];
+ const years=[114,113,112,111,110,109,108,107,106];
  let i=0;
  box.textContent='正在挑選…';
  const timer=setInterval(()=>{
@@ -2836,7 +2892,10 @@ function render(){
  if(step===3){
    const hint=document.getElementById('hint');
    if(hint) hint.innerHTML=d.hint;
-   if(!d.hint){const hintBtn=document.querySelector('#app .actions button[onclick="toggleHint()"]');if(hintBtn) hintBtn.style.display='none';}
+   if(!d.hint){
+     const hintBtn=document.querySelector('#app .actions button[onclick="toggleHint()"]');
+     if(hintBtn) hintBtn.style.display='none';
+   }
    if(typeof syncCompleteButton==='function')syncCompleteButton();
  }
  if(typeof normalizeOptionPositions==='function')normalizeOptionPositions();
@@ -2936,8 +2995,7 @@ function extensionPanel(){
 function showExtensionPage(n){
   const d=data()[n];
   document.getElementById('practiceYearTitle').textContent=currentYear+' 學測延伸挑戰';
-  document.getElementById('qb1').classList.toggle('active',n===1);
-  document.getElementById('qb2').classList.toggle('active',n===2);
+  document.getElementById('qb1').classList.toggle('active',n===1);  document.getElementById('qb2').classList.toggle('active',n===2);
   document.getElementById('app').innerHTML=`
     <div class="card extension-page">
       <div class="extension-page-title compact-extension-title">
@@ -3074,8 +3132,21 @@ function writeRecords(items){try{localStorage.setItem(RECORD_KEY,JSON.stringify(
 function getRecordName(){try{return localStorage.getItem(RECORD_NAME_KEY)||''}catch(e){return ''}}
 function todayString(){const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()} / ${p(d.getMonth()+1)} / ${p(d.getDate())}`}
 function yearRecords(y){return readRecords().filter(r=>Number(r.year)===Number(y)).sort((a,b)=>(b.created||0)-(a.created||0))}
-function updateYearRecordLimitIndicators(){document.querySelectorAll('#gsatPanel .year-card.available').forEach(card=>{const b=card.querySelector('.year-actions button.primary');if(!b)return;const m=(b.getAttribute('onclick')||'').match(/enterYear\((\d+)\)/);if(!m)return;const y=Number(m[1]),full=yearRecords(y).length>=3;b.textContent=full?'開始練寫 · 紀錄已滿':'開始練寫';b.classList.toggle('record-full',full);b.title=full?`${y} 學測已有 3 筆練習紀錄；仍可繼續練習，但若要留下新紀錄，請先刪除其中一筆。`:'';});}
-function recordLimitMessage(y){alert(`${y} 學測已有 3 筆練習紀錄。若要留下新的練習紀錄，請先到「練習紀錄」刪除其中一筆。你仍然可以繼續練習。`);}
+function updateYearRecordLimitIndicators(){
+  document.querySelectorAll('#gsatPanel .year-card.available').forEach(card=>{
+    const b=card.querySelector('.year-actions button.primary');
+    if(!b)return;
+    const m=(b.getAttribute('onclick')||'').match(/enterYear\((\d+)\)/);
+    if(!m)return;
+    const y=Number(m[1]),full=yearRecords(y).length>=3;
+    b.textContent=full?'開始練寫 · 紀錄已滿':'開始練寫';
+    b.classList.toggle('record-full',full);
+    b.title=full?`${y} 學測已有 3 筆練習紀錄；仍可繼續練習，但若要留下新紀錄，請先刪除其中一筆。`:'';
+  });
+}
+function recordLimitMessage(y){
+  alert(`${y} 學測已有 3 筆練習紀錄。若要留下新的練習紀錄，請先到「練習紀錄」刪除其中一筆。你仍然可以繼續練習。`);
+}
 function startNewPracticeAttempt(y){
   delete activeAttemptByYear[y];
   return preparePracticeAttempt(y);
@@ -3105,12 +3176,27 @@ function updateActiveRecord(mutator){
   let items=readRecords(),i=items.findIndex(x=>x.id===r.id);if(i<0)return null;
   mutator(items[i]);items[i].date=todayString();writeRecords(items);return items[i];
 }
-function confirmQuestionComplete(){const r=updateActiveRecord(x=>x['q'+q]=true);if(!r){if(yearRecords(currentYear).length>=3)recordLimitMessage(currentYear);syncCompleteButton();return;}syncCompleteButton();}
+function confirmQuestionComplete(){
+  const r=updateActiveRecord(x=>x['q'+q]=true);
+  if(!r){
+    if(yearRecords(currentYear).length>=3)recordLimitMessage(currentYear);
+    syncCompleteButton();
+    return;
+  }
+  syncCompleteButton();
+}
 function syncCompleteButton(){
   const b=document.getElementById('completeBtn');if(!b)return;
   const id=activeAttemptByYear[currentYear],r=id&&readRecords().find(x=>x.id===id),done=r&&r['q'+q];
-  if(done){b.textContent='✓ 已記錄';b.classList.add('done')}else if(!id&&yearRecords(currentYear).length>=3){b.textContent='練習紀錄已滿';b.classList.remove('done')}else{b.textContent='✓ 我完成這一題了';b.classList.remove('done')}
+  if(done){
+    b.textContent='✓ 已記錄';b.classList.add('done');
+  }else if(!id&&yearRecords(currentYear).length>=3){
+    b.textContent='練習紀錄已滿';b.classList.remove('done');
+  }else{
+    b.textContent='✓ 我完成這一題了';b.classList.remove('done');
+  }
 }
+
 function markExtensionComplete(n){
   updateActiveRecord(x=>x['ext'+n]=true);
 }
@@ -3224,5 +3310,37 @@ function returnHomeFromMistakes(){
 }
 </script>
 
+
+<script id="v85-home-year-collapse-js">
+(function(){
+  function setupHomeYearGroups(){
+    var panel=document.getElementById('gsatPanel');
+    if(!panel) return;
+    var grids=panel.querySelectorAll('.year-grid');
+    var mainGrid=grids[0];
+    var olderGrid=document.getElementById('olderYearsGrid');
+    var wrap=document.getElementById('olderYearsToggleWrap');
+    if(!mainGrid || !olderGrid || !wrap) return;
+
+    /* 每次依首頁年份卡片目前順序：前 6 張顯示，其餘自動移入較早年份。 */
+    var cards=Array.prototype.slice.call(mainGrid.querySelectorAll(':scope > .year-card'));
+    cards.slice(6).forEach(function(card){ olderGrid.appendChild(card); });
+    wrap.hidden = olderGrid.children.length === 0;
+  }
+
+  window.toggleOlderYears=function(){
+    var grid=document.getElementById('olderYearsGrid');
+    var btn=document.getElementById('olderYearsToggle');
+    if(!grid || !btn) return;
+    var willOpen=grid.hidden;
+    grid.hidden=!willOpen;
+    btn.setAttribute('aria-expanded', String(willOpen));
+    btn.textContent=willOpen ? '收起較早年份 ▲' : '查看更早年份 ▼';
+  };
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupHomeYearGroups);
+  else setupHomeYearGroups();
+})();
+</script>
 </body>
 </html>
