@@ -997,7 +997,8 @@ textarea {
 /* 手機：不硬塞 2×2；導覽緊湊但維持觸控尺寸 */
 @media (max-width:640px){
   .practice-head{
-    padding:10px 12px !important;  }
+    padding:10px 12px !important;
+  }
   .practice-head h2,
   .practice-head h3{
     font-size:1.12em !important;
@@ -1996,7 +1997,8 @@ textarea {
   }
 }
 
-/* 平板（含直式）：保留較寬閱讀區，不套用手機的窄版擠壓方式 */@media (min-width:601px) and (max-width:900px){
+/* 平板（含直式）：保留較寬閱讀區，不套用手機的窄版擠壓方式 */
+@media (min-width:601px) and (max-width:900px){
   .record-info{
     font-size:1em !important;
     line-height:1.72 !important;
@@ -2203,6 +2205,13 @@ textarea {
             <div class="year-actions">
               <button class="primary" onclick="enterYear(106)">開始練寫</button>
               <button onclick="showAnswers(106)">題目與答案</button>
+            </div>
+          </div>
+          <div class="year-card available">
+            <strong>105 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(105)">開始練寫</button>
+              <button onclick="showAnswers(105)">題目與答案</button>
             </div>
           </div>
         </div>
@@ -2753,6 +2762,18 @@ ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。'
     ]
   }
 },
+105:{
+1:{cn:'相較於他們父母的世代，現今年輕人享受較多的自由和繁榮。',steps:['句子架構','關鍵表達','整合練習','自己翻譯'],contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>「相較於他們父母的世代」下列哪一個英文表達不正確？</span></div>${opts(["Compared with their parents' generation, ...","Compared to their parents' generation, ...","In comparison from their parents' generation, ..."],2)}<div class="skeleton post-answer-note"><strong>Compared with ...</strong>、<strong>Compared to ...</strong> 都可以表示「與……相比」。也可以說 <strong>In comparison with ...</strong>；不能說 <strong>In comparison from ...</strong>。</div>`,
+`<h3>關鍵表達</h3><div class="key-card"><div class="task-intro"><strong>原文：</strong><span>現今年輕人</span></div><div class="task-intro"><span>下列哪一個英文表達較不符合原文意思？</span></div>${opts(['young people today',"today's young people",'modern young people'],2)}<div class="skeleton post-answer-note"><b>young people today</b>、<b>today's young people</b> 都可直接表達「現今年輕人」；也可以說 <b>young people nowadays</b>。<br><br><b>modern young people</b> 比較偏向「現代的年輕人」，較不直接對應原文的「現今」。</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">enjoy more freedom and prosperity.</button><button class="chip" onclick="addChip(this)">Compared with their parents' generation,</button><button class="chip" onclick="addChip(this)">young people today</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild(&quot;Compared with their parents' generation, young people today enjoy more freedom and prosperity.&quot;)">提交</button></div><div id="fb" class="feedback"></div>`,write(105,1)],
+refs:[`Compared with their parents' generation, young people today enjoy more freedom and prosperity.`,`Compared to the generation of their parents, today's young people enjoy greater freedom and prosperity.`],take:'<b>Compared with/to ...</b>　與……相比<br><b>parents\' generation</b>　父母的世代<br><b>young people today</b>　現今年輕人<br><b>enjoy more freedom and prosperity</b>　享有較多的自由與繁榮',hint:'<b>Compared with/to ...</b><br><b>enjoy more ...</b>',ext:[['和線上聊天相比，面對面的互動讓人們有更多了解彼此的機會。','Compared with chatting online, face-to-face interaction gives people more opportunities to understand each other.','', '<b>Compared with ...</b><br><b>give people more opportunities to ...</b>']]},
+2:{cn:'但是在這個快速改變的世界中，他們必須學習如何有效地因應新的挑戰。',steps:['句子架構','關鍵表達','整合練習','自己翻譯'],contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>哪一個不適合表達「學習如何」？</span></div>${opts(['learn how to respond to ...','learn to respond to ...','learn responding to ...'],2)}<div class="skeleton post-answer-note">表達「學會／學習如何做某事」時，可使用 <strong>learn (how) to + V.</strong>。因此可用 <b>learn how to + V.</b> 或 <b>learn to + V.</b>；<b>learn + V-ing</b> 不適合表達這裡的「學習如何」。</div>`,
+`<h3>關鍵表達</h3><div class="key-card"><h4>因應新的挑戰</h4><div class="task-intro"><span>下列哪一個不適合用來表達「因應新的挑戰」？</span></div>${opts(['respond to new challenges','deal with new challenges','handle with new challenges','react to new challenges'],2)}<div class="skeleton post-answer-note"><b>respond to new challenges</b>、<b>deal with new challenges</b>、<b>react to new challenges</b> 在本題語境中都可以使用。<b>handle</b> 本身可直接接受詞，不加 <b>with</b>；應為 <b>handle new challenges</b>。</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">respond to new challenges effectively.</button><button class="chip" onclick="addChip(this)">But in this fast-changing world,</button><button class="chip" onclick="addChip(this)">they must learn how to</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('But in this fast-changing world, they must learn how to respond to new challenges effectively.')">提交</button></div><div id="fb" class="feedback"></div>`,write(105,2)],
+refs:[`But in this fast-changing world, they must learn how to respond to new challenges effectively.`,`However, in this rapidly changing world, they need to learn how to deal with new challenges effectively.`],take:'<b>in this fast-changing world</b>　在這個快速變化的世界中<br><b>learn how to + V.</b>　學習如何……<br><b>respond to new challenges</b>　因應新的挑戰<br><b>effectively</b>　有效地',hint:'<b>learn how to + V.</b><br><b>respond to ... effectively</b>',ext:[['發生衝突時，我們應該學習如何有效地與他人溝通。',['When conflicts occur, we should learn how to communicate with others effectively.','When there is a conflict, we should learn how to communicate with others effectively.'],'', '<b>learn how to + V.</b><br><b>communicate with ... effectively</b>']]}
+},
 106:{
 1:{cn:'玉山在冬天常常覆蓋著厚厚的積雪，使整個山頂閃耀如玉。',steps:['句子架構','關鍵表達','整合練習','自己翻譯'],contents:[
 `<div class="task-intro"><strong>句子架構：</strong><span>「玉山……覆蓋著……」主要應採用哪一種結構？</span></div>${opts(['Jade Mountain + be covered ...','Jade Mountain + cover ...','There be ... + Jade Mountain ...'],0)}<div class="skeleton post-answer-note"><strong>Jade Mountain + be covered ...</strong></div>`,
@@ -2779,7 +2800,8 @@ function opts(a,ans){
    3,1,2,0,3,1,  /* 110: D B C A D B */
    2,0,3,1,         /* 109: C A D B */
    1,3,0,2,1,3,    /* 108: B D A C B D */
-   1,2,0,1,0       /* 107: B C A B A */
+   1,2,0,1,0,      /* 107: B C A B A */
+   2,1,2,3          /* 105: C B C D */
  ];
  const seq=opts._seq||0; opts._seq=seq+1;
  const target=Math.max(0,Math.min(targets[seq]!==undefined?targets[seq]:0,a.length-1));
@@ -2851,7 +2873,7 @@ function goHome(){
 }
 function randomYear(){
  const box=document.getElementById('randomResult');
- const years=[114,113,112,111,110,109,108,107,106];
+ const years=[114,113,112,111,110,109,108,107,106,105];
  let i=0;
  box.textContent='正在挑選…';
  const timer=setInterval(()=>{
@@ -2995,7 +3017,8 @@ function extensionPanel(){
      <p><b>${i+1}. ${e[0]}</b></p>
      <textarea id="ex${i}" placeholder="先自己寫寫看。"></textarea>
      <div class="actions">${e[3]?`<button onclick="toggleExtHint(\'exhint${i}\')">需要提示</button>`:''}<button onclick="toggleExtAnswer(${i})">查看參考答案</button></div>
-     ${e[3]?`<div id="exhint${i}" class="hint">${e[3]}</div>`:''}     <div id="exa${i}" class="hint"><b>參考譯法</b><br>${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
+     ${e[3]?`<div id="exhint${i}" class="hint">${e[3]}</div>`:''}
+     <div id="exa${i}" class="hint"><b>參考譯法</b><br>${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
    </div>`).join('')}
  </div>`;
 }
