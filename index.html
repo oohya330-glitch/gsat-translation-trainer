@@ -997,8 +997,7 @@ textarea {
 /* 手機：不硬塞 2×2；導覽緊湊但維持觸控尺寸 */
 @media (max-width:640px){
   .practice-head{
-    padding:10px 12px !important;
-  }
+    padding:10px 12px !important;  }
   .practice-head h2,
   .practice-head h3{
     font-size:1.12em !important;
@@ -1997,8 +1996,7 @@ textarea {
   }
 }
 
-/* 平板（含直式）：保留較寬閱讀區，不套用手機的窄版擠壓方式 */
-@media (min-width:601px) and (max-width:900px){
+/* 平板（含直式）：保留較寬閱讀區，不套用手機的窄版擠壓方式 */@media (min-width:601px) and (max-width:900px){
   .record-info{
     font-size:1em !important;
     line-height:1.72 !important;
@@ -2764,25 +2762,25 @@ ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。'
 },
 105:{
 1:{cn:'相較於他們父母的世代，現今年輕人享受較多的自由和繁榮。',steps:['句子架構','關鍵表達','整合練習','自己翻譯'],contents:[
-`<div class="task-intro"><strong>句子架構：</strong><span>「相較於他們父母的世代」下列哪一個英文表達不正確？</span></div>${opts(["Compared with their parents' generation, ...","Compared to their parents' generation, ...","In comparison from their parents' generation, ..."],2)}<div class="skeleton post-answer-note"><strong>Compared with ...</strong>、<strong>Compared to ...</strong> 都可以表示「與……相比」。也可以說 <strong>In comparison with ...</strong>；不能說 <strong>In comparison from ...</strong>。</div>`,
-`<h3>關鍵表達</h3><div class="key-card"><div class="task-intro"><strong>原文：</strong><span>現今年輕人</span></div><div class="task-intro"><span>下列哪一個英文表達較不符合原文意思？</span></div>${opts(['young people today',"today's young people",'modern young people'],2)}<div class="skeleton post-answer-note"><b>young people today</b>、<b>today's young people</b> 都可直接表達「現今年輕人」；也可以說 <b>young people nowadays</b>。<br><br><b>modern young people</b> 比較偏向「現代的年輕人」，較不直接對應原文的「現今」。</div></div>`,
+`<div class="task-intro"><strong>句子架構：</strong><span>「相較於他們父母的世代」下列哪一個英文表達不正確？</span></div>${opts(["Compared with their parents' generation, ...","Compared to their parents' generation, ...","In comparison from their parents' generation, ..."],2,2)}<div class="skeleton post-answer-note"><strong>Compared with ...</strong>、<strong>Compared to ...</strong> 都可以表示「與……相比」。也可以說 <strong>In comparison with ...</strong>；不能說 <strong>In comparison from ...</strong>。</div>`,
+`<h3>關鍵表達</h3><div class="key-card"><div class="task-intro"><strong>原文：</strong><span>現今年輕人</span></div><div class="task-intro"><span>下列哪一個英文表達較不符合原文意思？</span></div>${opts(['young people today',"today's young people",'modern young people'],2,0)}<div class="skeleton post-answer-note"><b>young people today</b>、<b>today's young people</b> 都可直接表達「現今年輕人」；也可以說 <b>young people nowadays</b>。<br><br><b>modern young people</b> 比較偏向「現代的年輕人」，較不直接對應原文的「現今」。</div></div>`,
 `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">enjoy more freedom and prosperity.</button><button class="chip" onclick="addChip(this)">Compared with their parents' generation,</button><button class="chip" onclick="addChip(this)">young people today</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild(&quot;Compared with their parents' generation, young people today enjoy more freedom and prosperity.&quot;)">提交</button></div><div id="fb" class="feedback"></div>`,write(105,1)],
 refs:[`Compared with their parents' generation, young people today enjoy more freedom and prosperity.`,`Compared to the generation of their parents, today's young people enjoy greater freedom and prosperity.`],take:'<b>Compared with/to ...</b>　與……相比<br><b>parents\' generation</b>　父母的世代<br><b>young people today</b>　現今年輕人<br><b>enjoy more freedom and prosperity</b>　享有較多的自由與繁榮',hint:'<b>Compared with/to ...</b><br><b>enjoy more ...</b>',ext:[['和線上聊天相比，面對面的互動讓人們有更多了解彼此的機會。','Compared with chatting online, face-to-face interaction gives people more opportunities to understand each other.','', '<b>Compared with ...</b><br><b>give people more opportunities to ...</b>']]},
 2:{cn:'但是在這個快速改變的世界中，他們必須學習如何有效地因應新的挑戰。',steps:['句子架構','關鍵表達','整合練習','自己翻譯'],contents:[
-`<div class="task-intro"><strong>句子架構：</strong><span>哪一個不適合表達「學習如何」？</span></div>${opts(['learn how to respond to ...','learn to respond to ...','learn responding to ...'],2)}<div class="skeleton post-answer-note">表達「學會／學習如何做某事」時，可使用 <strong>learn (how) to + V.</strong>。因此可用 <b>learn how to + V.</b> 或 <b>learn to + V.</b>；<b>learn + V-ing</b> 不適合表達這裡的「學習如何」。</div>`,
-`<h3>關鍵表達</h3><div class="key-card"><h4>因應新的挑戰</h4><div class="task-intro"><span>下列哪一個不適合用來表達「因應新的挑戰」？</span></div>${opts(['respond to new challenges','deal with new challenges','handle with new challenges','react to new challenges'],2)}<div class="skeleton post-answer-note"><b>respond to new challenges</b>、<b>deal with new challenges</b>、<b>react to new challenges</b> 在本題語境中都可以使用。<b>handle</b> 本身可直接接受詞，不加 <b>with</b>；應為 <b>handle new challenges</b>。</div></div>`,
+`<div class="task-intro"><strong>句子架構：</strong><span>哪一個不適合表達「學習如何」？</span></div>${opts(['learn how to respond to ...','learn to respond to ...','learn responding to ...'],2,1)}<div class="skeleton post-answer-note">表達「學會／學習如何做某事」時，可使用 <strong>learn (how) to + V.</strong>。因此可用 <b>learn how to + V.</b> 或 <b>learn to + V.</b>；<b>learn + V-ing</b> 不適合表達這裡的「學習如何」。</div>`,
+`<h3>關鍵表達</h3><div class="key-card"><h4>因應新的挑戰</h4><div class="task-intro"><span>下列哪一個不適合用來表達「因應新的挑戰」？</span></div>${opts(['respond to new challenges','deal with new challenges','handle with new challenges','react to new challenges'],2,3)}<div class="skeleton post-answer-note"><b>respond to new challenges</b>、<b>deal with new challenges</b>、<b>react to new challenges</b> 在本題語境中都可以使用。<b>handle</b> 本身可直接接受詞，不加 <b>with</b>；應為 <b>handle new challenges</b>。</div></div>`,
 `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">respond to new challenges effectively.</button><button class="chip" onclick="addChip(this)">But in this fast-changing world,</button><button class="chip" onclick="addChip(this)">they must learn how to</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('But in this fast-changing world, they must learn how to respond to new challenges effectively.')">提交</button></div><div id="fb" class="feedback"></div>`,write(105,2)],
 refs:[`But in this fast-changing world, they must learn how to respond to new challenges effectively.`,`However, in this rapidly changing world, they need to learn how to deal with new challenges effectively.`],take:'<b>in this fast-changing world</b>　在這個快速變化的世界中<br><b>learn how to + V.</b>　學習如何……<br><b>respond to new challenges</b>　因應新的挑戰<br><b>effectively</b>　有效地',hint:'<b>learn how to + V.</b><br><b>respond to ... effectively</b>',ext:[['發生衝突時，我們應該學習如何有效地與他人溝通。',['When conflicts occur, we should learn how to communicate with others effectively.','When there is a conflict, we should learn how to communicate with others effectively.'],'', '<b>learn how to + V.</b><br><b>communicate with ... effectively</b>']]}
 },
 106:{
 1:{cn:'玉山在冬天常常覆蓋著厚厚的積雪，使整個山頂閃耀如玉。',steps:['句子架構','關鍵表達','整合練習','自己翻譯'],contents:[
-`<div class="task-intro"><strong>句子架構：</strong><span>「玉山……覆蓋著……」主要應採用哪一種結構？</span></div>${opts(['Jade Mountain + be covered ...','Jade Mountain + cover ...','There be ... + Jade Mountain ...'],0)}<div class="skeleton post-answer-note"><strong>Jade Mountain + be covered ...</strong></div>`,
-`<h3>關鍵表達</h3><div class="skeleton"><strong>be covered with thick snow</strong> = 覆蓋著厚厚的積雪</div><div class="key-card"><h4>使整個山頂閃耀如玉</h4>${opts(['make the entire peak shine like jade','make the entire peak shines like jade','make the entire peak to shine like jade'],0)}</div>`,
+`<div class="task-intro"><strong>句子架構：</strong><span>「玉山……覆蓋著……」主要應採用哪一種結構？</span></div>${opts(['Jade Mountain + be covered ...','Jade Mountain + cover ...','There be ... + Jade Mountain ...'],0,1)}<div class="skeleton post-answer-note"><strong>Jade Mountain + be covered ...</strong></div>`,
+`<h3>關鍵表達</h3><div class="skeleton"><strong>be covered with thick snow</strong> = 覆蓋著厚厚的積雪</div><div class="key-card"><h4>使整個山頂閃耀如玉</h4>${opts(['make the entire peak shine like jade','make the entire peak shines like jade','make the entire peak to shine like jade'],0,2)}</div>`,
 `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的表達重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">making the entire peak shine like jade</button><button class="chip" onclick="addChip(this)">Jade Mountain</button><button class="chip" onclick="addChip(this)">with thick snow in winter</button><button class="chip" onclick="addChip(this)">is often covered</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Jade Mountain is often covered with thick snow in winter making the entire peak shine like jade')">提交</button></div><div id="fb" class="feedback"></div>`,write(106,1)],
 refs:[`Jade Mountain is often covered with thick snow in winter, making the entire peak shine like jade.`,`Jade Mountain is often covered with thick snow in winter, which makes the entire peak shine like jade.`],take:'be covered with thick snow　覆蓋著厚厚的積雪　／　make + O + V　使……做……',hint:'<b>be covered with ...</b><br><b>make + O. + V.</b>',ext:[['城市常常籠罩在厚厚的霧霾中，使居民很難看清遠方的建築物。','The city is often covered with thick smog, making it difficult for residents to see buildings in the distance.','', '<b>be covered with ...</b><br><b>make it + adj. + for + 人 + to V.</b>']]},
 2:{cn:'征服玉山一直是國內外登山者最困難的挑戰之一。',steps:['核心用字','關鍵表達','整合練習','自己翻譯'],contents:[
-`<div class="task-intro"><strong>核心用字：</strong><span>「征服玉山」哪個英文表達最合適？</span></div>${opts(['Conquering Jade Mountain ...','Overcoming Jade Mountain ...','Defeating Jade Mountain ...'],0)}<div class="skeleton post-answer-note"><strong>Conquering Jade Mountain ...</strong></div>`,
-`<h3>關鍵表達</h3><h4 style="margin-bottom:6px;color:var(--green)">另外取得</h4><div class="skeleton"><strong>has always been</strong> = 一直是<br><strong>one of the most difficult challenges</strong> = 最困難的挑戰之一</div><div class="key-card"><h4>國內外登山者</h4><div class="task-intro"><span>下列哪一個「不適合」用來表達「國內外登山者」？</span></div>${opts(['mountain climbers at home and abroad','local and foreign mountain climbers','domestic and foreign mountain climbers','mountain climbers inside and outside'],3)}</div>`,
+`<div class="task-intro"><strong>核心用字：</strong><span>「征服玉山」哪個英文表達最合適？</span></div>${opts(['Conquering Jade Mountain ...','Overcoming Jade Mountain ...','Defeating Jade Mountain ...'],0,0)}<div class="skeleton post-answer-note"><strong>Conquering Jade Mountain ...</strong></div>`,
+`<h3>關鍵表達</h3><h4 style="margin-bottom:6px;color:var(--green)">另外取得</h4><div class="skeleton"><strong>has always been</strong> = 一直是<br><strong>one of the most difficult challenges</strong> = 最困難的挑戰之一</div><div class="key-card"><h4>國內外登山者</h4><div class="task-intro"><span>下列哪一個「不適合」用來表達「國內外登山者」？</span></div>${opts(['mountain climbers at home and abroad','local and foreign mountain climbers','domestic and foreign mountain climbers','mountain climbers inside and outside'],3,2)}</div>`,
 `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">one of the most difficult challenges</button><button class="chip" onclick="addChip(this)">for mountain climbers at home and abroad</button><button class="chip" onclick="addChip(this)">Conquering Jade Mountain</button><button class="chip" onclick="addChip(this)">has always been</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Conquering Jade Mountain has always been one of the most difficult challenges for mountain climbers at home and abroad')">提交</button></div><div id="fb" class="feedback"></div>`,write(106,2)],
 refs:[`Conquering Jade Mountain has always been one of the most difficult challenges for mountain climbers at home and abroad.`,`Conquering Jade Mountain has always been one of the toughest challenges for local and foreign mountain climbers.`],take:'conquer + a mountain　征服／成功攀登一座山　／　at home and abroad　在國內外',hint:'<b>V-ing ...</b><br><b>has always been ...</b><br><b>one of the + 最高級 + 複數名詞</b>',ext:[['適應新的學習環境，對許多學生來說是一大挑戰。','Adapting to a new learning environment is a major challenge for many students.','', '<b>adapt to ...</b><br><b>V-ing ... + be a major challenge for ...</b>']]}
 }
@@ -2791,7 +2789,7 @@ refs:[`Conquering Jade Mountain has always been one of the most difficult challe
 let currentYear=114,q=1,step=0,fs=18;
 
 function data(){return allData[currentYear]}
-function opts(a,ans){
+function opts(a,ans,targetOverride){
  const targets=[
    1,3,0,2,1,3,  /* 114: B D A C B D */
    2,0,3,1,2,0,  /* 113: C A D B C A */
@@ -2804,7 +2802,8 @@ function opts(a,ans){
    2,1,2,3          /* 105: C B C D */
  ];
  const seq=opts._seq||0; opts._seq=seq+1;
- const target=Math.max(0,Math.min(targets[seq]!==undefined?targets[seq]:0,a.length-1));
+ const requestedTarget=(targetOverride!==undefined)?targetOverride:(targets[seq]!==undefined?targets[seq]:0);
+ const target=Math.max(0,Math.min(requestedTarget,a.length-1));
  const items=a.map((text,i)=>({text,correct:i===ans}));
  const correct=items.find(x=>x.correct);
  const ordered=items.filter(x=>!x.correct);
@@ -2996,8 +2995,7 @@ function toggleHint(){
  let x=document.getElementById('hint');x.style.display=x.style.display==='block'?'none':'block';
 }
 function showRefs(){
- let x=document.getElementById('refs');
- if(x.style.display==='block'){x.style.display='none';return;}
+ let x=document.getElementById('refs'); if(x.style.display==='block'){x.style.display='none';return;}
  let d=data()[q],txt=document.getElementById('student').value.trim(),html='';
  if(txt) html+=`<b>你的答案</b><p>${escapeHtml(txt)}</p>`;
  html+=`<b>參考譯法</b>${d.refs.map((r,i)=>`<p class="ref-answer numbered-ref">${i+1}. ${r}</p>`).join('')}`;
