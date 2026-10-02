@@ -2087,6 +2087,15 @@ textarea {
   }
 }
 
+
+/* v86：僅手機版整合練習語塊文字靠左；不改卡片尺寸、Grid、間距或平板／電腦 */
+@media (max-width:600px){
+  .step-page .chips .chip,
+  .step-page .answerline .chip{
+    text-align:left !important;
+  }
+}
+
 </style>
 
 <style id="v85-home-year-collapse">
@@ -2986,8 +2995,7 @@ function extensionPanel(){
      <p><b>${i+1}. ${e[0]}</b></p>
      <textarea id="ex${i}" placeholder="先自己寫寫看。"></textarea>
      <div class="actions">${e[3]?`<button onclick="toggleExtHint(\'exhint${i}\')">需要提示</button>`:''}<button onclick="toggleExtAnswer(${i})">查看參考答案</button></div>
-     ${e[3]?`<div id="exhint${i}" class="hint">${e[3]}</div>`:''}
-     <div id="exa${i}" class="hint"><b>參考譯法</b><br>${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
+     ${e[3]?`<div id="exhint${i}" class="hint">${e[3]}</div>`:''}     <div id="exa${i}" class="hint"><b>參考譯法</b><br>${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
    </div>`).join('')}
  </div>`;
 }
@@ -2995,7 +3003,8 @@ function extensionPanel(){
 function showExtensionPage(n){
   const d=data()[n];
   document.getElementById('practiceYearTitle').textContent=currentYear+' 學測延伸挑戰';
-  document.getElementById('qb1').classList.toggle('active',n===1);  document.getElementById('qb2').classList.toggle('active',n===2);
+  document.getElementById('qb1').classList.toggle('active',n===1);
+  document.getElementById('qb2').classList.toggle('active',n===2);
   document.getElementById('app').innerHTML=`
     <div class="card extension-page">
       <div class="extension-page-title compact-extension-title">
