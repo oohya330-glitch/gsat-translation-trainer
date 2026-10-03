@@ -1957,10 +1957,20 @@ textarea {
 
 /* v70：說明文字中的編號參考譯法使用懸掛式縮排；選項維持原排版 */
 .numbered-ref{
-  padding-left:1.55em;
-  text-indent:-1.55em;
+  display:grid;
+  grid-template-columns:1.55em minmax(0,1fr);
+  align-items:start;
+  column-gap:0;
   overflow-wrap:anywhere;
   word-break:normal;
+}
+.numbered-ref .ref-num{
+  grid-column:1;
+  white-space:nowrap;
+}
+.numbered-ref .ref-text{
+  grid-column:2;
+  min-width:0;
 }
 
 
@@ -1986,8 +1996,7 @@ textarea {
   }
 
   /* 複習清單／練習紀錄空白狀態：依語意分行，不改卡片尺寸與按鈕 */
-  .empty-mistakes span,
-  .empty-records span{
+  .empty-mistakes span,  .empty-records span{
     display:block;
     max-width:100%;
     margin-left:auto;
@@ -1996,6 +2005,7 @@ textarea {
     overflow-wrap:normal;
   }
 }
+
 /* 平板（含直式）：保留較寬閱讀區，不套用手機的窄版擠壓方式 */
 @media (min-width:601px) and (max-width:900px){
   .record-info{
@@ -2985,8 +2995,7 @@ function resetChips(){
 }
 function checkBuild(ans){
  const got=[...document.querySelectorAll('#build .chip')].map(x=>x.textContent).join(' ');
- const ok=got===ans;
- document.getElementById('fb').textContent=ok?'排列正確。':'再調整一下順序。';
+ const ok=got===ans; document.getElementById('fb').textContent=ok?'排列正確。':'再調整一下順序。';
  if(typeof recordBuildAttempt==='function')recordBuildAttempt(ok,ans);
 }
 function toggleHint(){
@@ -2995,13 +3004,20 @@ function toggleHint(){
 function showRefs(){
  let x=document.getElementById('refs');
  if(x.style.display==='block'){x.style.display='none';return;}
- let d=data()[q],txt=document.getElementById('student').value.trim(),html=''; if(txt) html+=`<b>你的答案</b><p>${escapeHtml(txt)}</p>`;
- html+=`<b>參考譯法</b>${d.refs.map((r,i)=>`<p class="ref-answer numbered-ref">${i+1}. ${r}</p>`).join('')}`;
+ let d=data()[q],txt=document.getElementById('student').value.trim(),html='';
+ if(txt) html+=`<b>你的答案</b><p>${escapeHtml(txt)}</p>`;
+ html+=`<b>參考譯法</b>${d.refs.map((r,i)=>`<p class="ref-answer numbered-ref"><span class="ref-num">${i+1}.</span><span class="ref-text">${r}</span></p>`).join('')}`;
  if(d.take) html+=`<p class="takeaway-note"><b>這題建議記住</b><br>${d.take}</p>`;
  x.innerHTML=html;x.style.display='block';
 }
 function extRefs(e){return Array.isArray(e[1])?e[1]:[e[1]];}
-function extRefsHtml(e){const rs=extRefs(e);return rs.map((r,i)=>`<div class="ref-answer${rs.length>1?' numbered-ref':''}">${rs.length>1?(i+1)+'. ':''}${r}</div>`).join('');}
+function extRefsHtml(e){
+ const rs=extRefs(e);
+ return rs.map((r,i)=>rs.length>1
+   ? `<div class="ref-answer numbered-ref"><span class="ref-num">${i+1}.</span><span class="ref-text">${r}</span></div>`
+   : `<div class="ref-answer">${r}</div>`
+ ).join('');
+}
 function toggleExtHint(id){let x=document.getElementById(id);if(x)x.style.display=x.style.display==='block'?'none':'block';}
 function extensionPanel(){
  let d=data()[q];
