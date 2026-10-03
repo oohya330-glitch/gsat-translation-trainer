@@ -2193,6 +2193,19 @@ textarea {
     white-space:nowrap !important;
   }
 }
+
+/* 平板直式測試：年份卡片兩顆按鈕上下排列、等寬、置中 */
+@media (min-width:701px) and (max-width:900px) and (orientation:portrait){
+  #homeView .year-actions{
+    justify-content:center !important;
+  }
+  #homeView .year-actions button{
+    width:8em !important;
+    min-width:8em !important;
+    max-width:100% !important;
+    text-align:center !important;
+  }
+}
 </style>
 
 <style id="v85-home-year-collapse">
