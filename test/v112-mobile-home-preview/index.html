@@ -2172,10 +2172,25 @@ textarea {
 }
 
 
-/* 平板保險規則：維持原本排列；若 A+ 造成按鈕換行，換行後仍置中 */
-@media (min-width:601px) and (max-width:1200px){
+
+/* 平板按鈕最終測試：
+   直式沿用原本自動換行＋置中；
+   橫式即使 A+ 也固定兩顆同一列。 */
+@media (min-width:901px) and (max-width:1200px) and (orientation:landscape){
   #homeView .year-actions{
+    display:flex !important;
+    flex-direction:row !important;
+    flex-wrap:nowrap !important;
     justify-content:center !important;
+    align-items:center !important;
+    gap:8px !important;
+  }
+  #homeView .year-actions button{
+    width:auto !important;
+    flex:0 0 auto !important;
+    font-size:18px !important;
+    padding:7px 10px !important;
+    white-space:nowrap !important;
   }
 }
 </style>
