@@ -897,7 +897,8 @@ textarea {
 
 
 /* v36：低捲動版面
-   原則：導覽退居次要、題目與操作區成為視覺焦點；   桌機四選項優先 2×2，平板視寬度 2×2，手機保持易讀易點。
+   原則：導覽退居次要、題目與操作區成為視覺焦點；
+   桌機四選項優先 2×2，平板視寬度 2×2，手機保持易讀易點。
 */
 
 /* 年份／題號區：標題略大，按鈕較小，保留適量呼吸空間 */
@@ -996,8 +997,7 @@ textarea {
 /* 手機：不硬塞 2×2；導覽緊湊但維持觸控尺寸 */
 @media (max-width:640px){
   .practice-head{
-    padding:10px 12px !important;
-  }
+    padding:10px 12px !important;  }
   .practice-head h2,
   .practice-head h3{
     font-size:1.12em !important;
@@ -1796,7 +1796,8 @@ textarea {
 }
 
 @media (min-width:701px) and (max-width:1200px){
-  .stage-nav-card .steps{    gap:6px !important;
+  .stage-nav-card .steps{
+    gap:6px !important;
   }
   .stage-nav-card .steps button{
     padding-left:10px !important;
@@ -1995,8 +1996,7 @@ textarea {
   }
 
   /* 複習清單／練習紀錄空白狀態：依語意分行，不改卡片尺寸與按鈕 */
-  .empty-mistakes span,
-  .empty-records span{
+  .empty-mistakes span,  .empty-records span{
     display:block;
     max-width:100%;
     margin-left:auto;
@@ -2108,8 +2108,39 @@ textarea {
 }
 
 
+/* v114：依指定參考版，手機一般頁底部三顆導覽鍵固定同一排；其餘裝置不變 */
+@media (max-width:640px){
+  .page-nav{
+    display:grid !important;
+    grid-template-columns:1fr auto 1fr !important;
+    align-items:center !important;
+    column-gap:8px !important;
+    row-gap:0 !important;
+  }
+  .page-nav > div:first-child{
+    grid-column:1 !important;
+    grid-row:1 !important;
+    text-align:left !important;
+  }
+  .page-nav .home{
+    grid-column:2 !important;
+    grid-row:1 !important;
+    text-align:center !important;
+  }
+  .page-nav .next{
+    grid-column:3 !important;
+    grid-row:1 !important;
+    text-align:right !important;
+  }
+  .page-nav button{
+    min-height:46px !important;
+    padding:10px 12px !important;
+    white-space:nowrap !important;
+  }
+}
 
-/* v113 測試：手機版移除上方回首頁；底部導覽改為三欄同列 */
+
+/* 手機版：底部導覽三顆按鈕同一橫列 */
 @media (max-width:640px){
   .page-nav{
     display:grid !important;
@@ -2286,6 +2317,13 @@ textarea {
               <button onclick="showAnswers(10801)">題目與答案</button>
             </div>
           </div>
+          <div class="year-card available">
+            <strong>107 指考</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(10701)">開始練寫</button>
+              <button onclick="showAnswers(10701)">題目與答案</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2412,6 +2450,7 @@ textarea {
 /* v75 確認版：以 v74 正式母版為唯一基礎，只新增 109 學測兩題、109 首頁年份卡與隨機年份；其餘既有功能與版面保留。 */
 /* v76 確認版：以 v75 正式母版為唯一基礎，只新增 108 學測兩題、108 首頁年份卡與隨機年份；其餘既有功能與版面保留。 */
 /* v102 確認版：以 v101 新正式母版為唯一基礎，新增 108 指考兩題至「指考」頁籤；保留兩個參考譯法，並適度補充官方可接受替代表達；既有學測內容與版面不改。 */
+/* v114 確認版：以 v111 為乾淨基礎，保留 108 指考，新增 107 指考；沿用既有延伸模式路由與專用導覽，並套用指定手機底部三鍵同列。 */
 /* v79 確認版：以 v76 正式母版為唯一基礎新增 107；107 採四階段「句子架構→關鍵表達→整合練習→自己翻譯」，每階段皆有實際操作，不新增複選功能；既有 108～114 不改。 */
 const allData={
 114:{
@@ -2727,7 +2766,8 @@ ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。'
     ],
     refs:[
       `Since its operations in 2007, the High Speed Rail has become one of the most convenient and fastest means of transportation in Taiwan.`,
-      `Since the High Speed Rail started to run in 2007, it has become one of the most convenient and fastest means of transportation in Taiwan.`    ],
+      `Since the High Speed Rail started to run in 2007, it has become one of the most convenient and fastest means of transportation in Taiwan.`
+    ],
     take:'<b>Since ..., S + have/has + p.p.</b>　自……以來……<br><b>one of the + 最高級 + 複數名詞</b>　最……的……之一<br><b>means of transportation</b>　交通工具',
     hint:'<b>Since ..., S + have/has + p.p.</b><br><b>one of the most ...</b>',
     ext:[
@@ -2898,6 +2938,75 @@ refs:[`Conquering Jade Mountain has always been one of the most difficult challe
     ]
   }
 }
+,10701:{
+  1:{
+    cn:'快速時尚以速度與低價為特色，讓人們可以用負擔得起的價格買到流行的服飾。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>下列哪一個不適合表達「以……為特色」？</span></div>
+       ${opts(['be characterized by + N.','feature + N.','be characterized with + N.'],2,1)}
+       <div class="skeleton"><span class="small">可以這樣表達：</span><br><strong>be characterized by + N.</strong><br><strong>feature + N.</strong></div>`,
+      `<div class="task-intro"><strong>關鍵表達：</strong><span>「讓人們可以……」下列哪一個結構正確？</span></div>
+       ${opts(['allow people to + V.','allow people + V-ing','allow people + V.'],0,2)}
+       <div class="post-answer-note"><b>allow + 人 + to V.</b> = 讓某人可以／允許某人做……</div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">at affordable prices.</button>
+         <button class="chip" onclick="addChip(this)">Fast fashion</button>
+         <button class="chip" onclick="addChip(this)">allowing people to buy trendy clothing</button>
+         <button class="chip" onclick="addChip(this)">is characterized by speed and low prices,</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Fast fashion is characterized by speed and low prices, allowing people to buy trendy clothing at affordable prices.')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(10701,1)
+    ],
+    refs:[
+      `Fast fashion is characterized by speed and low prices, allowing people to buy trendy clothing at affordable prices.`,
+      `Characterized by speed and low prices, fast fashion allows people to purchase affordable fashionable clothing.`
+    ],
+    take:'<b>be characterized by + N.</b>　以……為特色<br><b>feature + N.</b>　以……為特色／具有……<br><b>allow + 人 + to V.</b>　讓某人可以做……',
+    hint:'<b>be characterized by + N.</b><br><b>allow + 人 + to V.</b>',
+    ext:[
+      ['台灣以豐富的文化與美麗的風景為特色，使它成為吸引世界各地旅客的地方。','Taiwan is characterized by its rich culture and beautiful scenery, making it an attractive place for visitors from around the world.','', '<b>rich culture</b> = 豐富的文化<br><b>beautiful scenery</b> = 美麗的風景<br><b>visitors from around the world</b> = 世界各地的旅客'],
+      ['行動支付以快速與便利為特色，讓人們可以更有效率地完成付款。','Mobile payment is characterized by speed and convenience, allowing people to make payments more efficiently.','', '<b>mobile payment</b> = 行動支付<br><b>make payments</b> = 付款<br><b>efficiently</b> = 有效率地']
+    ]
+  },
+  2:{
+    cn:'然而，它所鼓勵的「快速消費」卻製造了大量的廢棄物，造成巨大的污染問題。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「它所鼓勵的快速消費」下列哪一個英文結構正確？</span></div>
+       ${opts(['the fast consumption it encourages','the fast consumption which encourages','the fast consumption which is encouraged'],0,0)}
+       <div class="skeleton"><span class="small">可以先看成：</span><br><strong>the fast consumption (that) it encourages</strong><p class="small" style="margin-bottom:0">關係代名詞作受詞時可以省略。</p></div>`,
+      `<div class="task-intro"><strong>關鍵表達：</strong><span>「造成巨大的污染問題」若用 <b>result</b> 表達，下列哪一個正確？</span></div>
+       ${opts(['result in enormous pollution problems','result from enormous pollution problems','result in enormous polluting problems'],0,1)}
+       <div class="post-answer-note"><b>result in + N.</b> = 導致、造成<br><b>result from + N.</b> = 起因於</div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">resulting in enormous pollution problems.</button>
+         <button class="chip" onclick="addChip(this)">However, the fast consumption it encourages</button>
+         <button class="chip" onclick="addChip(this)">huge amounts of waste,</button>
+         <button class="chip" onclick="addChip(this)">has produced</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('However, the fast consumption it encourages has produced huge amounts of waste, resulting in enormous pollution problems.')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(10701,2)
+    ],
+    refs:[
+      `However, the fast consumption it encourages has produced huge amounts of waste, resulting in enormous pollution problems.`,
+      `Nevertheless, the fast consumption it encourages has produced huge amounts of waste, which has resulted in enormous pollution problems.`
+    ],
+    take:'<b>the + N. + S + V</b>　名詞後接修飾內容<br><b>result in + N.</b>　導致、造成<br><b>resulting in ...</b>／<b>which has resulted in ...</b>　表達後續結果',
+    hint:'<b>the fast consumption (that) it encourages</b><br><b>result in + N.</b>',
+    ext:[
+      ['社群媒體上的過度比較造成許多壓力，進而影響青少年的心理健康。','Excessive comparison on social media creates a great deal of stress, resulting in negative effects on teenagers’ mental health.','', '<b>excessive comparison</b> = 過度比較<br><b>stress</b> = 壓力<br><b>mental health</b> = 心理健康'],
+      ['網路購物所使用的過多包裝製造了大量垃圾，造成環境問題。','The excessive packaging used for online shopping produces large amounts of waste, resulting in environmental problems.','', '<b>excessive packaging</b> = 過多包裝<br><b>online shopping</b> = 網路購物<br><b>waste</b> = 垃圾／廢棄物']
+    ]
+  }
+}
+
 };
 
 let currentYear=114,q=1,step=0,fs=18;
@@ -2911,9 +3020,13 @@ function routeQuestionNav(n){
   }
 }
 
-function isAstYear(y){return Number(y)===10801;}
-function displayYear(y){return isAstYear(y)?108:Number(y);}
-function examTypeName(y){return isAstYear(y)?'指考':'學測';}
+function isAstYear(y){return [10801,10701].includes(Number(y));}
+function displayYear(y){
+  const n=Number(y);
+  if(n===10801)return 108;
+  if(n===10701)return 107;
+  return n;
+}function examTypeName(y){return isAstYear(y)?'指考':'學測';}
 function examLabel(y){return displayYear(y)+' '+examTypeName(y);}
 function practiceTitle(y,suffix){return examLabel(y)+(suffix||'中譯英');}
 
@@ -3003,7 +3116,7 @@ function randomYear(type){
  const box=document.getElementById('randomResult');
  const pools={
    gsat:[114,113,112,111,110,109,108,107,106,105],
-   ast:[10801]
+   ast:[10801,10701]
  };
  const years=pools[type]||pools.gsat;
  const label=type==='ast'?'指考':'學測';
