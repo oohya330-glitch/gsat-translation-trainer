@@ -2173,6 +2173,38 @@ textarea {
   }
 }
 
+/* 平板橫式：即使 A+，年份卡片兩顆按鈕仍固定同一列 */
+@media (min-width:901px) and (max-width:1200px) and (orientation:landscape){
+  #homeView .year-actions{
+    display:flex !important;
+    flex-direction:row !important;
+    flex-wrap:nowrap !important;
+    justify-content:center !important;
+    align-items:center !important;
+    gap:8px !important;
+  }
+  #homeView .year-actions button{
+    width:auto !important;
+    flex:0 0 auto !important;
+    font-size:18px !important;
+    padding:7px 10px !important;
+    white-space:nowrap !important;
+  }
+}
+
+/* 平板直式：年份卡片兩顆按鈕上下排列、等寬、置中 */
+@media (min-width:701px) and (max-width:900px) and (orientation:portrait){
+  #homeView .year-actions{
+    justify-content:center !important;
+  }
+  #homeView .year-actions button{
+    width:8em !important;
+    min-width:8em !important;
+    max-width:100% !important;
+    text-align:center !important;
+  }
+}
+
 </style>
 
 <style id="v85-home-year-collapse">
