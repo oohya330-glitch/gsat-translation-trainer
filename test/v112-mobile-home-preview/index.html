@@ -2170,6 +2170,21 @@ textarea {
     white-space:nowrap !important;
   }
 }
+
+/* 平板測試：年份卡片內「開始練寫／題目與答案」上下排列並整組置中 */
+@media (min-width:601px) and (max-width:900px){
+  .year-card .year-actions{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+  }
+  .year-card .year-actions button{
+    width:auto !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+}
 </style>
 
 <style id="v85-home-year-collapse">
