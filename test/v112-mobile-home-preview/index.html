@@ -2171,16 +2171,36 @@ textarea {
   }
 }
 
-/* 平板測試：年份卡片內「開始練寫／題目與答案」上下排列並整組置中 */
+/* 平板測試：直式與橫式都固定讓年份卡片兩顆按鈕上下排列、整組置中 */
+/* 平板直式／較窄視窗 */
 @media (min-width:601px) and (max-width:900px){
-  .year-card .year-actions{
+  #homeView .year-card .year-actions{
     display:flex !important;
     flex-direction:column !important;
     align-items:center !important;
     justify-content:flex-start !important;
+    gap:8px !important;
   }
-  .year-card .year-actions button{
+  #homeView .year-card .year-actions button{
     width:auto !important;
+    max-width:100% !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+}
+
+/* 平板橫式：涵蓋常見 iPad 橫向 CSS viewport */
+@media (min-width:901px) and (max-width:1200px) and (orientation:landscape){
+  #homeView .year-card .year-actions{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    gap:8px !important;
+  }
+  #homeView .year-card .year-actions button{
+    width:auto !important;
+    max-width:100% !important;
     margin-left:auto !important;
     margin-right:auto !important;
   }
