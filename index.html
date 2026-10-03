@@ -997,7 +997,8 @@ textarea {
 /* 手機：不硬塞 2×2；導覽緊湊但維持觸控尺寸 */
 @media (max-width:640px){
   .practice-head{
-    padding:10px 12px !important;  }
+    padding:10px 12px !important;
+  }
   .practice-head h2,
   .practice-head h3{
     font-size:1.12em !important;
@@ -1996,7 +1997,8 @@ textarea {
   }
 
   /* 複習清單／練習紀錄空白狀態：依語意分行，不改卡片尺寸與按鈕 */
-  .empty-mistakes span,  .empty-records span{
+  .empty-mistakes span,
+  .empty-records span{
     display:block;
     max-width:100%;
     margin-left:auto;
@@ -2128,6 +2130,22 @@ textarea {
   .older-years-toggle-wrap{margin-top:13px;}
 }
 </style>
+
+<style>
+/* v105：所有年份選項卡自然換行時，續行對齊選項正文，不對齊 A/B/C/D 標號。 */
+.option{
+  display:grid;
+  grid-template-columns:1.55em minmax(0,1fr);
+  align-items:start;
+  column-gap:0;
+}
+.option-label{grid-column:1;white-space:nowrap;}
+.option-text{grid-column:2;min-width:0;}
+
+</style>
+
+
+
 </head>
 <body>
 <div class="wrap">
@@ -2230,7 +2248,15 @@ textarea {
         <div id="olderYearsGrid" class="year-grid" hidden></div>
       </div>
       <div id="astPanel" class="exam-panel hidden">
-        <div class="coming"><strong>指考歷屆翻譯</strong><br>題目整理中，之後可逐年加入。</div>
+        <div class="year-grid">
+          <div class="year-card available">
+            <strong>108 指考</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(10801)">開始練寫</button>
+              <button onclick="showAnswers(10801)">題目與答案</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="home-function-zone">
@@ -2330,8 +2356,8 @@ textarea {
     <div class="year-head practice-head">
       <strong id="practiceYearTitle">114 學測中譯英</strong>
       <div class="qnav">
-        <button id="qb1" class="active" onclick="showQ(1)">第 1 題</button>
-        <button id="qb2" onclick="showQ(2)">第 2 題</button>
+        <button id="qb1" class="active" onclick="routeQuestionNav(1)">第 1 題</button>
+        <button id="qb2" onclick="routeQuestionNav(2)">第 2 題</button>
       </div>
     </div>
     <div id="app"></div>
@@ -2351,6 +2377,7 @@ textarea {
    僅調整選項順序與正解索引，不更動題目內容、版面、功能或學習流程。 */
 /* v75 確認版：以 v74 正式母版為唯一基礎，只新增 109 學測兩題、109 首頁年份卡與隨機年份；其餘既有功能與版面保留。 */
 /* v76 確認版：以 v75 正式母版為唯一基礎，只新增 108 學測兩題、108 首頁年份卡與隨機年份；其餘既有功能與版面保留。 */
+/* v102 確認版：以 v101 新正式母版為唯一基礎，新增 108 指考兩題至「指考」頁籤；保留兩個參考譯法，並適度補充官方可接受替代表達；既有學測內容與版面不改。 */
 /* v79 確認版：以 v76 正式母版為唯一基礎新增 107；107 採四階段「句子架構→關鍵表達→整合練習→自己翻譯」，每階段皆有實際操作，不新增複選功能；既有 108～114 不改。 */
 const allData={
 114:{
@@ -2791,10 +2818,71 @@ refs:[`Jade Mountain is often covered with thick snow in winter, making the enti
 `<h3>關鍵表達</h3><h4 style="margin-bottom:6px;color:var(--green)">另外取得</h4><div class="skeleton"><strong>has always been</strong> = 一直是<br><strong>one of the most difficult challenges</strong> = 最困難的挑戰之一</div><div class="key-card"><h4>國內外登山者</h4><div class="task-intro"><span>下列哪一個「不適合」用來表達「國內外登山者」？</span></div>${opts(['mountain climbers at home and abroad','local and foreign mountain climbers','domestic and foreign mountain climbers','mountain climbers inside and outside'],3,2)}</div>`,
 `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">one of the most difficult challenges</button><button class="chip" onclick="addChip(this)">for mountain climbers at home and abroad</button><button class="chip" onclick="addChip(this)">Conquering Jade Mountain</button><button class="chip" onclick="addChip(this)">has always been</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Conquering Jade Mountain has always been one of the most difficult challenges for mountain climbers at home and abroad')">提交</button></div><div id="fb" class="feedback"></div>`,write(106,2)],
 refs:[`Conquering Jade Mountain has always been one of the most difficult challenges for mountain climbers at home and abroad.`,`Conquering Jade Mountain has always been one of the toughest challenges for local and foreign mountain climbers.`],take:'conquer + a mountain　征服／成功攀登一座山　／　at home and abroad　在國內外',hint:'<b>V-ing ...</b><br><b>has always been ...</b><br><b>one of the + 最高級 + 複數名詞</b>',ext:[['適應新的學習環境，對許多學生來說是一大挑戰。','Adapting to a new learning environment is a major challenge for many students.','', '<b>adapt to ...</b><br><b>V-ing ... + be a major challenge for ...</b>']]}
+},
+10801:{
+  1:{
+    cn:'創意布條最近在夜市成了有效的廣告工具，也刺激了買氣的成長。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「創意布條最近……成了……」最適合使用哪個英文架構？</span></div>
+       ${opts(['Creative banners have recently become ...','Creative banners recently became ...','Creative banners are recently becoming ...'],0,1)}
+       <div class="skeleton post-answer-note"><span class="small">句子架構可以先想成：</span><br><strong>Creative banners + have recently become + N.</strong><p class="small" style="margin-bottom:0"><b>have recently become</b> 可表達「最近已成為」，把過去的變化連到現在。</p></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-card"><h4>刺激買氣的成長</h4><p class="small"><b>下列哪一個英文表達不適合？</b></p>${opts(['stimulate sales','boost sales','promote sales','inspire sales'],3,1)}<p class="post-answer-note"><b>stimulate / increase / boost / promote sales</b> 都可表達「刺激／提升買氣」。</p></div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">and have boosted sales.</button><button class="chip" onclick="addChip(this)">Creative banners</button><button class="chip" onclick="addChip(this)">effective advertising tools at night markets</button><button class="chip" onclick="addChip(this)">have recently become</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Creative banners have recently become effective advertising tools at night markets and have boosted sales.')">提交</button></div><div id="fb" class="feedback"></div>`,
+      write(10801,1)
+    ],
+    refs:[
+      `Creative banners have recently become effective advertising tools at night markets and have boosted sales.`,
+      `Innovative banners have lately become effective advertising tools in night markets, causing sales to rise.`
+    ],
+    take:'<b>creative / inventive / innovative banners</b>　創意布條<br><b>have recently become ...</b>　最近已成為……<br><b>stimulate / increase / boost / promote sales</b>　刺激／提升買氣',
+    hint:'<b>have recently become ...</b><br><b>boost sales</b>',
+    ext:[
+      ['社群媒體近年已成為有效的行銷工具，也幫助許多小型企業提升銷售。',['Social media has recently become an effective marketing tool and has helped many small businesses increase their sales.','In recent years, social media has become an effective marketing tool, helping many small businesses boost their sales.'],'','<b>have/has recently become ...</b><br><b>increase / boost sales</b>']
+    ]
+  },
+  2:{
+    cn:'其中有些看似無意義，但卻相當引人注目，且常能帶給人們會心的一笑。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「其中有些看似無意義」下列哪一個英文表達不適合？</span></div>
+       ${opts(['Some of them seem meaningless.','Some of them appear meaningless.','Some of them look meaningless.','Some of them look like meaningless.'],3,2)}
+       <div class="skeleton post-answer-note"><span class="small">句子架構可以先想成：</span><br><strong>Some of them + seem / appear / look + adj.</strong><p style="margin-bottom:0"><b>seem / appear / look + adj.</b> 都可表達「看似……」；也可說 <b>appear to be meaningless</b>。</p></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-card"><h4>帶給人們會心的一笑</h4><p class="small"><b>下列哪一個英文表達不適合？</b></p>${opts(['bring people a knowing smile','give people an understanding smile','make people smile knowingly','bring people a meaningful smile'],3,3)}<p class="post-answer-note"><b>knowing / approving / understanding smile</b> 都可表達「會心的一笑」；也可說 <b>make people smile knowingly</b>。</p></div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">and often bring people a knowing smile.</button><button class="chip" onclick="addChip(this)">Some of them seem meaningless,</button><button class="chip" onclick="addChip(this)">but they are quite eye-catching</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Some of them seem meaningless, but they are quite eye-catching and often bring people a knowing smile.')">提交</button></div><div id="fb" class="feedback"></div>`,
+      write(10801,2)
+    ],
+    refs:[
+      `Some of them seem meaningless, but they are quite eye-catching and often bring people a knowing smile.`,
+      `Some of them appear to be meaningless, but they are rather eye-catching and often make people smile knowingly.`
+    ],
+    take:'<b>seem / appear (to be) / look + adj.</b>　看似……<br><b>quite / rather eye-catching</b>　相當引人注目<br><b>a knowing / approving / understanding smile</b>　會心的一笑<br><b>make / cause people smile knowingly</b>　使人會心一笑',
+    hint:'<b>Some of them ..., but ...</b><br><b>a knowing smile</b>',
+    ext:[
+      ['有些廣告看似簡單，但相當引人注目，常能讓人會心一笑。',['Some advertisements seem simple, but they are quite eye-catching and often make people smile knowingly.','Some advertisements appear simple, but they are rather eye-catching and often bring people a knowing smile.'],'','<b>seem / appear + adj.</b><br><b>quite / rather eye-catching</b><br><b>smile knowingly / a knowing smile</b>']
+    ]
+  }
 }
 };
 
 let currentYear=114,q=1,step=0,fs=18;
+let practiceMode='question';
+
+function routeQuestionNav(n){
+  if(practiceMode==='extension'){
+    showExtensionPage(n);
+  }else{
+    showQ(n);
+  }
+}
+
+function isAstYear(y){return Number(y)===10801;}
+function displayYear(y){return isAstYear(y)?108:Number(y);}
+function examTypeName(y){return isAstYear(y)?'指考':'學測';}
+function examLabel(y){return displayYear(y)+' '+examTypeName(y);}
+function practiceTitle(y,suffix){return examLabel(y)+(suffix||'中譯英');}
 
 function data(){return allData[currentYear]}
 function opts(a,ans,targetOverride){
@@ -2817,7 +2905,7 @@ function opts(a,ans,targetOverride){
  const ordered=items.filter(x=>!x.correct);
  ordered.splice(target,0,correct);
  return `<div class="options-grid option-count-${a.length}" data-target-pos="${target}" data-choice-seq="${seq}">`+
-   ordered.map((x,i)=>`<button class="option" data-correct="${x.correct?'1':'0'}" data-answer="${escapeHtml(a[ans])}" onclick="choose(this,${x.correct})">${String.fromCharCode(65+i)}. <b>${x.text}</b></button>`).join('')+
+   ordered.map((x,i)=>`<button class="option" data-correct="${x.correct?'1':'0'}" data-answer="${escapeHtml(a[ans])}" onclick="choose(this,${x.correct})"><span class="option-label">${String.fromCharCode(65+i)}.</span><b class="option-text">${x.text}</b></button>`).join('')+
    `</div>`;
 }
 function write(y,n){
@@ -2842,7 +2930,7 @@ function showAnswers(y){
  currentYear=y;
  const d=allData[y];
  document.getElementById('answerContent').innerHTML=`
-   <h2 style="margin-top:0;color:var(--green)">${y} 學測　題目與答案</h2>
+   <h2 style="margin-top:0;color:var(--green)">${examLabel(y)}　題目與答案</h2>
    <p class="small">以下譯文供學習參考。翻譯不只有一種正確寫法；參考譯法以大考中心公布資料與可接受表達為主要依據。</p>
    ${[1,2].map((n,i)=>`
      ${i?'<hr style="border:0;border-top:1px solid var(--line)">':''}
@@ -2866,7 +2954,7 @@ function enterYear(y){
  ['recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
  document.getElementById('answerView').classList.add('hidden');
  document.getElementById('practiceView').classList.remove('hidden');
- document.getElementById('practiceYearTitle').textContent=y+' 學測中譯英';
+ document.getElementById('practiceYearTitle').textContent=practiceTitle(y,'中譯英');
  q=1;step=0;showQ(1);
  window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -2895,7 +2983,7 @@ function randomYear(){
 }
 function render(){
  let d=data()[q];
- document.getElementById('practiceYearTitle').textContent=currentYear+' 學測中譯英';
+ document.getElementById('practiceYearTitle').textContent=practiceTitle(currentYear,'中譯英');
  document.getElementById('app').innerHTML=`
  <div class="card stage-nav-card">
    <div class="steps">${d.steps.map((s,i)=>`<button class="${i===step?'active':''}" onclick="go(${i})">${i+1}. ${s}</button>`).join('')}<button class="extension-entry" onclick="showExtensionPage(q)">延伸題目</button></div>
@@ -2916,7 +3004,7 @@ function render(){
      <button onclick="showQ(2)">練第 2 題 →</button>
    </div>
  </div>` : `<div class="finish-box">
-   <strong>${currentYear} 學測兩題練習完成</strong>
+   <strong>${examLabel(currentYear)}兩題練習完成</strong>
    <div class="finish-actions">
      <button onclick="prevPage()">← 上一頁</button>
      <button onclick="goHome()">回首頁</button>
@@ -2939,6 +3027,7 @@ function render(){
  if(typeof normalizeOptionPositions==='function')normalizeOptionPositions();
 }
 function showQ(n){
+ practiceMode='question';
  q=n;step=0;
  document.getElementById('qb1').classList.toggle('active',n===1);
  document.getElementById('qb2').classList.toggle('active',n===2);
@@ -2995,7 +3084,8 @@ function resetChips(){
 }
 function checkBuild(ans){
  const got=[...document.querySelectorAll('#build .chip')].map(x=>x.textContent).join(' ');
- const ok=got===ans; document.getElementById('fb').textContent=ok?'排列正確。':'再調整一下順序。';
+ const ok=got===ans;
+ document.getElementById('fb').textContent=ok?'排列正確。':'再調整一下順序。';
  if(typeof recordBuildAttempt==='function')recordBuildAttempt(ok,ans);
 }
 function toggleHint(){
@@ -3014,9 +3104,12 @@ function extRefs(e){return Array.isArray(e[1])?e[1]:[e[1]];}
 function extRefsHtml(e){
  const rs=extRefs(e);
  return rs.map((r,i)=>rs.length>1
-   ? `<div class="ref-answer numbered-ref"><span class="ref-num">${i+1}.</span><span class="ref-text">${r}</span></div>`
-   : `<div class="ref-answer">${r}</div>`
+   ? `<p class="ref-answer numbered-ref"><span class="ref-num">${i+1}.</span><span class="ref-text">${r}</span></p>`
+   : `<p class="ref-answer">${r}</p>`
  ).join('');
+}
+function extRefsHeading(e){
+ return '<b>參考譯法</b><br>';
 }
 function toggleExtHint(id){let x=document.getElementById(id);if(x)x.style.display=x.style.display==='block'?'none':'block';}
 function extensionPanel(){
@@ -3030,14 +3123,16 @@ function extensionPanel(){
      <textarea id="ex${i}" placeholder="先自己寫寫看。"></textarea>
      <div class="actions">${e[3]?`<button onclick="toggleExtHint(\'exhint${i}\')">需要提示</button>`:''}<button onclick="toggleExtAnswer(${i})">查看參考答案</button></div>
      ${e[3]?`<div id="exhint${i}" class="hint">${e[3]}</div>`:''}
-     <div id="exa${i}" class="hint"><b>參考譯法</b><br>${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
+     <div id="exa${i}" class="hint">${extRefsHeading(e)}${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
    </div>`).join('')}
  </div>`;
 }
 
 function showExtensionPage(n){
+  practiceMode='extension';
+  q=n;
   const d=data()[n];
-  document.getElementById('practiceYearTitle').textContent=currentYear+' 學測延伸挑戰';
+  document.getElementById('practiceYearTitle').textContent=practiceTitle(currentYear,'延伸挑戰');
   document.getElementById('qb1').classList.toggle('active',n===1);
   document.getElementById('qb2').classList.toggle('active',n===2);
   document.getElementById('app').innerHTML=`
@@ -3052,7 +3147,7 @@ function showExtensionPage(n){
           <textarea id="yex${n}_${i}" placeholder="先自己寫寫看。"></textarea>
           <div class="actions">${e[3]?`<button onclick="toggleExtHint(\'yexhint${n}_${i}\')">需要提示</button>`:''}<button onclick="toggleYearExtAnswer(${n},${i})">查看參考答案</button></div>
           ${e[3]?`<div id="yexhint${n}_${i}" class="hint">${e[3]}</div>`:''}
-          <div id="yexa${n}_${i}" class="hint"><b>參考譯法</b><br>${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
+          <div id="yexa${n}_${i}" class="hint">${extRefsHeading(e)}${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
         </div>`).join('')}
       <div class="complete-confirm extension-complete-confirm">
         <button id="extCompleteBtn" type="button" onclick="confirmExtensionComplete(${n})">✓ 完成延伸題</button>
@@ -3079,13 +3174,14 @@ function toggleYearExtAnswer(n,i){
   if(x)x.style.display=x.style.display==='block'?'none':'block';
 }
 function returnToQuestion(n){
-  document.getElementById('practiceYearTitle').textContent=currentYear+' 學測中譯英';
+  document.getElementById('practiceYearTitle').textContent=practiceTitle(currentYear,'中譯英');
   showQ(n);
 }
 
 function backToQ2Translation(){
+  practiceMode='question';
   q=2;step=3;
-  document.getElementById('practiceYearTitle').textContent=currentYear+' 學測中譯英';
+  document.getElementById('practiceYearTitle').textContent=practiceTitle(currentYear,'中譯英');
   document.getElementById('qb1').classList.remove('active');
   document.getElementById('qb2').classList.add('active');
   render();
@@ -3111,7 +3207,7 @@ function writeMistakes(items){try{localStorage.setItem(MISTAKE_KEY,JSON.stringif
 function getCurrentMistake(){
   const d=allData[currentYear]&&allData[currentYear][q];
   if(!d)return null;
-  return {id:currentYear+'-'+q,year:currentYear+' 學測',yearNum:currentYear,q:q,zh:d.cn};
+  return {id:currentYear+'-'+q,year:examLabel(currentYear),yearNum:currentYear,q:q,zh:d.cn};
 }
 function isSavedMistake(){
   const cur=getCurrentMistake();return !!cur&&readMistakes().some(x=>x.id===cur.id);
@@ -3157,12 +3253,13 @@ function renderMistakes(){
 }
 function removeMistake(id){writeMistakes(readMistakes().filter(x=>x.id!==id));renderMistakes()}
 function practiceMistake(y,num){
+  practiceMode='question';
   document.getElementById('mistakeView').classList.add('hidden');
   document.getElementById('homeView').classList.add('hidden');
   document.getElementById('answerView').classList.add('hidden');
   document.getElementById('practiceView').classList.remove('hidden');
   currentYear=y;q=num;step=3;
-  document.getElementById('practiceYearTitle').textContent=y+' 學測中譯英';
+  document.getElementById('practiceYearTitle').textContent=practiceTitle(y,'中譯英');
   document.getElementById('qb1').classList.toggle('active',num===1);
   document.getElementById('qb2').classList.toggle('active',num===2);
   render();window.scrollTo({top:0,behavior:'smooth'});
@@ -3181,7 +3278,7 @@ function getRecordName(){try{return localStorage.getItem(RECORD_NAME_KEY)||''}ca
 function todayString(){const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()} / ${p(d.getMonth()+1)} / ${p(d.getDate())}`}
 function yearRecords(y){return readRecords().filter(r=>Number(r.year)===Number(y)).sort((a,b)=>(b.created||0)-(a.created||0))}
 function updateYearRecordLimitIndicators(){
-  document.querySelectorAll('#gsatPanel .year-card.available').forEach(card=>{
+  document.querySelectorAll('#gsatPanel .year-card.available, #astPanel .year-card.available').forEach(card=>{
     const b=card.querySelector('.year-actions button.primary');
     if(!b)return;
     const m=(b.getAttribute('onclick')||'').match(/enterYear\((\d+)\)/);
@@ -3189,11 +3286,11 @@ function updateYearRecordLimitIndicators(){
     const y=Number(m[1]),full=yearRecords(y).length>=3;
     b.textContent=full?'開始練寫 · 紀錄已滿':'開始練寫';
     b.classList.toggle('record-full',full);
-    b.title=full?`${y} 學測已有 3 筆練習紀錄；仍可繼續練習，但若要留下新紀錄，請先刪除其中一筆。`:'';
+    b.title=full?`${examLabel(y)}已有 3 筆練習紀錄；仍可繼續練習，但若要留下新紀錄，請先刪除其中一筆。`:'';
   });
 }
 function recordLimitMessage(y){
-  alert(`${y} 學測已有 3 筆練習紀錄。若要留下新的練習紀錄，請先到「練習紀錄」刪除其中一筆。你仍然可以繼續練習。`);
+  alert(`${examLabel(y)}已有 3 筆練習紀錄。若要留下新的練習紀錄，請先到「練習紀錄」刪除其中一筆。你仍然可以繼續練習。`);
 }
 function startNewPracticeAttempt(y){
   delete activeAttemptByYear[y];
@@ -3325,7 +3422,7 @@ function renderRecords(){
   const years=[...new Set(items.map(r=>r.year))].sort((a,b)=>b-a);
   box.innerHTML=years.map(y=>{
     const rows=items.filter(r=>r.year===y).sort((a,b)=>(b.created||0)-(a.created||0));
-    return `<div class="record-year-group"><div class="record-year-head"><h3>${y} 學測</h3><button type="button" onclick="clearYearRecords(${y})">清除此年份</button></div>${rows.map((r,i)=>`
+    return `<div class="record-year-group"><div class="record-year-head"><h3>${examLabel(y)}</h3><button type="button" onclick="clearYearRecords(${y})">清除此年份</button></div>${rows.map((r,i)=>`
       <div class="record-row"><div><h3>第 ${rows.length-i} 次練習</h3><p>${r.date}</p><p>第 1 題 ${r.q1?'✓ 已完成':'尚未完成'}　　第 2 題 ${r.q2?'✓ 已完成':'尚未完成'}</p><p>這次可以再複習：${(r.review||[]).length?(r.review||[]).map(escapeHtml).join('、'):'目前沒有新增複習重點'}</p></div><div class="record-row-actions"><button type="button" onclick="showRecordCard('${r.id}')">產生紀錄卡</button><button type="button" onclick="deleteRecord('${r.id}')">刪除紀錄</button></div></div>`).join('')}</div>`
   }).join('');
 }
@@ -3335,7 +3432,7 @@ function deleteRecord(id){
   if(r&&activeAttemptByYear[r.year]===id)delete activeAttemptByYear[r.year];renderRecords();
 }
 function clearYearRecords(y){
-  if(!confirm(`確定要清除 ${y} 學測的所有練習紀錄嗎？清除後無法復原。`))return;
+  if(!confirm(`確定要清除 ${examLabel(y)}的所有練習紀錄嗎？清除後無法復原。`))return;
   writeRecords(readRecords().filter(x=>x.year!==y));delete activeAttemptByYear[y];renderRecords();
 }
 function clearAllRecords(){
@@ -3357,14 +3454,14 @@ function clearStoredRecordName(){try{localStorage.removeItem(RECORD_NAME_KEY)}ca
 function editRecordName(){const p=document.getElementById('recordNamePrompt'),el=document.getElementById('recordNameCard');p.classList.remove('hidden');if(el)el.value=getRecordName()}
 function renderRecordCard(id){
   const r=readRecords().find(x=>x.id===id);if(!r)return;const name=getRecordName(),review=r.review||[];
-  document.getElementById('recordCard').innerHTML=`<div class="rc-brand">歷屆翻譯練寫器</div><h2>${r.year} 學測　練習紀錄</h2><div class="rc-meta"><div><strong>姓名／暱稱</strong>　${name?escapeHtml(name):'—'}</div><div><strong>完成日期</strong>　${r.date}</div></div><div class="rc-status"><div>第 1 題　${r.q1?'✓ 已完成':'—'}</div><div>第 2 題　${r.q2?'✓ 已完成':'—'}</div><div>第 1 題延伸　${r.ext1?'✓ 已完成':'—'}</div><div>第 2 題延伸　${r.ext2?'✓ 已完成':'—'}</div></div><div class="rc-review"><strong>這次可以再複習</strong>${review.length?review.map(x=>`<div>${escapeHtml(x)}</div>`).join(''):'<div>目前沒有新增複習重點</div>'}</div><div class="rc-foot">Lulu Wu · 歷屆翻譯練寫器</div>`;
+  document.getElementById('recordCard').innerHTML=`<div class="rc-brand">歷屆翻譯練寫器</div><h2>${examLabel(r.year)}　練習紀錄</h2><div class="rc-meta"><div><strong>姓名／暱稱</strong>　${name?escapeHtml(name):'—'}</div><div><strong>完成日期</strong>　${r.date}</div></div><div class="rc-status"><div>第 1 題　${r.q1?'✓ 已完成':'—'}</div><div>第 2 題　${r.q2?'✓ 已完成':'—'}</div><div>第 1 題延伸　${r.ext1?'✓ 已完成':'—'}</div><div>第 2 題延伸　${r.ext2?'✓ 已完成':'—'}</div></div><div class="rc-review"><strong>這次可以再複習</strong>${review.length?review.map(x=>`<div>${escapeHtml(x)}</div>`).join(''):'<div>目前沒有新增複習重點</div>'}</div><div class="rc-foot">Lulu Wu · 歷屆翻譯練寫器</div>`;
 }
 function recordCardCanvas(){
   const r=readRecords().find(x=>x.id===activeRecordId);if(!r)return null;const name=getRecordName(),review=r.review||[];
-  const c=document.createElement('canvas');c.width=1200;c.height=900;const x=c.getContext('2d');x.fillStyle='#fffdf8';x.fillRect(0,0,c.width,c.height);x.fillStyle='#315f43';x.textAlign='center';x.font='700 34px "Microsoft YaHei",sans-serif';x.fillText('歷屆翻譯練寫器',600,78);x.fillStyle='#26362c';x.font='700 48px "Microsoft YaHei",sans-serif';x.fillText(`${r.year} 學測  練習紀錄`,600,145);x.textAlign='left';x.font='28px "Microsoft YaHei",sans-serif';x.fillText(`姓名／暱稱：${name||'—'}`,100,220);x.fillText(`完成日期：${r.date}`,680,220);x.strokeStyle='#d9e1da';x.beginPath();x.moveTo(100,255);x.lineTo(1100,255);x.stroke();x.font='30px "Microsoft YaHei",sans-serif';x.fillText(`第 1 題    ${r.q1?'✓ 已完成':'—'}`,120,325);x.fillText(`第 2 題    ${r.q2?'✓ 已完成':'—'}`,650,325);x.fillText(`第 1 題延伸    ${r.ext1?'✓ 已完成':'—'}`,120,385);x.fillText(`第 2 題延伸    ${r.ext2?'✓ 已完成':'—'}`,650,385);x.fillStyle='#f2f7f2';x.fillRect(100,450,1000,240);x.fillStyle='#26362c';x.font='700 30px "Microsoft YaHei",sans-serif';x.fillText('這次可以再複習',135,505);x.font='28px "Microsoft YaHei",sans-serif';const lines=review.length?review:['目前沒有新增複習重點'];lines.slice(0,4).forEach((s,i)=>x.fillText('• '+s,145,560+i*48));x.textAlign='center';x.fillStyle='#657269';x.font='24px "Microsoft YaHei",sans-serif';x.fillText('Lulu Wu · 歷屆翻譯練寫器',600,820);return c;
+  const c=document.createElement('canvas');c.width=1200;c.height=900;const x=c.getContext('2d');x.fillStyle='#fffdf8';x.fillRect(0,0,c.width,c.height);x.fillStyle='#315f43';x.textAlign='center';x.font='700 34px "Microsoft YaHei",sans-serif';x.fillText('歷屆翻譯練寫器',600,78);x.fillStyle='#26362c';x.font='700 48px "Microsoft YaHei",sans-serif';x.fillText(`${examLabel(r.year)}  練習紀錄`,600,145);x.textAlign='left';x.font='28px "Microsoft YaHei",sans-serif';x.fillText(`姓名／暱稱：${name||'—'}`,100,220);x.fillText(`完成日期：${r.date}`,680,220);x.strokeStyle='#d9e1da';x.beginPath();x.moveTo(100,255);x.lineTo(1100,255);x.stroke();x.font='30px "Microsoft YaHei",sans-serif';x.fillText(`第 1 題    ${r.q1?'✓ 已完成':'—'}`,120,325);x.fillText(`第 2 題    ${r.q2?'✓ 已完成':'—'}`,650,325);x.fillText(`第 1 題延伸    ${r.ext1?'✓ 已完成':'—'}`,120,385);x.fillText(`第 2 題延伸    ${r.ext2?'✓ 已完成':'—'}`,650,385);x.fillStyle='#f2f7f2';x.fillRect(100,450,1000,240);x.fillStyle='#26362c';x.font='700 30px "Microsoft YaHei",sans-serif';x.fillText('這次可以再複習',135,505);x.font='28px "Microsoft YaHei",sans-serif';const lines=review.length?review:['目前沒有新增複習重點'];lines.slice(0,4).forEach((s,i)=>x.fillText('• '+s,145,560+i*48));x.textAlign='center';x.fillStyle='#657269';x.font='24px "Microsoft YaHei",sans-serif';x.fillText('Lulu Wu · 歷屆翻譯練寫器',600,820);return c;
 }
-function downloadRecordImage(){const c=recordCardCanvas();if(!c)return;const a=document.createElement('a');a.download=`${activeRecordId}_學測練習紀錄.png`;a.href=c.toDataURL('image/png');a.click()}
-async function shareRecordImage(){const c=recordCardCanvas(),status=document.getElementById('recordShareStatus');if(!c)return;const blob=await new Promise(res=>c.toBlob(res,'image/png'));const file=new File([blob],`${activeRecordId}_學測練習紀錄.png`,{type:'image/png'});try{if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'歷屆翻譯練寫器 練習紀錄'});if(status)status.textContent='已開啟裝置分享功能。'}else{downloadRecordImage();if(status)status.textContent='此瀏覽器不支援直接分享圖片，已改為產生 PNG 圖片。'}}catch(e){if(status&&e.name!=='AbortError')status.textContent='分享未完成，你仍可使用「儲存紀錄圖片」。'}}
+function downloadRecordImage(){const c=recordCardCanvas();if(!c)return;const a=document.createElement('a'),r=readRecords().find(x=>x.id===activeRecordId);a.download=`${activeRecordId}_${r&&isAstYear(r.year)?'指考':'學測'}練習紀錄.png`;a.href=c.toDataURL('image/png');a.click()}
+async function shareRecordImage(){const c=recordCardCanvas(),status=document.getElementById('recordShareStatus');if(!c)return;const blob=await new Promise(res=>c.toBlob(res,'image/png'));const r=readRecords().find(x=>x.id===activeRecordId),file=new File([blob],`${activeRecordId}_${r&&isAstYear(r.year)?'指考':'學測'}練習紀錄.png`,{type:'image/png'});try{if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'歷屆翻譯練寫器 練習紀錄'});if(status)status.textContent='已開啟裝置分享功能。'}else{downloadRecordImage();if(status)status.textContent='此瀏覽器不支援直接分享圖片，已改為產生 PNG 圖片。'}}catch(e){if(status&&e.name!=='AbortError')status.textContent='分享未完成，你仍可使用「儲存紀錄圖片」。'}}
 window.addEventListener('DOMContentLoaded',()=>{updateMistakeCount();updateRecordCount();updateYearRecordLimitIndicators();const originalRender=render;window.render=function(){const out=originalRender.apply(this,arguments);setTimeout(addMistakeButton,0);return out}});
 
 </script>
