@@ -2262,10 +2262,14 @@ textarea {
     <div class="home-function-zone">
       <div class="home-function-zone-title">功能區</div>
       <div class="home-function-grid">
-        <div class="home-function-card random-card" role="button" tabindex="0" onclick="randomYear()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();randomYear();}">
+        <div class="home-function-card random-card">
           <div class="home-function-icon random"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="9" width="30" height="30" rx="7"/><circle class="solid-green" cx="17" cy="17" r="2.3"/><circle class="solid-green" cx="31" cy="17" r="2.3"/><circle class="solid-green" cx="24" cy="24" r="2.3"/><circle class="solid-green" cx="17" cy="31" r="2.3"/><circle class="solid-green" cx="31" cy="31" r="2.3"/></svg></div>
           <strong>隨機挑一回</strong>
-          <span>不知道今天練哪一回？交給系統幫你選。</span>
+          <span>先選學測或指考，再交給系統幫你挑一回。</span>
+          <div class="random-actions random-type-actions">
+            <button type="button" class="random-start" onclick="randomYear('gsat')">學測</button>
+            <button type="button" class="random-again" onclick="randomYear('ast')">指考</button>
+          </div>
           <div id="randomResult" class="random-result"></div>
         </div>
         <button class="home-function-card" type="button" onclick="openMistakes()">
@@ -2435,7 +2439,7 @@ const allData={
       `Amazing objects that appeared in science fiction movies in the past are now becoming reality one by one.`,
       `Amazing things once seen in science fiction movies are now becoming reality one by one.`
     ],
-    take:'become reality　成真　／　one by one　逐一',
+    take:'become reality　成真<br>one by one　逐一',
     hint:'<b>become reality</b><br><b>one by one</b>',
     ext:[
       ['隨著科技進步，許多過去看似不可能的想法正在成真。','With advances in technology, many ideas that once seemed impossible are coming true.'],
@@ -2537,7 +2541,7 @@ contents:[
 `<div class="task-intro"><strong>整合練習：</strong><span>把後半部排成自然的英文。</span></div><div class="skeleton"><strong>... should be + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">by all human beings</button><button class="chip" onclick="addChip(this)">pursued</button><button class="chip" onclick="addChip(this)">the goal</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('the goal pursued by all human beings')">提交</button></div><div id="fb" class="feedback"></div>`,
 write(112,2)],
 refs:[`Avoiding conflicts and ensuring world peace should be the goal pursued by all human beings.`,`To avoid conflicts and ensure world peace should be a goal for all humanity to pursue.`],
-take:'avoid + N / V-ing　避免……　／　ensure + N　確保……',
+take:'avoid + N / V-ing　避免……<br>ensure + N　確保……',
 hint:'<b>avoid conflicts / ensure world peace</b><br><b>pursue a goal</b>',
 ext:[['減少浪費、保護環境應該是每個人共同追求的目標。',['Reducing waste and protecting the environment should be goals for everyone to pursue.','Reducing waste and protecting the environment should be goals pursued by everyone.']],['政府應採取措施避免衝突並確保公共安全。',['The government should take measures to avoid conflict and ensure public safety.','The government should take measures to avoid conflicts and ensure public safety.'],'<b>conflict</b> 泛指「衝突」；<b>conflicts</b> 指不同或多次的衝突，兩者皆可。']]
 }
@@ -2552,7 +2556,7 @@ contents:[
 `<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>短暫的人生體驗</h4>${opts(['a short-term life experience','a short life-term experience','a briefly life experience','a short-term living experience'],0)}</div><div class="key-card"><h4>終生承諾</h4>${opts(['a life-long commit','a lifelong commitment','a lifetime committing','a lifelong committing'],1)}</div></div>`,
 write(111,1)],
 refs:[`Keeping a pet is not a short-term life experience but a lifelong commitment to an animal.`,`Having a pet is not a temporary experience in life but a lifelong commitment to the animal.`],
-take:'not A but B　不是 A，而是 B　／　a lifelong commitment　終生承諾',
+take:'not A but B　不是 A，而是 B<br>a lifelong commitment　終生承諾',
 hint:'<b>not A but B</b><br><b>a lifelong commitment</b>',
 ext:[['學習一種語言不是短期任務，而是長期的投入。','Learning a language is not a short-term task but a long-term commitment.'],['養寵物需要時間，也需要長期的承諾。','Keeping a pet takes time and requires a long-term commitment.','', '<b>require</b> = 需要']]
 },
@@ -2565,7 +2569,7 @@ contents:[
 `<div class="task-intro"><strong>整合練習：</strong><span>把主要句子的後半部排成自然的英文。</span></div><div class="skeleton"><strong>we should not + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">to take good care of them</button><button class="chip" onclick="addChip(this)">our responsibility</button><button class="chip" onclick="addChip(this)">neglect</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('neglect our responsibility to take good care of them')">提交</button></div><div id="fb" class="feedback"></div>`,
 write(111,2)],
 refs:[`While enjoying the joy that pets bring us, we should not neglect our responsibility to take good care of them.`,`While enjoying the happiness our pets bring us, we should not forget our responsibility to take care of them well.`],
-take:'while + V-ing　在……的同時　／　take responsibility for + N / V-ing　負起……責任',
+take:'while + V-ing　在……的同時<br>take responsibility for + N / V-ing　負起……責任',
 hint:'<b>neglect / ignore one’s responsibility</b><br><b>take good care of + N</b>',
 ext:[['在享受網路便利的同時，我們不應忽略保護個人資料的責任。','While enjoying the convenience of the Internet, we should not neglect our responsibility to protect personal information.'],['照顧動物需要耐心與責任感。','Taking care of animals requires patience and a sense of responsibility.']]
 }
@@ -2580,7 +2584,7 @@ contents:[
 `<div class="task-intro"><strong>整合練習：</strong><span>把主要內容排成自然的英文。</span></div><div class="skeleton"><strong>According to news reports, + ______ + every year.</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">in road accidents</button><button class="chip" onclick="addChip(this)">over a million people worldwide</button><button class="chip" onclick="addChip(this)">lose their lives</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('over a million people worldwide lose their lives in road accidents')">提交</button></div><div id="fb" class="feedback"></div>`,
 write(110,1)],
 refs:[`According to news reports, over a million people worldwide lose their lives in road accidents every year.`,`According to news reports, more than one million people around the world die in road accidents each year.`],
-take:'according to + N　根據……　／　lose one’s life　喪生',
+take:'according to + N　根據……<br>lose one’s life　喪生',
 hint:'<b>around the world / worldwide</b><br><b>lose one’s life in road accidents</b>',
 ext:[['根據研究，每年有許多人因空氣污染而喪生。','According to research, many people lose their lives because of air pollution every year.'],['世界各地每天都會發生道路事故。','Road accidents occur around the world every day.']]
 },
@@ -2593,7 +2597,7 @@ contents:[
 `<div class="task-intro"><strong>整合練習：</strong><span>把目的表達排成自然的英文。</span></div><div class="skeleton"><strong>Traffic regulations must be strictly enforced + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">of all road users</button><button class="chip" onclick="addChip(this)">the safety</button><button class="chip" onclick="addChip(this)">to ensure</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('to ensure the safety of all road users')">提交</button></div><div id="fb" class="feedback"></div>`,
 write(110,2)],
 refs:[`Therefore, traffic regulations must be strictly enforced to ensure the safety of all road users.`,`Therefore, traffic laws must be strictly enforced in order to ensure the safety of everyone on the road.`],
-take:'must be + p.p.　必須被……　／　to ensure + N　以確保……',
+take:'must be + p.p.　必須被……<br>to ensure + N　以確保……',
 hint:'<b>be strictly enforced</b><br><b>ensure the safety of road users</b>',
 ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。','School safety rules must be strictly enforced to ensure the safety of all students.'],['食品安全標準必須嚴格執行。','Food safety standards must be strictly enforced.']]
 }
@@ -2812,12 +2816,12 @@ refs:[`However, in this fast-changing world, they must learn how to respond to n
 `<div class="task-intro"><strong>句子架構：</strong><span>「玉山……覆蓋著……」主要應採用哪一種結構？</span></div>${opts(['Jade Mountain + be covered ...','Jade Mountain + cover ...','There be ... + Jade Mountain ...'],0,1)}<div class="skeleton post-answer-note"><strong>Jade Mountain + be covered ...</strong></div>`,
 `<h3>關鍵表達</h3><div class="skeleton"><strong>be covered with thick snow</strong> = 覆蓋著厚厚的積雪</div><div class="key-card"><h4>使整個山頂閃耀如玉</h4>${opts(['make the entire peak shine like jade','make the entire peak shines like jade','make the entire peak to shine like jade'],0,2)}</div>`,
 `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的表達重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">making the entire peak shine like jade</button><button class="chip" onclick="addChip(this)">Jade Mountain</button><button class="chip" onclick="addChip(this)">with thick snow in winter</button><button class="chip" onclick="addChip(this)">is often covered</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Jade Mountain is often covered with thick snow in winter making the entire peak shine like jade')">提交</button></div><div id="fb" class="feedback"></div>`,write(106,1)],
-refs:[`Jade Mountain is often covered with thick snow in winter, making the entire peak shine like jade.`,`Jade Mountain is often covered with thick snow in winter, which makes the entire peak shine like jade.`],take:'be covered with thick snow　覆蓋著厚厚的積雪　／　make + O + V　使……做……',hint:'<b>be covered with ...</b><br><b>make + O. + V.</b>',ext:[['城市常常籠罩在厚厚的霧霾中，使居民很難看清遠方的建築物。','The city is often covered with thick smog, making it difficult for residents to see buildings in the distance.','', '<b>be covered with ...</b><br><b>make it + adj. + for + 人 + to V.</b>']]},
+refs:[`Jade Mountain is often covered with thick snow in winter, making the entire peak shine like jade.`,`Jade Mountain is often covered with thick snow in winter, which makes the entire peak shine like jade.`],take:'be covered with thick snow　覆蓋著厚厚的積雪<br>make + O + V　使……做……',hint:'<b>be covered with ...</b><br><b>make + O. + V.</b>',ext:[['城市常常籠罩在厚厚的霧霾中，使居民很難看清遠方的建築物。','The city is often covered with thick smog, making it difficult for residents to see buildings in the distance.','', '<b>be covered with ...</b><br><b>make it + adj. + for + 人 + to V.</b>']]},
 2:{cn:'征服玉山一直是國內外登山者最困難的挑戰之一。',steps:['核心用字','關鍵表達','整合練習','自己翻譯'],contents:[
 `<div class="task-intro"><strong>核心用字：</strong><span>「征服玉山」哪個英文表達最合適？</span></div>${opts(['Conquering Jade Mountain ...','Overcoming Jade Mountain ...','Defeating Jade Mountain ...'],0,0)}<div class="skeleton post-answer-note"><strong>Conquering Jade Mountain ...</strong></div>`,
 `<h3>關鍵表達</h3><h4 style="margin-bottom:6px;color:var(--green)">另外取得</h4><div class="skeleton"><strong>has always been</strong> = 一直是<br><strong>one of the most difficult challenges</strong> = 最困難的挑戰之一</div><div class="key-card"><h4>國內外登山者</h4><div class="task-intro"><span>下列哪一個「不適合」用來表達「國內外登山者」？</span></div>${opts(['mountain climbers at home and abroad','local and foreign mountain climbers','domestic and foreign mountain climbers','mountain climbers inside and outside'],3,2)}</div>`,
 `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">one of the most difficult challenges</button><button class="chip" onclick="addChip(this)">for mountain climbers at home and abroad</button><button class="chip" onclick="addChip(this)">Conquering Jade Mountain</button><button class="chip" onclick="addChip(this)">has always been</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Conquering Jade Mountain has always been one of the most difficult challenges for mountain climbers at home and abroad')">提交</button></div><div id="fb" class="feedback"></div>`,write(106,2)],
-refs:[`Conquering Jade Mountain has always been one of the most difficult challenges for mountain climbers at home and abroad.`,`Conquering Jade Mountain has always been one of the toughest challenges for local and foreign mountain climbers.`],take:'conquer + a mountain　征服／成功攀登一座山　／　at home and abroad　在國內外',hint:'<b>V-ing ...</b><br><b>has always been ...</b><br><b>one of the + 最高級 + 複數名詞</b>',ext:[['適應新的學習環境，對許多學生來說是一大挑戰。','Adapting to a new learning environment is a major challenge for many students.','', '<b>adapt to ...</b><br><b>V-ing ... + be a major challenge for ...</b>']]}
+refs:[`Conquering Jade Mountain has always been one of the most difficult challenges for mountain climbers at home and abroad.`,`Conquering Jade Mountain has always been one of the toughest challenges for local and foreign mountain climbers.`],take:'conquer + a mountain　征服／成功攀登一座山<br>at home and abroad　在國內外',hint:'<b>V-ing ...</b><br><b>has always been ...</b><br><b>one of the + 最高級 + 複數名詞</b>',ext:[['適應新的學習環境，對許多學生來說是一大挑戰。','Adapting to a new learning environment is a major challenge for many students.','', '<b>adapt to ...</b><br><b>V-ing ... + be a major challenge for ...</b>']]}
 },
 10801:{
   1:{
@@ -2966,18 +2970,25 @@ function goHome(){
  document.getElementById('randomResult').textContent='';
  window.scrollTo({top:0,behavior:'smooth'});
 }
-function randomYear(){
+function randomYear(type){
  const box=document.getElementById('randomResult');
- const years=[114,113,112,111,110,109,108,107,106,105];
+ const pools={
+   gsat:[114,113,112,111,110,109,108,107,106,105],
+   ast:[10801]
+ };
+ const years=pools[type]||pools.gsat;
+ const label=type==='ast'?'指考':'學測';
  let i=0;
  box.textContent='正在挑選…';
  const timer=setInterval(()=>{
-   box.textContent=years[i%years.length]+' 學測';
+   const preview=years[i%years.length];
+   box.textContent=examLabel(preview);
    i++;
    if(i>5){
      clearInterval(timer);
      const picked=years[Math.floor(Math.random()*years.length)];
-     box.innerHTML=`<div class="random-picked">今天來練 <b>${picked} 學測</b>！</div><div class="random-actions"><button type="button" class="random-start" onclick="event.stopPropagation();enterYear(${picked})">開始練寫 ${picked} →</button><button type="button" class="random-again" onclick="event.stopPropagation();randomYear()">再挑一次</button></div>`;
+     const pickedLabel=examLabel(picked);
+     box.innerHTML=`<div class="random-picked">今天來練 <b>${pickedLabel}</b>！</div><div class="random-actions"><button type="button" class="random-start" onclick="enterYear(${picked})">開始練寫 ${pickedLabel} →</button><button type="button" class="random-again" onclick="randomYear('${type}')">再挑一次</button></div>`;
    }
  },120);
 }
