@@ -998,3 +998,2705 @@ textarea {
 @media (max-width:640px){
   .practice-head{
     padding:10px 12px !important;
+  }
+  .practice-head h2,
+  .practice-head h3{
+    font-size:1.12em !important;
+    margin-bottom:9px !important;
+  }
+  .practice-head .qnav{
+    gap:7px !important;
+  }
+  .practice-head .qnav button,
+  .stage-nav-card .steps button{
+    font-size:.84em !important;
+    min-height:44px !important;
+    padding:7px 9px !important;
+  }
+  .stage-nav-card{
+    padding:7px 9px !important;
+    margin-bottom:8px !important;
+  }
+  .step-page{
+    padding-top:16px !important;
+    padding-bottom:18px !important;
+  }
+  .in-step-prompt{
+    margin-bottom:13px !important;
+    padding-bottom:12px !important;
+  }
+  .task-intro{
+    margin-bottom:12px !important;
+  }
+  .options{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:8px !important;
+  }
+  .options button{
+    min-height:48px !important;
+    padding:8px 11px !important;
+    margin:0 !important;
+  }
+}
+
+
+/* v37：修正 v36 選項網格 selector，並重新平衡年份標題與題號按鈕 */
+.practice-head{
+  padding:14px 18px 13px !important;
+}
+.practice-head > strong{
+  display:block;
+  font-size:1.20em !important;
+  line-height:1.35 !important;
+  margin:0 0 14px !important;
+}
+.practice-head .qnav{
+  margin:0 !important;
+  gap:9px !important;
+}
+.practice-head .qnav button{
+  font-size:.86em !important;
+  min-height:36px !important;
+  padding:5px 11px !important;
+}
+
+/* 真正套用到 opts() 產生的選項 */
+.options-grid{
+  display:grid;
+  gap:10px 12px;
+  margin:10px 0 14px;
+}
+.options-grid .option{
+  width:100% !important;
+  margin:0 !important;
+  min-height:56px;
+  padding:10px 14px !important;
+}
+
+/* 電腦：2/3/4 選項都用兩欄，3 選項最後一張自然落左下 */
+@media (min-width:901px){
+  .options-grid.option-count-2,
+  .options-grid.option-count-3,
+  .options-grid.option-count-4{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+/* 平板：同樣優先兩欄 */
+@media (min-width:641px) and (max-width:900px){
+  .practice-head > strong{
+    margin-bottom:12px !important;
+  }
+  .options-grid.option-count-2,
+  .options-grid.option-count-3,
+  .options-grid.option-count-4{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .options-grid .option{
+    min-height:52px;
+  }
+}
+
+/* 手機：維持單欄，避免長選項擠壓 */
+@media (max-width:640px){
+  .practice-head{
+    padding:11px 13px 10px !important;
+  }
+  .practice-head > strong{
+    font-size:1.12em !important;
+    margin-bottom:11px !important;
+  }
+  .practice-head .qnav button{
+    font-size:.82em !important;
+    min-height:42px !important;
+    padding:6px 10px !important;
+  }
+  .options-grid{
+    grid-template-columns:1fr !important;
+    gap:8px;
+  }
+  .options-grid .option{
+    min-height:48px;
+    padding:8px 11px !important;
+  }
+}
+
+
+/* v38：依確認意見調整標題層級與延伸題目可讀性 */
+
+/* 年份標題真正高於導覽按鈕一級 */
+.practice-head > strong{
+  display:block !important;
+  font-size:1.30em !important;
+  font-weight:800 !important;
+  line-height:1.35 !important;
+  margin:0 0 14px !important;
+  color:var(--ink) !important;
+}
+
+/* 題號與四階段維持相同的小型導覽層級 */
+.practice-head .qnav button,
+.stage-nav-card .steps button{
+  font-size:.86em !important;
+}
+
+/* 延伸頁：原翻譯題目改為深色，清晰但不搶過「第N題延伸」 */
+.compact-extension-title span{
+  color:var(--ink) !important;
+  opacity:1 !important;
+  font-weight:500 !important;
+}
+
+@media (max-width:900px){
+  .practice-head > strong{
+    font-size:1.24em !important;
+    margin-bottom:12px !important;
+  }
+}
+@media (max-width:640px){
+  .practice-head > strong{
+    font-size:1.18em !important;
+    margin-bottom:11px !important;
+  }
+  .practice-head .qnav button,
+  .stage-nav-card .steps button{
+    font-size:.82em !important;
+  }
+}
+
+
+/* v39：練習內容視覺層級
+   中文原題降低一級；階段副標題再低一級；
+   所有需要學生判斷／作答的任務文字改為清楚深色。
+*/
+
+/* 中文原題：仍是內容區第一視覺層級，但較 v38 緊湊 */
+.in-step-prompt{
+  font-size:1.12em !important;
+  line-height:1.5 !important;
+  font-weight:700 !important;
+  color:var(--ink) !important;
+  margin-bottom:13px !important;
+  padding-bottom:11px !important;
+}
+
+/* 階段副標題 + 任務題目：副標題再比中文原題低一級 */
+.task-intro{
+  margin-bottom:12px !important;
+  gap:5px 14px !important;
+}
+.task-intro strong{
+  font-size:1em !important;
+  line-height:1.45 !important;
+  font-weight:800 !important;
+  color:var(--ink) !important;
+}
+/* 任務提問是作答內容，不再使用灰色 */
+.task-intro span{
+  font-size:1em !important;
+  line-height:1.5 !important;
+  color:var(--ink) !important;
+  opacity:1 !important;
+}
+
+/* 若個別頁面仍有直接位於 step-page 的任務文字，也保持清楚 */
+.step-page > p,
+.step-page .small{
+  color:var(--ink);
+}
+
+/* 延伸頁原翻譯題目同樣維持清楚深色 */
+.compact-extension-title span{
+  color:var(--ink) !important;
+  opacity:1 !important;
+}
+
+@media (max-width:900px){
+  .in-step-prompt{
+    font-size:1.08em !important;
+    margin-bottom:12px !important;
+    padding-bottom:10px !important;
+  }
+  .task-intro strong,
+  .task-intro span{
+    font-size:.98em !important;
+  }
+}
+@media (max-width:640px){
+  .in-step-prompt{
+    font-size:1.04em !important;
+    line-height:1.45 !important;
+    margin-bottom:11px !important;
+    padding-bottom:9px !important;
+  }
+  .task-intro{
+    margin-bottom:10px !important;
+    gap:4px 8px !important;
+  }
+  .task-intro strong,
+  .task-intro span{
+    font-size:.95em !important;
+    line-height:1.45 !important;
+  }
+}
+
+
+/* v40：教學提示／句型說明文字放大一級
+   不更動中文原題、階段副標題、任務題目與選項字級。
+*/
+.note{
+  font-size:1.08em !important;
+  line-height:1.65 !important;
+}
+.note b,
+.note strong{
+  font-weight:800 !important;
+}
+@media (max-width:900px){
+  .note{font-size:1.06em !important;}
+}
+@media (max-width:640px){
+  .note{font-size:1.04em !important;}
+}
+
+
+/* v41：核心語塊、任務層級、延伸入口 */
+
+/* 核心英文語塊字卡文字放大一級 */
+.chunk{
+  font-size:1.10em !important;
+  font-weight:800 !important;
+  line-height:1.5 !important;
+}
+
+/* 任務句：名稱＋提問形成一個完整句子；
+   整體低於中文翻譯原題一級，但維持深色清楚。 */
+.task-intro{
+  display:flex !important;
+  align-items:baseline !important;
+  flex-wrap:wrap !important;
+  gap:0 6px !important;
+  margin-bottom:11px !important;
+}
+.task-intro strong{
+  font-size:.98em !important;
+  font-weight:800 !important;
+  color:var(--ink) !important;
+  line-height:1.45 !important;
+}
+.task-intro span{
+  font-size:.98em !important;
+  font-weight:600 !important;
+  color:var(--ink) !important;
+  opacity:1 !important;
+  line-height:1.45 !important;
+}
+
+/* 自己翻譯頁的操作說明低於中文原題，不搶焦點 */
+.step-page > p:first-of-type{
+  font-size:.96em !important;
+  line-height:1.5 !important;
+}
+
+/* 延伸題目是額外入口，不視為第5階段；與前四個略作區隔 */
+.stage-nav-card .steps .extension-entry{
+  margin-left:8px !important;
+  font-size:.86em !important;
+  min-height:38px !important;
+  padding:6px 12px !important;
+  background:#fff !important;
+  color:var(--green) !important;
+  border:1px solid var(--green) !important;
+}
+.stage-nav-card .steps .extension-entry:hover{
+  background:var(--soft) !important;
+}
+
+/* 手機：自然換行，不縮到難讀 */
+@media (max-width:900px){
+  .chunk{font-size:1.08em !important;}
+}
+@media (max-width:640px){
+  .chunk{
+    font-size:1.05em !important;
+    white-space:normal !important;
+  }
+  .task-intro{
+    gap:0 5px !important;
+    margin-bottom:10px !important;
+  }
+  .task-intro strong,
+  .task-intro span{
+    font-size:.94em !important;
+  }
+  .stage-nav-card .steps .extension-entry{
+    margin-left:4px !important;
+    font-size:.82em !important;
+    min-height:44px !important;
+    padding:7px 9px !important;
+  }
+}
+
+
+/* v42：僅將核心英文語塊說明文字再放大一級 */
+.chunk{
+  font-size:1.20em !important;
+}
+@media (max-width:900px){
+  .chunk{font-size:1.18em !important;}
+}
+@media (max-width:640px){
+  .chunk{font-size:1.15em !important;}
+}
+
+
+/* v44：功能區視覺分區＋練習紀錄完整化 */
+.home-function-zone{
+  margin-top:28px;
+  padding:24px;
+  border:1px solid #cbd9cf;
+  border-radius:24px;
+  background:#edf5ef;
+}
+.home-function-zone-title{text-align:center;margin:0 0 18px;color:var(--green);font-size:1.18em;font-weight:900}
+.home-function-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  margin-top:18px;
+}
+.home-function-card{
+  appearance:none;
+  width:100%;
+  min-height:118px;
+  padding:20px 22px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:#fff;
+  color:var(--ink);
+  text-align:left;
+  cursor:pointer;
+  box-shadow:0 3px 12px rgba(45,72,54,.04);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:7px;
+}
+.home-function-icon{width:54px;height:54px;border-radius:16px;background:#f3f7f3;display:grid;place-items:center;margin-bottom:3px}
+.home-function-icon svg{width:34px;height:34px;stroke:#567963;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.home-function-card:hover{border-color:#9db7a3;background:#fbfdfb}
+.home-function-card strong{font-size:1.08em;color:var(--green);font-weight:850}
+.home-function-card span{font-size:.9em;line-height:1.55;color:var(--muted);font-weight:650}
+.home-function-card .random-result{margin-top:3px;color:var(--ink);font-size:.88em}
+.record-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}
+.record-head h2{margin:0;color:var(--green)}
+.record-name-box{padding:16px;border:1px solid var(--line);border-radius:14px;background:#fbfdfb;margin-bottom:16px}
+.record-name-row{display:flex;gap:8px;align-items:center;margin-top:9px}
+.record-name-row input{flex:1;min-width:0;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:inherit}
+.record-name-row button,.record-actions button{min-height:44px;border:1px solid var(--green);border-radius:10px;background:#fff;color:var(--green);font-weight:800;padding:8px 13px;cursor:pointer}
+.record-info{padding:13px 15px;border-radius:12px;background:#f5f8f5;color:#40554a;font-size:.9em;line-height:1.65;margin-bottom:16px}
+#recordView .small,#mistakeView .small{color:#40554a}
+.record-year-group{border:1px solid var(--line);border-radius:16px;padding:15px 16px;background:#fff}
+.record-year-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.record-year-head h3{margin:0;color:var(--green)}
+.record-year-head button,.record-tools button,.name-prompt-actions button{min-height:40px;border:1px solid var(--green);border-radius:9px;background:#fff;color:var(--green);font-weight:750;padding:7px 11px;cursor:pointer}
+.record-tools{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:16px}
+.record-name-prompt{padding:16px;border:1px solid #b9c8bd;border-radius:14px;background:#f7faf7;margin-bottom:16px}
+.record-name-prompt p{margin:0 0 10px;color:var(--muted)}
+.record-name-prompt input{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;margin-bottom:10px}
+.name-prompt-actions{display:flex;gap:8px;flex-wrap:wrap}
+.name-prompt-actions .primary{background:var(--green);color:#fff}
+.review-toast{margin-top:10px;padding:9px 11px;border-radius:10px;background:#edf5ef;color:#315f43;font-weight:750;font-size:.9em}
+.complete-confirm{margin-top:14px;padding:14px 16px;border:1px solid #cbd9cf;border-radius:13px;background:#f7faf7}
+.complete-confirm button{min-height:44px;border:1px solid var(--green);border-radius:10px;background:#fff;color:var(--green);font-weight:850;padding:9px 14px;cursor:pointer}
+.complete-confirm button.done{background:#edf5ef}
+.extension-complete-confirm{margin-top:22px}
+
+.record-actions .primary{background:var(--green);color:#fff}
+.record-list{display:grid;gap:12px}
+.record-row{border:1px solid var(--line);border-radius:14px;padding:15px 16px;display:flex;justify-content:space-between;align-items:center;gap:14px}
+.record-row h3{margin:0 0 5px;color:var(--ink)}
+.record-row p{margin:2px 0;color:var(--muted);font-size:.9em}
+.record-row-actions{display:flex;gap:8px;flex-direction:column;flex-wrap:nowrap;margin-left:auto;align-items:flex-end}
+.record-row-actions button{min-height:40px;width:118px;border:1px solid var(--green);border-radius:9px;background:#fff;color:var(--green);font-weight:750;cursor:pointer;padding:7px 11px;white-space:nowrap}
+.empty-records{text-align:center;padding:30px 12px;color:var(--muted)}
+.share-record-card{
+  width:min(720px,100%);
+  margin:0 auto;
+  padding:34px 38px;
+  border:1px solid #b9c8bd;
+  border-radius:20px;
+  background:#fffdf8;
+  color:#26362c;
+}
+.share-record-card .rc-brand{text-align:center;color:var(--green);font-weight:850;font-size:1.05em}
+.share-record-card h2{text-align:center;margin:7px 0 22px;font-size:1.45em}
+.share-record-card .rc-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;padding-bottom:16px;border-bottom:1px solid #d9e1da}
+.share-record-card .rc-status{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;margin:18px 0}
+.share-record-card .rc-review{padding:14px 16px;border-radius:12px;background:#f2f7f2}
+.share-record-card .rc-review strong{display:block;margin-bottom:7px}
+.share-record-card .rc-foot{text-align:center;margin-top:20px;color:#657269;font-size:.82em}
+.record-actions{display:flex;justify-content:center;gap:10px;margin-top:16px}
+@media(max-width:640px){
+  .home-function-zone{padding:18px 14px;border-radius:20px}
+  .home-function-grid{grid-template-columns:1fr;gap:10px}
+  .home-function-card{min-height:96px;padding:16px 17px}
+  .record-head,.record-row{align-items:flex-start}
+  .record-row{flex-direction:column}
+  .record-name-row{flex-wrap:wrap}
+  .record-name-row input{flex-basis:100%}
+  .share-record-card{padding:24px 20px}
+  .share-record-card .rc-meta,.share-record-card .rc-status{grid-template-columns:1fr}
+  .record-actions{flex-direction:column}
+  .record-actions button{width:100%}
+}
+
+
+/* v46 確認版：本輪已確認的功能區、紀錄與操作細節 */
+.home-function-card{min-height:156px;padding:20px 24px;gap:8px}
+.home-function-icon{width:66px;height:66px;border-radius:20px;margin-bottom:4px;overflow:hidden}
+.home-function-icon svg{width:48px;height:48px;stroke-width:1.8}
+.home-function-card strong{min-height:1.55em;display:flex;align-items:center;justify-content:center;text-align:center}
+.home-function-card span{min-height:3.1em;display:flex;align-items:flex-start;justify-content:center;text-align:center;line-height:1.55}
+.home-function-card .random-result{min-height:0;text-align:center}
+.home-function-icon.random{background:#fff}.home-function-icon.random img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.08)}
+.home-function-icon.review{background:#eef5ff}.home-function-icon.review svg{stroke:#315f43}.home-function-icon.review .paper{fill:#fff}.home-function-icon.review .clip{fill:#f3bf62}.home-function-icon.review .check{stroke:#66a96f}
+.home-function-icon.records{background:#fff6d9}.home-function-icon.records svg{stroke:#315f43}.home-function-icon.records .bar1{fill:#6fa8dc}.home-function-icon.records .bar2{fill:#77bf7a}.home-function-icon.records .bar3{fill:#f2b84b}
+.home-function-icon.portal{background:#f0ecff}.home-function-icon.portal svg{stroke:#315f43}.home-function-icon.portal .roof{fill:#ef765f}.home-function-icon.portal .wall{fill:#fff9e8}.home-function-icon.portal .door{fill:#73b7d8}.home-function-icon.portal .bush{fill:#7bbd6b}
+.record-page{position:relative}
+.record-page .record-head{display:block;margin-bottom:18px;text-align:center}
+.record-page .record-head > div{width:100%}
+.record-page .record-title-row{display:block;text-align:center}
+.record-page .record-title-row h2{margin:0;text-align:center}
+.record-page .record-top-home{position:absolute;top:22px;right:22px;white-space:nowrap}
+@media(max-width:640px){
+ .record-page{padding-top:74px}
+ .record-page .record-top-home{top:17px;right:17px}
+}
+.record-row-actions button:first-child{min-width:118px;white-space:nowrap}
+.bottom-home-wrap{display:flex;justify-content:center;margin-top:22px}
+.bottom-home-wrap .home-btn{min-height:44px;padding:9px 18px}
+@media(max-width:640px){
+ .home-function-card{min-height:142px;padding:18px 17px}
+ .home-function-icon{width:62px;height:62px}.home-function-icon svg{width:44px;height:44px}
+ .home-function-card span{min-height:0}
+}
+
+
+/* v52：三裝置紀錄文字可讀性＋隨機年份直接開始 */
+.record-info,
+#recordView .small,
+#mistakeView .small,
+.record-row p,
+.empty-records,
+.complete-confirm .small{
+  color:#34483c;
+  font-weight:650;
+}
+.record-info{font-size:.96em;line-height:1.72}
+.record-info span{color:#34483c;font-weight:650}
+.record-row p{font-size:.96em;line-height:1.62}
+.empty-records{color:#34483c;font-weight:650;line-height:1.65}
+.complete-confirm .small{color:#34483c;font-weight:650;line-height:1.6}
+.random-card{cursor:pointer}
+.random-result{width:100%}
+.random-picked{font-weight:800;color:var(--ink);line-height:1.45;margin-top:4px}
+.random-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.random-actions button{min-height:42px;border-radius:10px;padding:8px 13px;font:inherit;font-weight:800;cursor:pointer;white-space:nowrap}
+.random-start{border:1px solid var(--green);background:var(--green);color:#fff}
+.random-again{border:1px solid var(--green);background:#fff;color:var(--green)}
+@media(max-width:640px){
+  .record-info{font-size:1em;line-height:1.75}
+  #recordView .small,#mistakeView .small{font-size:1em;line-height:1.65}
+  .record-row p{font-size:1em;line-height:1.68}
+  .empty-records{font-size:1em;line-height:1.7}
+  .complete-confirm .small{font-size:1em;line-height:1.65}
+  .random-actions{flex-direction:column;align-items:stretch;width:100%}
+  .random-actions button{width:100%}
+}
+
+
+/* v53：本輪確認修改
+   1. 三裝置主標題提升一級；A− / A / A＋降低視覺份量但保留可操作尺寸。
+   2. 手機首頁「學測／指考」與主要「開始練寫」建立不同色彩層級。
+   3. 說明文字依可用寬度自然換行，換行後文字區塊左對齊且不拆語意單位。
+   4. 教學提示／核心語塊三裝置放大，維持中英文視覺平衡。
+   5. 手機完成頁導覽改為主要前後操作同列、回首頁獨立第二列。
+   6. 複習清單右上回首頁與紀錄操作按鈕避免中文字被拆行／溢出。
+*/
+
+/* 主標題：三裝置都提高一級，維持全頁中線 */
+.title h1,
+#homeView .home-title{
+  font-size:34px !important;
+  line-height:1.28 !important;
+}
+
+/* 字級控制是輔助工具：降低視覺重量，但維持至少 44px 觸控高度 */
+.controls{gap:8px !important;}
+.controls button{
+  width:52px !important;
+  height:44px !important;
+  min-width:52px !important;
+  min-height:44px !important;
+  padding:0 !important;
+  border-width:1px !important;
+  border-radius:10px !important;
+  font-size:.94em !important;
+  font-weight:750 !important;
+}
+@media (min-width:601px) and (max-width:900px){
+  .controls button{
+    width:50px !important;
+    min-width:50px !important;
+    height:44px !important;
+    min-height:44px !important;
+  }
+}
+@media (max-width:600px){
+  .title h1,
+  #homeView .home-title{
+    font-size:26px !important;
+    line-height:1.28 !important;
+  }
+  .controls{gap:6px !important;}
+  .controls button{
+    width:44px !important;
+    min-width:44px !important;
+    height:44px !important;
+    min-height:44px !important;
+    border-radius:10px !important;
+    font-size:.90em !important;
+  }
+
+  /* 手機首頁：分類標籤改為柔和暖色層級；主要開始按鈕維持綠色 */
+  #homeView .exam-tabs button{
+    background:#fffdf7 !important;
+    color:var(--green) !important;
+    border-color:#b9c8bd !important;
+  }
+  #homeView .exam-tabs button.active{
+    background:#f4e7b8 !important;
+    color:#34483c !important;
+    border-color:#d3bd76 !important;
+  }
+  #homeView .year-actions button.primary{
+    background:var(--green) !important;
+    color:#fff !important;
+    border-color:var(--green) !important;
+  }
+}
+
+/* 教學提示／核心語塊：三裝置一起放大；不改卡片外框與 Grid */
+.step-page #hint{
+  font-size:1.22em !important;
+  line-height:1.72 !important;
+  text-align:left !important;
+}
+.step-page .skeleton{
+  font-size:1.16em !important;
+  line-height:1.72 !important;
+  text-align:left !important;
+}
+.step-page .skeleton b,
+.step-page .skeleton strong,
+.step-page #hint b,
+.step-page #hint strong{
+  font-weight:800 !important;
+}
+@media (max-width:900px){
+  .step-page #hint{font-size:1.20em !important;}
+  .step-page .skeleton{font-size:1.14em !important;}
+}
+@media (max-width:640px){
+  .step-page #hint{font-size:1.18em !important;}
+  .step-page .skeleton{font-size:1.12em !important;}
+}
+
+/* 紀錄頁摘要：每個完整句子是一個不可拆的語意單位。
+   寬度夠時同一行；不足時只在兩句之間換行。 */
+.record-summary{
+  width:max-content;
+  max-width:100%;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:left;
+}
+.record-summary span{
+  display:inline-block;
+  white-space:nowrap;
+}
+.record-summary span + span{
+  margin-left:.35em;
+}
+@media (max-width:520px){
+  .record-summary span{
+    display:block;
+    margin-left:0 !important;
+  }
+}
+
+/* 複習清單右上回首頁：三字固定單行，不拆字 */
+.mistake-head .home-btn{
+  white-space:nowrap !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+  min-width:112px !important;
+  flex:0 0 auto !important;
+  text-align:center !important;
+}
+
+/* 紀錄列操作：等寬、靠右、文字完整置中，不縮字、不溢出 */
+.record-row-actions button,
+.record-row-actions button:first-child{
+  width:150px !important;
+  min-width:150px !important;
+  padding:8px 14px !important;
+  white-space:nowrap !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+  text-align:center !important;
+}
+
+/* 手機完成頁：上一頁＋下一步同列，回首頁獨立第二列 */
+@media (max-width:600px){
+  .finish-actions{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:12px 10px !important;
+    align-items:stretch !important;
+  }
+  .finish-actions button{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:44px !important;
+    padding:9px 10px !important;
+    white-space:nowrap !important;
+    word-break:keep-all !important;
+  }
+  .finish-actions button:nth-child(1){grid-column:1;grid-row:1;}
+  .finish-actions button:nth-child(3){grid-column:2;grid-row:1;}
+  .finish-actions button:nth-child(2){
+    grid-column:1 / -1;
+    grid-row:2;
+    width:auto !important;
+    min-width:112px !important;
+    justify-self:center !important;
+    padding-left:18px !important;
+    padding-right:18px !important;
+  }
+}
+
+
+/* v57：學測／指考頁籤柔和黃色、完全取消外框 */
+#homeView .exam-tabs button{
+  background:#fff9e9 !important;
+  color:#5b5130 !important;
+  border:none !important;
+}
+#homeView .exam-tabs button.active{
+  background:#f5e6ad !important;
+  color:#403819 !important;
+  border:none !important;
+}
+#homeView .home-function-icon{background:#f3f7f3 !important;}
+#homeView .home-function-icon svg{stroke:#365f50 !important;fill:none !important;}
+#homeView .home-function-icon svg .solid-green{fill:#365f50 !important;stroke:none !important;}
+
+
+/* v58：題目導覽置中；延伸頁導覽改為兩排，第二排固定回第1題／首頁／回第2題 */
+.practice-head{
+  text-align:center !important;
+}
+.practice-head > strong{
+  text-align:center !important;
+}
+.practice-head .qnav{
+  justify-content:center !important;
+}
+.extension-nav-v58{
+  display:flex !important;
+  flex-direction:column !important;
+  gap:12px !important;
+  margin-top:18px !important;
+}
+.extension-nav-v58 .ext-nav-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.extension-nav-v58 .ext-nav-row.single-right{
+  justify-content:flex-end;
+}
+.extension-nav-v58 .ext-nav-row.single-left{
+  justify-content:flex-start;
+}
+.extension-nav-v58 .ext-return-row{
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.extension-nav-v58 .ext-return-row button{
+  min-width:132px;
+}
+/* v59：手機與平板的延伸頁第二排避免三顆按鈕硬塞同列。
+   第一列放回第1題／回第2題，回首頁獨立置中於下一列；桌機維持 v58。 */
+@media (max-width:900px){
+  .extension-nav-v58 .ext-nav-row{gap:10px;}
+  .extension-nav-v58 .ext-return-row{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    grid-template-areas:
+      "q1 q2"
+      "home home";
+    gap:12px 14px !important;
+    width:100%;
+    align-items:center;
+  }
+  .extension-nav-v58 .ext-return-row button{
+    min-width:0 !important;
+    width:100% !important;
+    padding-left:12px !important;
+    padding-right:12px !important;
+    white-space:nowrap !important;
+    word-break:keep-all !important;
+    overflow:visible !important;
+  }
+  .extension-nav-v58 .ext-return-row button:nth-child(1){grid-area:q1;}
+  .extension-nav-v58 .ext-return-row button:nth-child(2){
+    grid-area:home;
+    justify-self:center;
+    width:auto !important;
+    min-width:132px !important;
+  }
+  .extension-nav-v58 .ext-return-row button:nth-child(3){grid-area:q2;}
+}
+@media (max-width:480px){
+  .extension-nav-v58 .ext-return-row{gap:10px 10px !important;}
+  .extension-nav-v58 .ext-return-row button{
+    padding-left:9px !important;
+    padding-right:9px !important;
+  }
+}
+
+
+/* v60：以 v59 為基礎，只調整三項響應式版面。
+   1. 平板直式年份卡內容置中，不改卡片尺寸與 Grid。
+   2. 平板直／橫式的五個階段導覽降低橫向擁擠感，保留原字級與可點擊高度。
+   3. 手機延伸頁的「回第1題／回首頁／回第2題」改為同一排，避免截字與橫向捲動。
+*/
+@media (min-width:701px) and (max-width:900px) and (orientation:portrait){
+  #homeView .year-card{
+    text-align:center !important;
+  }
+  #homeView .year-actions{
+    justify-content:center !important;
+  }
+}
+
+@media (min-width:701px) and (max-width:1200px){
+  .stage-nav-card .steps{
+    gap:6px !important;
+  }
+  .stage-nav-card .steps button{
+    padding-left:10px !important;
+    padding-right:10px !important;
+  }
+}
+@media (min-width:701px) and (max-width:900px) and (orientation:portrait){
+  .stage-nav-card .steps{
+    gap:5px !important;
+  }
+  .stage-nav-card .steps button{
+    padding-left:8px !important;
+    padding-right:8px !important;
+  }
+}
+
+@media (max-width:480px){
+  .extension-nav-v58 .ext-return-row{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    justify-content:center !important;
+    align-items:stretch !important;
+    gap:6px !important;
+    width:100% !important;
+  }
+  .extension-nav-v58 .ext-return-row button,
+  .extension-nav-v58 .ext-return-row button:nth-child(1),
+  .extension-nav-v58 .ext-return-row button:nth-child(2),
+  .extension-nav-v58 .ext-return-row button:nth-child(3){
+    grid-area:auto !important;
+    width:auto !important;
+    min-width:0 !important;
+    flex:1 1 0 !important;
+    padding-left:5px !important;
+    padding-right:5px !important;
+    font-size:14px !important;
+    white-space:nowrap !important;
+    word-break:keep-all !important;
+  }
+  .extension-nav-v58 .ext-return-row button:nth-child(2){
+    flex:.72 1 0 !important;
+  }
+}
+
+
+/* v61：完成頁三按鈕響應式調整——單行優先、保留間距；窄手機改為 2+1 */
+.finish-actions{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  flex-wrap:nowrap !important;
+  gap:14px !important;
+}
+.finish-actions button{
+  width:auto !important;
+  min-width:0 !important;
+  min-height:44px !important;
+  padding:10px 16px !important;
+  white-space:nowrap !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+}
+@media (min-width:601px) and (max-width:1180px){
+  .finish-actions{gap:12px !important;}
+  .finish-actions button{padding-left:14px !important;padding-right:14px !important;}
+}
+@media (max-width:600px){
+  .finish-actions{
+    display:grid !important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:12px 10px !important;
+    align-items:stretch !important;
+  }
+  .finish-actions button{
+    width:100% !important;
+    min-width:0 !important;
+    min-height:44px !important;
+    padding:9px 8px !important;
+  }
+  .finish-actions button:nth-child(1){grid-column:1;grid-row:1;}
+  .finish-actions button:nth-child(3){grid-column:2;grid-row:1;}
+  .finish-actions button:nth-child(2){
+    grid-column:1 / -1;
+    grid-row:2;
+    width:auto !important;
+    min-width:112px !important;
+    justify-self:center !important;
+    padding-left:18px !important;
+    padding-right:18px !important;
+  }
+}
+
+/* v62：完成頁三按鈕依可用寬度調整間距；保持單行、不擁擠 */
+.finish-actions{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  flex-wrap:nowrap !important;
+  gap:clamp(18px, 3.2vw, 44px) !important;
+}
+.finish-actions button{
+  width:auto !important;
+  min-width:0 !important;
+  min-height:44px !important;
+  padding:10px 16px !important;
+  white-space:nowrap !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+}
+@media (min-width:901px){
+  .finish-actions{gap:clamp(28px, 3vw, 48px) !important;}
+  .finish-actions button{padding-left:18px !important;padding-right:18px !important;}
+}
+@media (min-width:601px) and (max-width:900px){
+  .finish-actions{gap:clamp(18px, 2.6vw, 30px) !important;}
+  .finish-actions button{padding-left:14px !important;padding-right:14px !important;}
+}
+@media (max-width:600px){
+  .finish-actions{
+    display:grid !important;
+    grid-template-columns:max-content max-content !important;
+    justify-content:center !important;
+    gap:14px 16px !important;
+  }
+  .finish-actions button{
+    width:auto !important;
+    min-width:0 !important;
+    padding:9px 12px !important;
+  }
+  .finish-actions button:nth-child(1){grid-column:1;grid-row:1;}
+  .finish-actions button:nth-child(3){grid-column:2;grid-row:1;}
+  .finish-actions button:nth-child(2){
+    grid-column:1 / -1;
+    grid-row:2;
+    justify-self:center !important;
+    min-width:112px !important;
+    padding-left:18px !important;
+    padding-right:18px !important;
+  }
+}
+@media (min-width:430px) and (max-width:600px){
+  .finish-actions{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    gap:clamp(10px, 2.5vw, 16px) !important;
+  }
+  .finish-actions button{padding-left:10px !important;padding-right:10px !important;}
+}
+
+/* v69：作答後提示、參考譯法開闔與建議說明易讀性 */
+.post-answer-note{display:none}
+.takeaway-note{font-size:1.06em;font-weight:700;line-height:1.75;overflow-wrap:anywhere;word-break:normal}
+.ext-note{font-size:.98em;font-weight:700;line-height:1.7;margin-top:10px;overflow-wrap:anywhere;word-break:normal}
+@media(max-width:700px){
+  .takeaway-note,.ext-note{white-space:normal;overflow-wrap:anywhere;word-break:normal}
+}
+
+/* v70：說明文字中的編號參考譯法使用懸掛式縮排；選項維持原排版 */
+.numbered-ref{
+  display:grid;
+  grid-template-columns:1.55em minmax(0,1fr);
+  align-items:start;
+  column-gap:0;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+.numbered-ref .ref-num{
+  grid-column:1;
+  white-space:nowrap;
+}
+.numbered-ref .ref-text{
+  grid-column:2;
+  min-width:0;
+}
+
+
+/* v71：只調整手機與平板（含平板直式）的文字排版；電腦版維持 v70 */
+@media (max-width:900px){
+  /* 練習紀錄說明：以完整句子為閱讀單位，避免窄螢幕出現零碎斷行 */
+  .record-info{
+    text-align:left !important;
+    overflow-wrap:normal !important;
+    word-break:normal !important;
+  }
+  .record-info .record-info-sentence,
+  .record-info .record-info-note{
+    display:block;
+    width:100%;
+  }
+  .record-info .record-info-sentence + .record-info-sentence,
+  .record-info .record-info-note{
+    margin-top:.48em;
+  }
+  .record-info .record-info-note{
+    font-size:.92em;
+  }
+
+  /* 複習清單／練習紀錄空白狀態：依語意分行，不改卡片尺寸與按鈕 */
+  .empty-mistakes span,
+  .empty-records span{
+    display:block;
+    max-width:100%;
+    margin-left:auto;
+    margin-right:auto;
+    word-break:normal;
+    overflow-wrap:normal;
+  }
+}
+
+/* 平板（含直式）：保留較寬閱讀區，不套用手機的窄版擠壓方式 */
+@media (min-width:601px) and (max-width:900px){
+  .record-info{
+    font-size:1em !important;
+    line-height:1.72 !important;
+  }
+  .empty-mistakes,
+  .empty-records{
+    font-size:1em !important;
+    line-height:1.72 !important;
+  }
+  .empty-mistakes span,
+  .empty-records span{
+    width:max-content;
+    max-width:100%;
+  }
+}
+
+/* 手機：文字區塊置中，但每一行維持自然完整的語意換行 */
+@media (max-width:600px){
+  .empty-mistakes,
+  .empty-records{
+    line-height:1.72 !important;
+  }
+  .empty-mistakes span,
+  .empty-records span{
+    width:100%;
+  }
+}
+
+
+/* v73：重新以 v71 為基礎，只處理本回合確認的兩項排版 */
+@media (max-width:900px){
+  /* 1. 複習清單與練習紀錄：以語意片段換行，避免中文詞組被切開 */
+  .mistake-summary span{
+    display:block;
+    white-space:nowrap;
+  }
+  .record-info .record-info-line{
+    display:block;
+    width:100%;
+  }
+  .record-info .record-info-line + .record-info-line,
+  .record-info .record-info-note{
+    margin-top:.48em;
+  }
+  .record-info .keep-phrase{
+    display:inline-block;
+    white-space:nowrap;
+    word-break:keep-all;
+    overflow-wrap:normal;
+  }
+  .empty-mistakes span,
+  .empty-records span{
+    white-space:nowrap;
+    word-break:keep-all;
+    overflow-wrap:normal;
+  }
+}
+
+@media (max-width:600px){
+  /* 2. 我的翻譯完成區：維持 2+1 與原垂直高度，只把第一排向左右兩側拉開 */
+  .finish-actions{
+    width:100% !important;
+    grid-template-columns:1fr 1fr !important;
+    column-gap:28px !important;
+    row-gap:14px !important;
+    justify-content:stretch !important;
+  }
+  .finish-actions button:nth-child(1){
+    justify-self:start !important;
+  }
+  .finish-actions button:nth-child(3){
+    justify-self:end !important;
+  }
+  .finish-actions button:nth-child(2){
+    justify-self:center !important;
+  }
+}
+
+/* 覆蓋 v71 在 430–600px 將三顆按鈕改回單排 flex 的規則；手機一律維持 2+1 */
+@media (min-width:430px) and (max-width:600px){
+  .finish-actions{
+    display:grid !important;
+    flex-wrap:initial !important;
+    width:100% !important;
+    grid-template-columns:1fr 1fr !important;
+    column-gap:28px !important;
+    row-gap:14px !important;
+  }
+}
+
+
+/* v86：僅手機版整合練習語塊文字靠左；不改卡片尺寸、Grid、間距或平板／電腦 */
+@media (max-width:600px){
+  .step-page .chips .chip,
+  .step-page .answerline .chip{
+    text-align:left !important;
+  }
+}
+
+
+/* v114：依指定參考版，手機一般頁底部三顆導覽鍵固定同一排；其餘裝置不變 */
+@media (max-width:640px){
+  .page-nav{
+    display:grid !important;
+    grid-template-columns:1fr auto 1fr !important;
+    align-items:center !important;
+    column-gap:8px !important;
+    row-gap:0 !important;
+  }
+  .page-nav > div:first-child{
+    grid-column:1 !important;
+    grid-row:1 !important;
+    text-align:left !important;
+  }
+  .page-nav .home{
+    grid-column:2 !important;
+    grid-row:1 !important;
+    text-align:center !important;
+  }
+  .page-nav .next{
+    grid-column:3 !important;
+    grid-row:1 !important;
+    text-align:right !important;
+  }
+  .page-nav button{
+    min-height:46px !important;
+    padding:10px 12px !important;
+    white-space:nowrap !important;
+  }
+}
+
+
+/* 手機版：底部導覽三顆按鈕同一橫列 */
+@media (max-width:640px){
+  .page-nav{
+    display:grid !important;
+    grid-template-columns:1fr auto 1fr !important;
+    align-items:center !important;
+    column-gap:8px !important;
+    row-gap:0 !important;
+  }
+  .page-nav > div:first-child{
+    grid-column:1 !important;
+    grid-row:1 !important;
+    text-align:left !important;
+  }
+  .page-nav .home{
+    grid-column:2 !important;
+    grid-row:1 !important;
+    text-align:center !important;
+  }
+  .page-nav .next{
+    grid-column:3 !important;
+    grid-row:1 !important;
+    text-align:right !important;
+  }
+  .page-nav button{
+    min-height:46px !important;
+    padding:10px 12px !important;
+    white-space:nowrap !important;
+  }
+}
+
+/* 平板橫式：即使 A+，年份卡片兩顆按鈕仍固定同一列 */
+@media (min-width:901px) and (max-width:1200px) and (orientation:landscape){
+  #homeView .year-actions{
+    display:flex !important;
+    flex-direction:row !important;
+    flex-wrap:nowrap !important;
+    justify-content:center !important;
+    align-items:center !important;
+    gap:8px !important;
+  }
+  #homeView .year-actions button{
+    width:auto !important;
+    flex:0 0 auto !important;
+    font-size:18px !important;
+    padding:7px 10px !important;
+    white-space:nowrap !important;
+  }
+}
+
+/* 平板直式：年份卡片兩顆按鈕上下排列、等寬、置中 */
+@media (min-width:701px) and (max-width:900px) and (orientation:portrait){
+  #homeView .year-actions{
+    justify-content:center !important;
+  }
+  #homeView .year-actions button{
+    width:8em !important;
+    min-width:8em !important;
+    max-width:100% !important;
+    text-align:center !important;
+  }
+}
+
+</style>
+
+<style id="v85-home-year-collapse">
+/* v85：首頁年份區三端響應式＋最新六年顯示，其餘年份收合 */
+#gsatPanel .year-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+.older-years-toggle-wrap{display:flex;justify-content:center;margin:16px 0 2px;}
+.older-years-toggle{
+  border:0;background:transparent;color:var(--green);font:inherit;font-weight:800;
+  padding:9px 14px;min-height:42px;cursor:pointer;border-radius:10px;
+}
+.older-years-toggle:hover{background:var(--soft);}
+#olderYearsGrid{margin-top:14px;}
+#olderYearsGrid[hidden]{display:none !important;}
+@media (min-width:601px) and (max-width:900px){
+  #gsatPanel .year-grid{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
+}
+@media (max-width:600px){
+  #gsatPanel .year-grid{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+  .older-years-toggle-wrap{margin-top:13px;}
+}
+</style>
+
+<style>
+/* v105：所有年份選項卡自然換行時，續行對齊選項正文，不對齊 A/B/C/D 標號。 */
+.option{
+  display:grid;
+  grid-template-columns:1.55em minmax(0,1fr);
+  align-items:start;
+  column-gap:0;
+}
+.option-label{grid-column:1;white-space:nowrap;}
+.option-text{grid-column:2;min-width:0;}
+
+</style>
+
+
+
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="title">
+      <h1 class="home-title">歷屆翻譯練寫器</h1>
+      <p class="home-subtitle">從理解句子，到自己寫出完整翻譯</p>
+    </div>
+    <div class="controls"><button onclick="zoom(-1)">A−</button> <button onclick="zoomReset()" title="恢復原始字級 100%">A</button> <button onclick="zoom(1)">A＋</button></div>
+  </div>
+
+  <section id="homeView">
+    <div class="home-brand" aria-label="Lulu Wu">
+      <strong>Lulu Wu</strong>
+      <span>@oohya330</span>
+    </div>
+    <div class="card hero">
+      <h2>選擇年份開始練習</h2>
+      <p>每回 2 題，透過不同練習一步步完成翻譯。</p>
+      <div class="exam-tabs">
+        <button id="tabGsat" class="active" onclick="switchExam('gsat')">學測</button>
+        <button id="tabAst" onclick="switchExam('ast')">指考</button>
+      </div>
+      <div id="gsatPanel" class="exam-panel">
+        <div class="year-grid">
+          <div class="year-card available">
+            <strong>114 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(114)">開始練寫</button>
+              <button onclick="showAnswers(114)">題目與答案</button>
+            </div>
+          </div>
+          <div class="year-card available">
+            <strong>113 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(113)">開始練寫</button>
+              <button onclick="showAnswers(113)">題目與答案</button>
+            </div>
+          </div>
+          <div class="year-card available">
+            <strong>112 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(112)">開始練寫</button>
+              <button onclick="showAnswers(112)">題目與答案</button>
+            </div>
+          </div>
+<div class="year-card available">
+            <strong>111 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(111)">開始練寫</button>
+              <button onclick="showAnswers(111)">題目與答案</button>
+            </div>
+          </div>
+<div class="year-card available">
+            <strong>110 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(110)">開始練寫</button>
+              <button onclick="showAnswers(110)">題目與答案</button>
+            </div>
+          </div>
+<div class="year-card available">
+            <strong>109 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(109)">開始練寫</button>
+              <button onclick="showAnswers(109)">題目與答案</button>
+            </div>
+          </div>
+<div class="year-card available">
+            <strong>108 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(108)">開始練寫</button>
+              <button onclick="showAnswers(108)">題目與答案</button>
+            </div>
+          </div>
+<div class="year-card available">
+            <strong>107 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(107)">開始練寫</button>
+              <button onclick="showAnswers(107)">題目與答案</button>
+            </div>
+          </div>
+          <div class="year-card available">
+            <strong>106 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(106)">開始練寫</button>
+              <button onclick="showAnswers(106)">題目與答案</button>
+            </div>
+          </div>
+          <div class="year-card available">
+            <strong>105 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(105)">開始練寫</button>
+              <button onclick="showAnswers(105)">題目與答案</button>
+            </div>
+          </div>
+        </div>
+        <div id="olderYearsToggleWrap" class="older-years-toggle-wrap" hidden>
+          <button id="olderYearsToggle" class="older-years-toggle" type="button" aria-expanded="false" aria-controls="olderYearsGrid" onclick="toggleOlderYears()">查看更早年份 ▼</button>
+        </div>
+        <div id="olderYearsGrid" class="year-grid" hidden></div>
+      </div>
+      <div id="astPanel" class="exam-panel hidden">
+        <div class="year-grid">
+          <div class="year-card available">
+            <strong>108 指考</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(10801)">開始練寫</button>
+              <button onclick="showAnswers(10801)">題目與答案</button>
+            </div>
+          </div>
+          <div class="year-card available">
+            <strong>107 指考</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(10701)">開始練寫</button>
+              <button onclick="showAnswers(10701)">題目與答案</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="home-function-zone">
+      <div class="home-function-zone-title">功能區</div>
+      <div class="home-function-grid">
+        <div class="home-function-card random-card">
+          <div class="home-function-icon random"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="9" width="30" height="30" rx="7"/><circle class="solid-green" cx="17" cy="17" r="2.3"/><circle class="solid-green" cx="31" cy="17" r="2.3"/><circle class="solid-green" cx="24" cy="24" r="2.3"/><circle class="solid-green" cx="17" cy="31" r="2.3"/><circle class="solid-green" cx="31" cy="31" r="2.3"/></svg></div>
+          <strong>隨機挑一回</strong>
+          <span>先選學測或指考，再交給系統幫你挑一回。</span>
+          <div class="random-actions random-type-actions">
+            <button type="button" class="random-start" onclick="randomYear('gsat')">學測</button>
+            <button type="button" class="random-again" onclick="randomYear('ast')">指考</button>
+          </div>
+          <div id="randomResult" class="random-result"></div>
+        </div>
+        <button class="home-function-card" type="button" onclick="openMistakes()">
+          <div class="home-function-icon review"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="11" y="12" width="26" height="29" rx="4"/><path d="M17 12V9h14v6"/><path d="m16 24 3 3 5-6M16 34l3 3 5-6M27 24h6M27 34h6"/></svg></div>
+          <strong>我的複習清單</strong><span id="mistakeCount">收藏想再練習的題目與語塊</span>
+        </button>
+        <button class="home-function-card" type="button" onclick="openRecords()">
+          <div class="home-function-icon records"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 39h33"/><rect x="10" y="28" width="7" height="11" rx="2"/><rect x="21" y="21" width="7" height="18" rx="2"/><rect x="32" y="13" width="7" height="26" rx="2"/><path d="m10 21 11-8 9 3 10-8"/></svg></div>
+          <strong>練習紀錄</strong><span id="recordCount">查看每次練習與需要再複習的內容</span>
+        </button>
+        <button class="home-function-card" type="button" onclick="portalNotice()">
+          <div class="home-function-icon portal"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 23 24 9l17 14-4 4-13-10-13 10z"/><path d="M12 23v17h24V23L24 14z"/><rect x="21" y="29" width="7" height="11" rx="1"/><path d="M9 40c0-5 7-6 9 0M30 40c1-6 9-5 9 0"/></svg></div>
+          <strong>回到 Lulu 英文挑戰地圖</strong><span>課程學生專屬</span>
+        </button>
+      </div>
+    </div>  </section>
+
+  <section id="mistakeView" class="hidden">
+    <div class="card">
+      <div class="mistake-head">
+        <div>
+          <h2>我的複習清單</h2>
+          <p class="small mistake-summary"><span>你加入的題目會保存在</span><span>這個瀏覽器中。</span></p>
+        </div>
+        <button class="home-btn" type="button" onclick="returnHomeFromMistakes()">回首頁</button>
+      </div>
+      <div id="mistakeList" class="mistake-list"></div>
+      <div class="bottom-home-wrap"><button class="home-btn" type="button" onclick="returnHomeFromMistakes()">回首頁</button></div>
+    </div>
+  </section>
+
+  <section id="recordView" class="hidden">
+    <div class="card record-page">
+      <button class="home-btn record-top-home" type="button" onclick="goHome()">← 回首頁</button>
+      <div class="record-head">
+        <div>
+          <div class="record-title-row"><h2>練習紀錄</h2></div>
+          <p class="small record-summary"><span>紀錄保存在這個瀏覽器中。</span><span>完整翻譯不自動評分。</span></p>
+        </div>
+      </div>
+
+      <div class="record-info">
+        <span class="record-info-line"><span class="keep-phrase">每個年份最多保留 3 次練習紀錄。</span></span>
+        <span class="record-info-line"><span class="keep-phrase">若已有 3 次紀錄，</span><span class="keep-phrase">想保留新的練習紀錄時，</span><span class="keep-phrase">請先刪除其中一筆。</span></span>
+        <span class="record-info-line"><span class="keep-phrase">作答時需要再加強的內容，</span><span class="keep-phrase">會自動加入「這次可以再複習」。</span></span>
+        <span class="record-info-line"><span class="keep-phrase">紀錄會保留在目前使用的</span><span class="keep-phrase">裝置與瀏覽器中，</span><span class="keep-phrase">你也可以自行刪除。</span></span>
+        <span class="record-info-note keep-phrase">清除瀏覽器資料後，紀錄可能無法保留。</span>
+      </div>
+      <div id="recordList" class="record-list"></div>
+      <div class="record-tools"><button type="button" onclick="clearAllRecords()">清除全部練習紀錄</button></div>
+      <div class="bottom-home-wrap"><button class="home-btn" type="button" onclick="goHome()">← 回首頁</button></div>
+    </div>
+  </section>
+
+  <section id="recordCardView" class="hidden">
+    <div class="card record-card-page">
+      <div class="record-head">
+        <div>
+          <h2>練習紀錄卡</h2>
+          <p class="small">可產生 PNG 圖片，或使用裝置的系統分享功能。</p>
+        </div>
+        <button class="home-btn" type="button" onclick="openRecords()">返回紀錄</button>
+      </div>
+      <div id="recordNamePrompt" class="record-name-prompt hidden">
+        <p><strong>姓名／暱稱（選填）</strong><br>可填寫姓名或暱稱，也可以直接略過。填寫後會記住在這台裝置。</p>
+        <input id="recordNameCard" type="text" maxlength="30" placeholder="姓名／暱稱">
+        <div class="name-prompt-actions"><button class="primary" type="button" onclick="applyRecordName()">套用姓名</button><button type="button" onclick="skipRecordName()">略過</button><button type="button" onclick="clearStoredRecordName()">清除姓名</button></div>
+      </div>
+      <div id="recordCard" class="share-record-card"></div>
+      <div class="record-tools"><button type="button" onclick="editRecordName()">修改姓名</button></div>
+      <div class="record-actions">
+        <button type="button" onclick="downloadRecordImage()">儲存紀錄圖片</button>
+        <button class="primary" type="button" onclick="shareRecordImage()">分享紀錄</button>
+      </div>
+      <p id="recordShareStatus" class="small" style="text-align:center"></p>
+      <div class="bottom-home-wrap"><button class="home-btn" type="button" onclick="goHome()">← 回首頁</button></div>
+    </div>
+  </section>
+
+  <section id="answerView" class="hidden">
+    <div class="card">
+      <div id="answerContent"></div>
+      <div style="text-align:center;margin-top:22px"><button class="home-btn" onclick="goHome()">回首頁</button></div>
+    </div>
+  </section>
+
+  <section id="practiceView" class="hidden">
+    <div class="year-head practice-head">
+      <strong id="practiceYearTitle">114 學測中譯英</strong>
+      <div class="qnav">
+        <button id="qb1" class="active" onclick="routeQuestionNav(1)">第 1 題</button>
+        <button id="qb2" onclick="routeQuestionNav(2)">第 2 題</button>
+      </div>
+    </div>
+    <div id="app"></div>
+  </section>
+
+  <div class="footer"></div>
+</div>
+
+<script>
+/* v70：本次依使用者指示以 v69 確認版為修改基礎；處理 114 提示、113 延伸題中英對應、首頁隨機挑題文案與說明文字懸掛式縮排。
+   v69：本次依使用者指示以 v68 確認版為修改基礎；調整 114/112/111/110 指定內容、作答後提示顯示、參考答案開闔與延伸題雙參考譯法。
+   v68：本次以使用者指定的 v67 為修改基礎；僅校訂 110～114 練習內容提示與一處語塊說明，不動版面、功能與互動流程。
+   v64：以正式母版 v62 為基礎；校訂 110～114 題目內容，並補充答案頁說明。
+   v47：以 v46 為基礎；修正實際選項答案位置、首頁 A=100% 字級、隨機挑一回骰子圖示。
+   v32：延續 v31 選擇題答案位置分散規則；另統一四階段題目呈現位置。\n   v31：全面調整選擇題正確答案位置。
+   正解分散，避免固定在第一個選項，也避免形成固定輪替規律。
+   僅調整選項順序與正解索引，不更動題目內容、版面、功能或學習流程。 */
+/* v75 確認版：以 v74 正式母版為唯一基礎，只新增 109 學測兩題、109 首頁年份卡與隨機年份；其餘既有功能與版面保留。 */
+/* v76 確認版：以 v75 正式母版為唯一基礎，只新增 108 學測兩題、108 首頁年份卡與隨機年份；其餘既有功能與版面保留。 */
+/* v102 確認版：以 v101 新正式母版為唯一基礎，新增 108 指考兩題至「指考」頁籤；保留兩個參考譯法，並適度補充官方可接受替代表達；既有學測內容與版面不改。 */
+/* v114 確認版：以 v111 為乾淨基礎，保留 108 指考，新增 107 指考；沿用既有延伸模式路由與專用導覽，並套用指定手機底部三鍵同列。 */
+/* v79 確認版：以 v76 正式母版為唯一基礎新增 107；107 採四階段「句子架構→關鍵表達→整合練習→自己翻譯」，每階段皆有實際操作，不新增複選功能；既有 108～114 不改。 */
+const allData={
+114:{
+  1:{
+    cn:'人類的想像和創意是科技進步最大的驅動力。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>這一句最適合先用哪一種基本結構來組織？</span></div>
+       ${opts(['A + be + B','A + make + B','There + be + A + B'],0)}
+       <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>Human imagination and creativity + is + ______</strong></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-grid">
+         <div class="key-card"><h4>科技進步</h4>${opts(['progressive technology','technological progress','technology progress','technological progressive'],1)}</div>
+         <div class="key-card"><h4>……最大的驅動力</h4>${opts(['the greatest driving force behind','the greatest driven force behind','the greatest driving force to','the greatest driving force with'],0)}</div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>句子架構已經決定了。現在把後半部的核心表達排成自然的英文。</span></div>
+       <div class="skeleton"><strong>Human imagination and creativity + is + ______</strong></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">behind</button>
+         <button class="chip" onclick="addChip(this)">technological progress</button>
+         <button class="chip" onclick="addChip(this)">the greatest driving force</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('the greatest driving force behind technological progress')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(114,1)
+    ],
+    refs:[
+      `Human imagination and creativity is the greatest driving force behind technological progress.`,
+      `Human imagination and creativity together form the greatest driving force behind advances in technology.`
+    ],
+    take:'the greatest / biggest driving force behind + N　……背後最大的驅動力',
+    hint:'<b>the greatest / biggest driving force behind + N</b>',
+    ext:[
+      ['好奇心是許多重要發現背後的驅動力。','Curiosity is the driving force behind many important discoveries.'],
+      ['年輕人的創意可能成為社會改變背後的重要驅動力。',"Young people's creativity may become an important driving force behind social change."]
+    ]
+  },
+  2:{
+    cn:'過去在科幻電影中出現的神奇物件，現在正逐一成真。',
+    steps:['句子架構','句型選擇','關鍵表達','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>這句話真正要說「什麼東西」正在成真？</span></div>
+       ${opts(['科幻電影','過去','現在','神奇物件'],3)}
+       <div class="skeleton"><span class="small">先看句子架構：</span><br><strong>Magical objects + are now + ______</strong></div>`,
+      `<div class="task-intro"><strong>處理「過去在科幻電影中出現的」：</strong><span>哪一種結構較自然？</span></div>
+       ${opts(['magical objects that appeared in science fiction movies','magical objects appeared in science fiction movies'],0)}
+       <p class="small post-answer-note">可以用關係子句 <b>that appeared...</b> 補充說明前面的 <b>objects</b>。</p>`,
+      `<div class="task-intro"><strong>選出適合的關鍵表達：</strong><span>「逐一成真」哪一個較自然？</span></div>
+       ${opts(['become reality one by one','become realities one by one','become reality one after one','turn to reality one by one'],0)}
+       <div class="skeleton post-answer-note"><b>become reality</b> = 成真<br><b>one by one</b> = 逐一</div>`,
+      write(114,2)
+    ],
+    refs:[
+      `Amazing objects that appeared in science fiction movies in the past are now becoming reality one by one.`,
+      `Amazing things once seen in science fiction movies are now becoming reality one by one.`
+    ],
+    take:'become reality　成真<br>one by one　逐一',
+    hint:'<b>become reality</b><br><b>one by one</b>',
+    ext:[
+      ['隨著科技進步，許多過去看似不可能的想法正在成真。','With advances in technology, many ideas that once seemed impossible are coming true.'],
+      ['她努力多年，終於看到自己的夢想逐一成真。','After years of hard work, she finally saw her dreams come true one by one.']
+    ]
+  }
+},
+113:{
+  1:{
+    cn:'每逢選舉季節，總會看到政治人物造訪各地著名廟宇。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>中文沒有明說「誰看到」，英文可以怎麼處理比較自然？</span></div>
+       ${opts(['politicians can see + V-ing','there can see politicians + V-ing','politicians can be seen + V-ing'],2)}
+       <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>Every election season + politicians can be seen + ______</strong></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-grid">
+         <div class="key-card"><h4>政治人物</h4>${opts(['politics','politicals','politician people','politicians'],3)}</div>
+         <div class="key-card"><h4>各地著名廟宇</h4>${opts(['famous temples in different areas','different famous temple areas','famous temple in different area','temples famous at different areas'],0)}</div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把後半部排成自然的英文。點字卡放入排列區；排錯時，再點排列區中的字卡即可放回。</span></div>
+       <div class="skeleton"><strong>Every election season, politicians can be seen + ______</strong></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">in different areas</button>
+         <button class="chip" onclick="addChip(this)">visiting</button>
+         <button class="chip" onclick="addChip(this)">famous temples</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('visiting famous temples in different areas')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(113,1)
+    ],
+    refs:[
+      `Every election season, politicians can be seen visiting famous temples in different areas.`,
+      `During every election season, it is common to see politicians visiting famous temples throughout the country.`
+    ],
+    take:'can be seen + V-ing　可以看到……正在做某事',
+    hint:'<b>can be seen + V-ing</b><br><b>in different places / areas</b>',
+    ext:[
+      ['假日期間，常可看到遊客在老街拍照。','During holidays, visitors can often be seen taking photos on old streets.'],
+      ['春天時，常可看到人們在公園欣賞花朵。','In spring, people can often be seen enjoying the flowers in parks.']
+    ]
+  },
+  2:{
+    cn:'除了祈求好的選舉結果，他們也希望展現對在地文化與習俗的尊重。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「除了做 A，也希望做 B」可以先用哪個架構？</span></div>
+       ${opts(['Besides + V, S + also + V-ing','Besides + V-ing, S + also + V','Except + V-ing, S + only + V'],1)}
+       <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>Besides + V-ing..., they also hope to + ______</strong></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-grid">
+         <div class="key-card"><h4>祈求好的選舉結果</h4>${opts(['pray good election results','pray to good election results','pray for good election results','pray for election good results'],2)}</div>
+         <div class="key-card"><h4>展現對……的尊重</h4>${opts(['show respect of','give respect for','show respectful for','show respect for'],3)}</div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>現在把「展現對在地文化與習俗的尊重」排成自然的英文。</span></div>
+       <div class="skeleton"><strong>they also hope to + ______</strong></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">local culture and customs</button>
+         <button class="chip" onclick="addChip(this)">show respect for</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('show respect for local culture and customs')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(113,2)
+    ],
+    refs:[
+      `Besides praying for favorable election results, they also hope to show respect for local culture and customs.`,
+      `In addition to praying for good election results, they also hope to show respect for local culture and customs.`
+    ],
+    take:'show respect for + N　展現對……的尊重',
+    hint:'<b>Besides / In addition to + V-ing</b><br><b>show respect for + N</b>',
+    ext:[
+      ['除了學習當地語言，遊客也應該尊重當地文化與習俗。','Besides learning the local language, visitors should also show respect for local culture and customs.'],
+      ['人們到廟宇祈求健康與平安。','People visit temples to pray for good health and safety.']
+    ]
+  }
+},
+112:{
+  1:{
+cn:'歷史一再證明，戰爭會造成極為可怕的災難。',
+steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>這句話最適合先抓哪個主要架構？</span></div>${opts(['History + proves that + 子句','History + is proved + 子句','There + proves + history'],0)}<div class="skeleton"><strong>History + has repeatedly proved that + ______</strong></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>一再證明</h4>${opts(['has repeated proved','has repeatedly proved','repeatedly has prove','has proved repeat'],1)}</div><div class="key-card"><h4>造成極為可怕的災難</h4>${opts(['make extremely terrible disaster','cause extremely terrible disasters','cause terrible extremely disasters','lead extremely terrible disaster'],1)}</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把 that 後面的內容排成自然的英文。</span></div><div class="skeleton"><strong>History has repeatedly proved that + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">extremely terrible disasters</button><button class="chip" onclick="addChip(this)">wars</button><button class="chip" onclick="addChip(this)">can cause</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('wars can cause extremely terrible disasters')">提交</button></div><div id="fb" class="feedback"></div>`,
+write(112,1)],
+refs:[`History has repeatedly proved that wars can cause extremely terrible disasters.`,`History has shown time and again that wars can lead to extremely horrible disasters.`],
+take:'cause / lead to + N　造成、導致……',
+hint:'<b>time and again / repeatedly</b><br><b>cause / lead to + N</b>',
+ext:[['歷史一再證明，合作能幫助人們克服困難。','History has repeatedly proved that cooperation can help people overcome difficulties.'],['氣候變遷可能造成嚴重的自然災害。',['Climate change can cause serious natural disasters.','Climate change can lead to serious natural disasters.']]]
+},
+  2:{
+cn:'避免衝突、確保世界和平應該是所有人類追求的目標。',
+steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>「避免衝突、確保世界和平」一起當主詞，哪種寫法較自然？</span></div>${opts(['Avoiding conflicts and ensuring world peace + should be...','Avoid conflicts and ensure world peace + should be...','To avoiding conflicts and ensuring world peace + should be...'],0)}<div class="skeleton"><strong>Avoiding conflicts and ensuring world peace + should be + ______</strong></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>避免衝突</h4>${opts(['avoid to conflicts','escape conflicts','avoid from conflicts','avoid conflicts'],3)}</div><div class="key-card"><h4>所有人類追求的目標</h4>${opts(['the goal pursued by all human beings','a goal of all humans pursuing','all humanity pursue goal','a goal to all humanity pursue'],0)}</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把後半部排成自然的英文。</span></div><div class="skeleton"><strong>... should be + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">by all human beings</button><button class="chip" onclick="addChip(this)">pursued</button><button class="chip" onclick="addChip(this)">the goal</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('the goal pursued by all human beings')">提交</button></div><div id="fb" class="feedback"></div>`,
+write(112,2)],
+refs:[`Avoiding conflicts and ensuring world peace should be the goal pursued by all human beings.`,`To avoid conflicts and ensure world peace should be a goal for all humanity to pursue.`],
+take:'avoid + N / V-ing　避免……<br>ensure + N　確保……',
+hint:'<b>avoid conflicts / ensure world peace</b><br><b>pursue a goal</b>',
+ext:[['減少浪費、保護環境應該是每個人共同追求的目標。',['Reducing waste and protecting the environment should be goals for everyone to pursue.','Reducing waste and protecting the environment should be goals pursued by everyone.']],['政府應採取措施避免衝突並確保公共安全。',['The government should take measures to avoid conflict and ensure public safety.','The government should take measures to avoid conflicts and ensure public safety.'],'<b>conflict</b> 泛指「衝突」；<b>conflicts</b> 指不同或多次的衝突，兩者皆可。']]
+}
+},
+111:{
+  1:{
+cn:'飼養寵物並非一項短暫的人生體驗，而是一個對動物的終生承諾。',
+steps:['句子架構','句型選擇','關鍵表達','自己翻譯'],
+contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>「飼養寵物」在句首當主詞，哪一種寫法較自然？</span></div>${opts(['Keep a pet + is...','To keeping a pet + is...','Keeping a pet + is...'],2)}<div class="skeleton"><strong>Keeping a pet + is + ______</strong></div>`,
+`<div class="task-intro"><strong>句型選擇：</strong><span>「並非 A，而是 B」最適合哪個結構？</span></div>${opts(['not only A but also B','neither A nor B','either A or B','not A but B'],3)}<div class="skeleton post-answer-note"><strong>Keeping a pet is not A but B.</strong></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>短暫的人生體驗</h4>${opts(['a short-term life experience','a short life-term experience','a briefly life experience','a short-term living experience'],0)}</div><div class="key-card"><h4>終生承諾</h4>${opts(['a life-long commit','a lifelong commitment','a lifetime committing','a lifelong committing'],1)}</div></div>`,
+write(111,1)],
+refs:[`Keeping a pet is not a short-term life experience but a lifelong commitment to an animal.`,`Having a pet is not a temporary experience in life but a lifelong commitment to the animal.`],
+take:'not A but B　不是 A，而是 B<br>a lifelong commitment　終生承諾',
+hint:'<b>not A but B</b><br><b>a lifelong commitment</b>',
+ext:[['學習一種語言不是短期任務，而是長期的投入。','Learning a language is not a short-term task but a long-term commitment.'],['養寵物需要時間，也需要長期的承諾。','Keeping a pet takes time and requires a long-term commitment.','', '<b>require</b> = 需要']]
+},
+  2:{
+cn:'在享受寵物所帶來的歡樂時，我們不該忽略要善盡照顧他們的責任。',
+steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>「在享受……時」放在句首，可以怎麼開始？</span></div>${opts(['While enjoy..., we should not...','During enjoy..., we should not...','While enjoying..., we should not...'],2)}<div class="skeleton"><strong>While enjoying + N, we should not + ______</strong></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>忽略責任</h4>${opts(['ignore to responsibility','neglect to our responsible','miss our responsibility to','neglect our responsibility'],3)}</div><div class="key-card"><h4>善盡照顧寵物</h4>${opts(['take good care of our pets','take care our pets well','care good for our pets','take caring good of pets'],0)}</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把主要句子的後半部排成自然的英文。</span></div><div class="skeleton"><strong>we should not + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">to take good care of them</button><button class="chip" onclick="addChip(this)">our responsibility</button><button class="chip" onclick="addChip(this)">neglect</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('neglect our responsibility to take good care of them')">提交</button></div><div id="fb" class="feedback"></div>`,
+write(111,2)],
+refs:[`While enjoying the joy that pets bring us, we should not neglect our responsibility to take good care of them.`,`While enjoying the happiness our pets bring us, we should not forget our responsibility to take care of them well.`],
+take:'while + V-ing　在……的同時<br>take responsibility for + N / V-ing　負起……責任',
+hint:'<b>neglect / ignore one’s responsibility</b><br><b>take good care of + N</b>',
+ext:[['在享受網路便利的同時，我們不應忽略保護個人資料的責任。','While enjoying the convenience of the Internet, we should not neglect our responsibility to protect personal information.'],['照顧動物需要耐心與責任感。','Taking care of animals requires patience and a sense of responsibility.']]
+}
+},
+110:{
+  1:{
+cn:'根據新聞報導，每年全球有超過百萬人在道路事故中喪失性命。',
+steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>這句話的主要主詞應該是什麼？</span></div>${opts(['news reports','over a million people worldwide','road accidents','every year'],1)}<div class="skeleton"><strong>According to news reports, + over a million people worldwide + ______</strong></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>根據新聞報導</h4>${opts(['according news reports','based to news reports','according to news reports','according with the news'],2)}</div><div class="key-card"><h4>在道路事故中喪失性命</h4>${opts(['lose their life on road accident','lost their lives by road accidents','lose lives at road accident','lose their lives in road accidents'],3)}</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把主要內容排成自然的英文。</span></div><div class="skeleton"><strong>According to news reports, + ______ + every year.</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">in road accidents</button><button class="chip" onclick="addChip(this)">over a million people worldwide</button><button class="chip" onclick="addChip(this)">lose their lives</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('over a million people worldwide lose their lives in road accidents')">提交</button></div><div id="fb" class="feedback"></div>`,
+write(110,1)],
+refs:[`According to news reports, over a million people worldwide lose their lives in road accidents every year.`,`According to news reports, more than one million people around the world die in road accidents each year.`],
+take:'according to + N　根據……<br>lose one’s life　喪生',
+hint:'<b>around the world / worldwide</b><br><b>lose one’s life in road accidents</b>',
+ext:[['根據研究，每年有許多人因空氣污染而喪生。','According to research, many people lose their lives because of air pollution every year.'],['世界各地每天都會發生道路事故。','Road accidents occur around the world every day.']]
+},
+  2:{
+cn:'因此，交通法規必須嚴格執行，以確保所有用路人的安全。',
+steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>「交通法規必須嚴格執行」需要使用哪種語態？</span></div>${opts(['must + be + p.p.','must + V-ing','must + have + p.p.','must + be + V-ing'],0)}<div class="skeleton"><strong>Traffic regulations + must be + ______ + to ensure...</strong></div>`,
+`<h3>關鍵表達</h3><div class="key-grid"><div class="key-card"><h4>嚴格執行</h4>${opts(['strictly enforce','strictly enforced','strict enforced','enforced strict'],1)}</div><div class="key-card"><h4>確保……的安全</h4>${opts(['ensure safety to','make sure the safe of','ensure the safety of','ensure the safe for'],2)}</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把目的表達排成自然的英文。</span></div><div class="skeleton"><strong>Traffic regulations must be strictly enforced + ______</strong></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">of all road users</button><button class="chip" onclick="addChip(this)">the safety</button><button class="chip" onclick="addChip(this)">to ensure</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('to ensure the safety of all road users')">提交</button></div><div id="fb" class="feedback"></div>`,
+write(110,2)],
+refs:[`Therefore, traffic regulations must be strictly enforced to ensure the safety of all road users.`,`Therefore, traffic laws must be strictly enforced in order to ensure the safety of everyone on the road.`],
+take:'must be + p.p.　必須被……<br>to ensure + N　以確保……',
+hint:'<b>be strictly enforced</b><br><b>ensure the safety of road users</b>',
+ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。','School safety rules must be strictly enforced to ensure the safety of all students.'],['食品安全標準必須嚴格執行。','Food safety standards must be strictly enforced.']]
+}
+},
+109:{
+  1:{
+    cn:'我們有時會違背自己的意願去做某些事情，就只為了要取悅朋友。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「就只為了要取悅朋友」最適合使用哪個英文結構？</span></div>
+       ${opts(['because + S + V','just to + V','although + S + V','if + S + V'],1)}
+       <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>S + may + V ... + just to + V ...</strong><p class="small" style="margin-bottom:0"><b>just to + V</b> = 就只是為了……；<b>only to + V</b>、<b>simply to + V</b> 也可表達相近意思。</p></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-grid">
+         <div class="key-card"><h4>違背自己的意願</h4>${opts(["according to one's will","against one's will","of one's own free will","with one's permission"],1)}<p class="small post-answer-note"><b>against one's will</b> = 違背某人的意願；這裡的 <b>will</b> 表示「意願」。</p></div>
+         <div class="key-card"><h4>取悅某人</h4>${opts(['please someone','please to someone','please for someone','please with someone'],0)}<p class="small post-answer-note"><b>please + 人</b> = 取悅某人；例如：<b>please our friends</b> = 取悅我們的朋友。</p></div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。點字卡放入排列區；排錯時，再點排列區中的字卡即可放回。</span></div>
+       <div class="skeleton"><strong>Sometimes, we may do certain things + ______</strong></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">our friends</button>
+         <button class="chip" onclick="addChip(this)">against our will</button>
+         <button class="chip" onclick="addChip(this)">please</button>
+         <button class="chip" onclick="addChip(this)">just to</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('against our will just to please our friends')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(109,1)
+    ],
+    refs:[
+      `Sometimes, we may do certain things against our will just to please our friends.`,
+      `Sometimes, we may do certain things against our will simply to please our friends.`
+    ],
+    take:'<b>against one’s will</b>　違背某人的意願<br><b>just to + V</b>　就只是為了……<br><b>please + 人</b>　取悅某人',
+    hint:"<b>against one's will</b><br><b>just to + V</b>",
+    ext:[
+      ['有些青少年會假裝喜歡某些事，只為了融入團體。','Some teenagers pretend to like certain things just to fit in.','', '<b>fit in</b> = 融入']
+    ]
+  },
+  2:{
+    cn:'其實，在面對同儕壓力的時候，我們應該學習堅持自己的原則。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>若使用 <b>be faced</b> 表達「面對同儕壓力時」，哪個搭配正確？</span></div>
+       ${opts(['when faced by + N','when faced to + N','when faced with + N','when faced at + N'],2)}
+       <div class="skeleton"><span class="small">被動形式可以先想成：</span><br><strong>When faced with + N, S + should + V ...</strong><p class="small" style="margin-bottom:0"><b>face + N</b> 也可表示「面對……」，例如 <b>when facing peer pressure</b>；被動形式則是 <b>when faced with peer pressure</b>。</p></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-grid">
+         <div class="key-card"><h4>同儕壓力</h4>${opts(['peer pressure','peers pressure','peer pressures','pressure peer'],0)}<p class="small post-answer-note"><b>peer pressure</b> = 同儕壓力。</p></div>
+         <div class="key-card"><h4>自己的原則</h4>${opts(['rules','orders','principles','instructions'],2)}<p class="small post-answer-note"><b>principle</b> = 原則、信念；<b>rule</b> 通常指規則、規定。<br><b>stick to one's principles</b> = 堅持自己的原則。</p></div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div>
+       <div class="skeleton"><strong>Actually, we should learn to + ______</strong></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">peer pressure</button>
+         <button class="chip" onclick="addChip(this)">stick to our principles</button>
+         <button class="chip" onclick="addChip(this)">when faced with</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('stick to our principles when faced with peer pressure')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(109,2)
+    ],
+    refs:[
+      `Actually, we should learn to stick to our principles when faced with peer pressure.`,
+      `Actually, we should learn to hold on to our principles when facing peer pressure.`
+    ],
+    take:'<b>be faced with + N</b>　面對……<br><b>peer pressure</b>　同儕壓力<br><b>stick to one’s principles</b>　堅持自己的原則',
+    hint:'<b>be faced with + N</b><br><b>stick to + N</b>',
+    ext:[
+      ['面對別人的批評時，我們仍應堅持自己的原則。','When faced with criticism from others, we should still stick to our principles.','', '<b>criticism</b> = 批評']
+    ]
+  }
+},
+108:{
+  1:{
+    cn:'自 2007 年營運以來，高鐵（the High Speed Rail）已成為臺灣最便利、最快速的交通工具之一。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「自 2007 年營運以來，高鐵已成為……」主要子句應使用哪個時態？</span></div>
+       ${opts(['Since ..., S + V(s)','Since ..., S + V-ed','Since ..., S + have/has + p.p.','Since ..., S + will + V'],2)}
+       <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>Since ..., S + have / has + p.p.</strong><p class="small" style="margin-bottom:0">本題的 <b>has become</b> = 已經成為。<br><b>since</b> 後面可以接子句，也可以接名詞：<b>Since + S + 過去式, ...</b>／<b>Since + 名詞, ...</b></p></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-card"><h4>交通工具</h4>${opts(['mean of transportation','means of transportation','means to transportation','means for transportations'],1)}<p class="small post-answer-note"><b>means of transportation</b> = 交通工具／交通方式；<b>means</b> 在這裡表示「方式、手段、工具」。</p></div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div>
+       <div class="skeleton"><strong>Since its operations in 2007, the High Speed Rail + ______</strong></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">means of transportation in Taiwan</button>
+         <button class="chip" onclick="addChip(this)">has become</button>
+         <button class="chip" onclick="addChip(this)">one of the most convenient and fastest</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('has become one of the most convenient and fastest means of transportation in Taiwan')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(108,1)
+    ],
+    refs:[
+      `Since its operations in 2007, the High Speed Rail has become one of the most convenient and fastest means of transportation in Taiwan.`,
+      `Since the High Speed Rail started to run in 2007, it has become one of the most convenient and fastest means of transportation in Taiwan.`
+    ],
+    take:'<b>Since ..., S + have/has + p.p.</b>　自……以來……<br><b>one of the + 最高級 + 複數名詞</b>　最……的……之一<br><b>means of transportation</b>　交通工具',
+    hint:'<b>Since ..., S + have/has + p.p.</b><br><b>one of the most ...</b>',
+    ext:[
+      ['自問世以來，智慧型手機已成為現代生活中最重要的溝通工具之一。','Since its introduction, the smartphone has become one of the most important means of communication in modern life.','', '<b>means of communication</b> = 溝通工具／方式']
+    ]
+  },
+  2:{
+    cn:'對於強調職場效率的人而言，高鐵當然是商務旅行的首選。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「對於強調職場效率的人而言」最適合使用哪個英文結構？</span></div>
+       ${opts(['For those who + V ...','For those + V ...','To those which + V ...','For them who + V ...'],0)}
+       <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>For those who + V ..., S + V ...</strong><p class="small" style="margin-bottom:0"><b>those who + V</b> = 那些……的人；<b>people who + V</b> 也可以表示「……的人」。</p></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-grid">
+         <div class="key-card"><h4>職場效率</h4>${opts(['workplace efficient','workplace efficiency','efficient workplace','efficiency workplace'],1)}<p class="small post-answer-note"><b>workplace efficiency</b> = 職場效率。<br><b>efficient</b> 是形容詞；<b>efficiency</b> 是名詞。</p></div>
+         <div class="key-card"><h4>商務旅行的首選</h4>${opts(['the first choice of business trips','the first choice for business trips','the first choice to business trips','the first choice at business trips'],1)}<p class="small post-answer-note"><b>the first choice for + N</b> = ……的首選。</p></div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div>
+       <div class="skeleton"><strong>For ______, the High Speed Rail is definitely ______.</strong></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">the first choice for business trips</button>
+         <button class="chip" onclick="addChip(this)">those who emphasize workplace efficiency</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('those who emphasize workplace efficiency the first choice for business trips')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(108,2)
+    ],
+    refs:[
+      `For those who emphasize workplace efficiency, the High Speed Rail is definitely the first choice for business trips.`,
+      `For people who place value on efficiency at work, the High Speed Rail is certainly the best option for business travel.`
+    ],
+    take:'<b>those who + V</b>　那些……的人<br><b>workplace efficiency</b>　職場效率<br><b>the first choice for + N</b>　……的首選',
+    hint:'<b>those who + V</b><br><b>the first choice for + N</b>',
+    ext:[
+      ['對於重視便利性的人而言，線上購物往往是購買日常用品的首選。','For those who value convenience, online shopping is often the first choice for buying everyday items.','', '<b>value + N</b> = 重視……']
+    ]
+  }
+},
+107:{
+  1:{
+    cn:'近年來，有越來越多超級颱風，通常造成嚴重災害。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「近年來，有越來越多……」哪個英文架構最適合？</span></div>
+       ${opts(['In recent years, there were ...','In recent years, there have been ...','In recent years, there are ...'],1)}
+       <div class="skeleton post-answer-note"><span class="small"><b>in recent years</b> 表示從過去延續到現在，常搭配現在完成式。</span></div>`,
+      `<div class="task-intro"><strong>關鍵表達：</strong><span>「造成嚴重損害」哪個表達正確？</span></div>
+       ${opts(['cause serious damages','cause a serious damage','cause serious damage'],2)}
+       <div class="skeleton post-answer-note"><b>damage</b> 表示「損害」時，通常作不可數名詞。</div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>前面已經提到 <b>super typhoons</b>，接下來要補充「通常造成嚴重災害」。哪個接法適合？</span></div>
+       ${opts(['..., which often cause serious damage.','..., that often cause serious damage.'],0)}
+       <div class="skeleton post-answer-note">逗號後是在補充說明前面的 <b>super typhoons</b>，這裡用 <b>which</b> 連接。</div>`,
+      write(107,1)
+    ],
+    refs:[
+      `In recent years, there have been more and more super typhoons, which often cause serious damage.`,
+      `In recent years, there have been more and more super typhoons, which often result in severe disasters.`
+    ],
+    take:'',
+    hint:'',
+    afterRefs:'<div class="takeaway-note"><b>可替換表達</b><br><b>serious</b> → <b>severe</b><br><b>cause</b> → <b>result in</b></div>',
+    ext:[
+      ['近年來，越來越多人選擇同時從事不同的工作，而不是只依賴一份全職工作。','In recent years, more and more people have chosen to take on different jobs rather than rely on a single full-time job.','', '<b>take on</b> = 從事／承擔<br><b>full-time job</b> = 全職工作']
+    ]
+  },
+  2:{
+    cn:'颱風來襲時，我們應準備足夠的食物，並待在室內，若有必要，應迅速移動至安全的地方。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>中文可以連續使用逗號；翻成英文時，哪個句子架構較適合？</span></div>
+       ${opts(['When ..., we should ... and .... If necessary, we should ....','When ..., we should ... and ..., if necessary, we should ....'],0)}
+       <div class="skeleton post-answer-note">中文可以連續使用逗號，但翻成英文時，要注意句子的完整性與連接方式。</div>`,
+      `<div class="task-intro"><strong>關鍵表達：</strong><span>「若有必要，應迅速<b>移動至</b>安全的地方。」哪個表達最貼近原文？</span></div>
+       ${opts(['quickly relocate to a safe place','quickly move to a safe place','quickly evacuate to a safe place'],1)}
+       <div class="skeleton post-answer-note"><b>move to</b> 最直接對應原文的「移動至」；<b>relocate</b> 偏向「搬遷／重新安置」，<b>evacuate</b> 則帶有「撤離／疏散」的意思。</div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把三個完整意義單位排成自然的英文。</span></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">If necessary, we should quickly move to a safe place.</button>
+         <button class="chip" onclick="addChip(this)">When a typhoon strikes,</button>
+         <button class="chip" onclick="addChip(this)">we should prepare enough food and stay indoors.</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('When a typhoon strikes, we should prepare enough food and stay indoors. If necessary, we should quickly move to a safe place.')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(107,2)
+    ],
+    refs:[
+      `When a typhoon strikes, we should prepare enough food and stay indoors. If necessary, we should quickly move to a safe place.`,
+      `When a typhoon hits, we should prepare sufficient food and stay indoors. If necessary, we should swiftly move to a safe place.`
+    ],
+    take:'',
+    hint:'<b>strike</b> = 來襲<br><b>indoors</b> = 在室內',
+    afterRefs:'<div class="takeaway-note"><b>可替換表達</b><br><b>strikes</b> → <b>hits</b><br><b>enough</b> → <b>sufficient</b><br><b>quickly</b> → <b>swiftly</b></div>',
+    ext:[
+      ['與他人合作時，我們應清楚表達自己的想法，若有必要，也應願意調整自己的做法。','When we work with others, we should express our ideas clearly. If necessary, we should also be willing to adjust our approach.','', '<b>approach</b> = 做法／方式']
+    ]
+  }
+},
+105:{
+1:{cn:'相較於他們父母的世代，現今年輕人享受較多的自由和繁榮。',steps:['句子架構','關鍵表達','整合練習','自己翻譯'],contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>「相較於他們父母的世代」下列哪一個英文表達不正確？</span></div>${opts(["Compared with their parents' generation, ...","Compared to their parents' generation, ...","In comparison from their parents' generation, ..."],2,2)}<div class="skeleton post-answer-note"><strong>Compared with ...</strong>、<strong>Compared to ...</strong> 都可以表示「與……相比」。也可以說 <strong>In comparison with ...</strong>；不能說 <strong>In comparison from ...</strong>。</div>`,
+`<h3>關鍵表達</h3><div class="key-card"><div class="task-intro"><strong>原文：</strong><span>現今年輕人</span></div><div class="task-intro"><span>下列哪一個英文表達較不符合原文意思？</span></div>${opts(['young people today',"today's young people",'modern young people'],2,0)}<div class="skeleton post-answer-note"><b>young people today</b>、<b>today's young people</b> 都可直接表達「現今年輕人」；也可以說 <b>young people nowadays</b>。<br><br><b>modern young people</b> 比較偏向「現代的年輕人」，較不直接對應原文的「現今」。</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">enjoy more freedom and prosperity.</button><button class="chip" onclick="addChip(this)">Compared with their parents' generation,</button><button class="chip" onclick="addChip(this)">young people today</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild(&quot;Compared with their parents' generation, young people today enjoy more freedom and prosperity.&quot;)">提交</button></div><div id="fb" class="feedback"></div>`,write(105,1)],
+refs:[`Compared with their parents' generation, young people today enjoy more freedom and prosperity.`,`Compared to the generation of their parents, today's young people enjoy greater freedom and prosperity.`],take:'<b>Compared with/to ...</b>　與……相比<br><b>parents\' generation</b>　父母的世代<br><b>young people today</b>　現今年輕人<br><b>enjoy more freedom and prosperity</b>　享有較多的自由與繁榮',hint:'<b>Compared with/to ...</b><br><b>enjoy more ...</b>',ext:[['和線上聊天相比，面對面的互動讓人們有更多了解彼此的機會。','Compared with chatting online, face-to-face interaction gives people more opportunities to understand each other.','', '<b>Compared with ...</b><br><b>give people more opportunities to ...</b>']]},
+2:{cn:'但是在這個快速改變的世界中，他們必須學習如何有效地因應新的挑戰。',steps:['句子架構','關鍵表達','整合練習','自己翻譯'],contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>哪一個不適合表達「學習如何做某件事」？</span></div>${opts(['learn how to + V.','learn to + V.','learn + V-ing'],2,1)}<div class="skeleton post-answer-note">表達「學會／學習如何做某事」時，可使用 <strong>learn (how) to + V.</strong>。因此可用 <b>learn how to + V.</b> 或 <b>learn to + V.</b>；<b>learn + V-ing</b> 不適合表達這裡的「學習如何」。</div>`,
+`<h3>關鍵表達</h3><div class="key-card"><h4>因應新的挑戰</h4><div class="task-intro"><span>下列哪一個不適合用來表達「因應新的挑戰」？</span></div>${opts(['respond to new challenges','deal with new challenges','handle with new challenges','react to new challenges'],2,3)}<div class="skeleton post-answer-note"><b>respond to new challenges</b>、<b>deal with new challenges</b>、<b>react to new challenges</b> 在本題語境中都可以使用。<b>handle</b> 本身可直接接受詞，不加 <b>with</b>；應為 <b>handle new challenges</b>。</div></div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">respond to new challenges effectively.</button><button class="chip" onclick="addChip(this)">But in this fast-changing world,</button><button class="chip" onclick="addChip(this)">they must learn how to</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('But in this fast-changing world, they must learn how to respond to new challenges effectively.')">提交</button></div><div id="fb" class="feedback"></div>`,write(105,2)],
+refs:[`However, in this fast-changing world, they must learn how to respond to new challenges effectively.`,`Nevertheless, in this rapidly changing world, they need to learn how to effectively deal with new challenges.`],take:'<b>in this fast-changing world</b>　在這個快速變化的世界中<br><b>learn how to + V.</b>　學習如何……<br><b>respond to new challenges</b>　因應新的挑戰<br><b>effectively</b>　有效地',hint:'<b>learn how to + V.</b><br><b>respond to ... effectively</b>',ext:[['發生衝突時，我們應該學習如何有效地與他人溝通。',['When conflicts occur, we should learn how to communicate with others effectively.','When there is a conflict, we should learn how to communicate with others effectively.'],'', '<b>learn how to + V.</b><br><b>communicate with ... effectively</b>']]}
+},
+106:{
+1:{cn:'玉山在冬天常常覆蓋著厚厚的積雪，使整個山頂閃耀如玉。',steps:['句子架構','關鍵表達','整合練習','自己翻譯'],contents:[
+`<div class="task-intro"><strong>句子架構：</strong><span>「玉山……覆蓋著……」主要應採用哪一種結構？</span></div>${opts(['Jade Mountain + be covered ...','Jade Mountain + cover ...','There be ... + Jade Mountain ...'],0,1)}<div class="skeleton post-answer-note"><strong>Jade Mountain + be covered ...</strong></div>`,
+`<h3>關鍵表達</h3><div class="skeleton"><strong>be covered with thick snow</strong> = 覆蓋著厚厚的積雪</div><div class="key-card"><h4>使整個山頂閃耀如玉</h4>${opts(['make the entire peak shine like jade','make the entire peak shines like jade','make the entire peak to shine like jade'],0,2)}</div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的表達重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">making the entire peak shine like jade</button><button class="chip" onclick="addChip(this)">Jade Mountain</button><button class="chip" onclick="addChip(this)">with thick snow in winter</button><button class="chip" onclick="addChip(this)">is often covered</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Jade Mountain is often covered with thick snow in winter making the entire peak shine like jade')">提交</button></div><div id="fb" class="feedback"></div>`,write(106,1)],
+refs:[`Jade Mountain is often covered with thick snow in winter, making the entire peak shine like jade.`,`Jade Mountain is often covered with thick snow in winter, which makes the entire peak shine like jade.`],take:'be covered with thick snow　覆蓋著厚厚的積雪<br>make + O + V　使……做……',hint:'<b>be covered with ...</b><br><b>make + O. + V.</b>',ext:[['城市常常籠罩在厚厚的霧霾中，使居民很難看清遠方的建築物。','The city is often covered with thick smog, making it difficult for residents to see buildings in the distance.','', '<b>be covered with ...</b><br><b>make it + adj. + for + 人 + to V.</b>']]},
+2:{cn:'征服玉山一直是國內外登山者最困難的挑戰之一。',steps:['核心用字','關鍵表達','整合練習','自己翻譯'],contents:[
+`<div class="task-intro"><strong>核心用字：</strong><span>「征服玉山」哪個英文表達最合適？</span></div>${opts(['Conquering Jade Mountain ...','Overcoming Jade Mountain ...','Defeating Jade Mountain ...'],0,0)}<div class="skeleton post-answer-note"><strong>Conquering Jade Mountain ...</strong></div>`,
+`<h3>關鍵表達</h3><h4 style="margin-bottom:6px;color:var(--green)">另外取得</h4><div class="skeleton"><strong>has always been</strong> = 一直是<br><strong>one of the most difficult challenges</strong> = 最困難的挑戰之一</div><div class="key-card"><h4>國內外登山者</h4><div class="task-intro"><span>下列哪一個「不適合」用來表達「國內外登山者」？</span></div>${opts(['mountain climbers at home and abroad','local and foreign mountain climbers','domestic and foreign mountain climbers','mountain climbers inside and outside'],3,2)}</div>`,
+`<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">one of the most difficult challenges</button><button class="chip" onclick="addChip(this)">for mountain climbers at home and abroad</button><button class="chip" onclick="addChip(this)">Conquering Jade Mountain</button><button class="chip" onclick="addChip(this)">has always been</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Conquering Jade Mountain has always been one of the most difficult challenges for mountain climbers at home and abroad')">提交</button></div><div id="fb" class="feedback"></div>`,write(106,2)],
+refs:[`Conquering Jade Mountain has always been one of the most difficult challenges for mountain climbers at home and abroad.`,`Conquering Jade Mountain has always been one of the toughest challenges for local and foreign mountain climbers.`],take:'conquer + a mountain　征服／成功攀登一座山<br>at home and abroad　在國內外',hint:'<b>V-ing ...</b><br><b>has always been ...</b><br><b>one of the + 最高級 + 複數名詞</b>',ext:[['適應新的學習環境，對許多學生來說是一大挑戰。','Adapting to a new learning environment is a major challenge for many students.','', '<b>adapt to ...</b><br><b>V-ing ... + be a major challenge for ...</b>']]}
+},
+10801:{
+  1:{
+    cn:'創意布條最近在夜市成了有效的廣告工具，也刺激了買氣的成長。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「創意布條最近……成了……」最適合使用哪個英文架構？</span></div>
+       ${opts(['Creative banners have recently become ...','Creative banners recently became ...','Creative banners are recently becoming ...'],0,1)}
+       <div class="skeleton post-answer-note"><span class="small">句子架構可以先想成：</span><br><strong>Creative banners + have recently become + N.</strong><p class="small" style="margin-bottom:0"><b>have recently become</b> 可表達「最近已成為」，把過去的變化連到現在。</p></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-card"><h4>刺激買氣的成長</h4><p class="small"><b>下列哪一個英文表達不適合？</b></p>${opts(['stimulate sales','boost sales','promote sales','inspire sales'],3,1)}<p class="post-answer-note"><b>stimulate / increase / boost / promote sales</b> 都可表達「刺激／提升買氣」。</p></div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">and have boosted sales.</button><button class="chip" onclick="addChip(this)">Creative banners</button><button class="chip" onclick="addChip(this)">effective advertising tools at night markets</button><button class="chip" onclick="addChip(this)">have recently become</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Creative banners have recently become effective advertising tools at night markets and have boosted sales.')">提交</button></div><div id="fb" class="feedback"></div>`,
+      write(10801,1)
+    ],
+    refs:[
+      `Creative banners have recently become effective advertising tools at night markets and have boosted sales.`,
+      `Innovative banners have lately become effective advertising tools in night markets, causing sales to rise.`
+    ],
+    take:'<b>creative / inventive / innovative banners</b>　創意布條<br><b>have recently become ...</b>　最近已成為……<br><b>stimulate / increase / boost / promote sales</b>　刺激／提升買氣',
+    hint:'<b>have recently become ...</b><br><b>boost sales</b>',
+    ext:[
+      ['社群媒體近年已成為有效的行銷工具，也幫助許多小型企業提升銷售。',['Social media has recently become an effective marketing tool and has helped many small businesses increase their sales.','In recent years, social media has become an effective marketing tool, helping many small businesses boost their sales.'],'','<b>have/has recently become ...</b><br><b>increase / boost sales</b>']
+    ]
+  },
+  2:{
+    cn:'其中有些看似無意義，但卻相當引人注目，且常能帶給人們會心的一笑。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「其中有些看似無意義」下列哪一個英文表達不適合？</span></div>
+       ${opts(['Some of them seem meaningless.','Some of them appear meaningless.','Some of them look meaningless.','Some of them look like meaningless.'],3,2)}
+       <div class="skeleton post-answer-note"><span class="small">句子架構可以先想成：</span><br><strong>Some of them + seem / appear / look + adj.</strong><p style="margin-bottom:0"><b>seem / appear / look + adj.</b> 都可表達「看似……」；也可說 <b>appear to be meaningless</b>。</p></div>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-card"><h4>帶給人們會心的一笑</h4><p class="small"><b>下列哪一個英文表達不適合？</b></p>${opts(['bring people a knowing smile','give people an understanding smile','make people smile knowingly','bring people a meaningful smile'],3,3)}<p class="post-answer-note"><b>knowing / approving / understanding smile</b> 都可表達「會心的一笑」；也可說 <b>make people smile knowingly</b>。</p></div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">and often bring people a knowing smile.</button><button class="chip" onclick="addChip(this)">Some of them seem meaningless,</button><button class="chip" onclick="addChip(this)">but they are quite eye-catching</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Some of them seem meaningless, but they are quite eye-catching and often bring people a knowing smile.')">提交</button></div><div id="fb" class="feedback"></div>`,
+      write(10801,2)
+    ],
+    refs:[
+      `Some of them seem meaningless, but they are quite eye-catching and often bring people a knowing smile.`,
+      `Some of them appear to be meaningless, but they are rather eye-catching and often make people smile knowingly.`
+    ],
+    take:'<b>seem / appear (to be) / look + adj.</b>　看似……<br><b>quite / rather eye-catching</b>　相當引人注目<br><b>a knowing / approving / understanding smile</b>　會心的一笑<br><b>make / cause people smile knowingly</b>　使人會心一笑',
+    hint:'<b>Some of them ..., but ...</b><br><b>a knowing smile</b>',
+    ext:[
+      ['有些廣告看似簡單，但相當引人注目，常能讓人會心一笑。',['Some advertisements seem simple, but they are quite eye-catching and often make people smile knowingly.','Some advertisements appear simple, but they are rather eye-catching and often bring people a knowing smile.'],'','<b>seem / appear + adj.</b><br><b>quite / rather eye-catching</b><br><b>smile knowingly / a knowing smile</b>']
+    ]
+  }
+}
+,10701:{
+  1:{
+    cn:'快速時尚以速度與低價為特色，讓人們可以用負擔得起的價格買到流行的服飾。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>下列哪一個不適合表達「以……為特色」？</span></div>
+       ${opts(['be characterized by + N.','feature + N.','be characterized with + N.'],2,1)}
+       <div class="skeleton"><span class="small">可以這樣表達：</span><br><strong>be characterized by + N.</strong><br><strong>feature + N.</strong></div>`,
+      `<div class="task-intro"><strong>關鍵表達：</strong><span>「讓人們可以……」下列哪一個結構正確？</span></div>
+       ${opts(['allow people to + V.','allow people + V-ing','allow people + V.'],0,2)}
+       <div class="post-answer-note"><b>allow + 人 + to V.</b> = 讓某人可以／允許某人做……</div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">at affordable prices.</button>
+         <button class="chip" onclick="addChip(this)">Fast fashion</button>
+         <button class="chip" onclick="addChip(this)">allowing people to buy trendy clothing</button>
+         <button class="chip" onclick="addChip(this)">is characterized by speed and low prices,</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Fast fashion is characterized by speed and low prices, allowing people to buy trendy clothing at affordable prices.')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(10701,1)
+    ],
+    refs:[
+      `Fast fashion is characterized by speed and low prices, allowing people to buy trendy clothing at affordable prices.`,
+      `Fast fashion, which features speed and low prices, allows people to purchase affordable fashionable clothing.`
+    ],
+    take:'<b>be characterized by + N.</b>　以……為特色<br><b>feature + N.</b> = 以……為特色／具有……特色<br><b>allow + 人 + to V.</b>　讓某人可以做……',
+    hint:'<b>be characterized by + N.</b><br><b>allow + 人 + to V.</b>',
+    ext:[
+      ['台灣以豐富的文化與美麗的風景為特色，使它成為吸引世界各地旅客的地方。','Taiwan is characterized by its rich culture and beautiful scenery, making it an attractive place for visitors from around the world.','', '<b>rich culture</b> = 豐富的文化<br><b>beautiful scenery</b> = 美麗的風景<br><b>visitors from around the world</b> = 世界各地的旅客'],
+      ['行動支付以快速與便利為特色，讓人們可以更有效率地完成付款。','Mobile payment is characterized by speed and convenience, allowing people to make payments more efficiently.','', '<b>mobile payment</b> = 行動支付<br><b>make payments</b> = 付款<br><b>efficiently</b> = 有效率地']
+    ]
+  },
+  2:{
+    cn:'然而，它所鼓勵的「快速消費」卻製造了大量的廢棄物，造成巨大的污染問題。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「它所鼓勵的快速消費」下列哪一個英文結構正確？</span></div>
+       ${opts(['the fast consumption it encourages','the fast consumption which encourages','the fast consumption which is encouraged'],0,0)}
+       <div class="skeleton"><span class="small">可以先看成：</span><br><strong>the fast consumption (that) it encourages</strong><p class="small" style="margin-bottom:0">關係代名詞作受詞時可以省略。</p></div>`,
+      `<div class="task-intro"><strong>關鍵表達：</strong><span>「造成巨大的污染問題」若用 <b>result</b> 表達，下列哪一個正確？</span></div>
+       ${opts(['result in enormous pollution problems','result from enormous pollution problems','result in enormous polluting problems'],0,1)}
+       <div class="post-answer-note"><b>result in + N.</b> = 導致、造成<br><b>result from + N.</b> = 起因於</div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">resulting in enormous pollution problems.</button>
+         <button class="chip" onclick="addChip(this)">However, the fast consumption it encourages</button>
+         <button class="chip" onclick="addChip(this)">huge amounts of waste,</button>
+         <button class="chip" onclick="addChip(this)">has produced</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('However, the fast consumption it encourages has produced huge amounts of waste, resulting in enormous pollution problems.')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(10701,2)
+    ],
+    refs:[
+      `However, the fast consumption it encourages has produced huge amounts of waste, resulting in enormous pollution problems.`,
+      `Nevertheless, the fast consumption it encourages has produced huge amounts of waste, which has resulted in enormous pollution problems.`
+    ],
+    take:'<b>the + N. + S + V</b>　名詞後接修飾內容<br><b>result in + N.</b>　導致、造成<br><b>resulting in ...</b>／<b>which has resulted in ...</b>　表達後續結果',
+    hint:'<b>the fast consumption (that) it encourages</b><br><b>result in + N.</b>',
+    ext:[
+      ['社群媒體上的過度比較造成許多壓力，進而影響青少年的心理健康。','Excessive comparison on social media creates a great deal of stress, resulting in negative effects on teenagers’ mental health.','', '<b>excessive comparison</b> = 過度比較<br><b>stress</b> = 壓力<br><b>mental health</b> = 心理健康'],
+      ['網路購物所使用的過多包裝製造了大量垃圾，造成環境問題。','The excessive packaging used for online shopping produces large amounts of waste, resulting in environmental problems.','', '<b>excessive packaging</b> = 過多包裝<br><b>online shopping</b> = 網路購物<br><b>waste</b> = 垃圾／廢棄物']
+    ]
+  }
+}
+
+};
+
+let currentYear=114,q=1,step=0,fs=18;
+let practiceMode='question';
+
+function routeQuestionNav(n){
+  if(practiceMode==='extension'){
+    showExtensionPage(n);
+  }else{
+    showQ(n);
+  }
+}
+
+function isAstYear(y){return [10801,10701].includes(Number(y));}
+function displayYear(y){
+  const n=Number(y);
+  if(n===10801)return 108;
+  if(n===10701)return 107;
+  return n;
+}
+function examTypeName(y){return isAstYear(y)?'指考':'學測';}
+function examLabel(y){return displayYear(y)+' '+examTypeName(y);}
+function practiceTitle(y,suffix){return examLabel(y)+(suffix||'中譯英');}
+
+function data(){return allData[currentYear]}
+function opts(a,ans,targetOverride){
+ const targets=[
+   1,3,0,2,1,3,  /* 114: B D A C B D */
+   2,0,3,1,2,0,  /* 113: C A D B C A */
+   0,2,1,2,3,0,  /* 112: A C B C D A */
+   1,3,0,2,1,3,0,/* 111: B D A C B D A */
+   3,1,2,0,3,1,  /* 110: D B C A D B */
+   2,0,3,1,         /* 109: C A D B */
+   1,3,0,2,1,3,    /* 108: B D A C B D */
+   1,2,0,1,0,      /* 107: B C A B A */
+   2,1,2,3          /* 105: C B C D */
+ ];
+ const seq=opts._seq||0; opts._seq=seq+1;
+ const requestedTarget=(targetOverride!==undefined)?targetOverride:(targets[seq]!==undefined?targets[seq]:0);
+ const target=Math.max(0,Math.min(requestedTarget,a.length-1));
+ const items=a.map((text,i)=>({text,correct:i===ans}));
+ const correct=items.find(x=>x.correct);
+ const ordered=items.filter(x=>!x.correct);
+ ordered.splice(target,0,correct);
+ return `<div class="options-grid option-count-${a.length}" data-target-pos="${target}" data-choice-seq="${seq}">`+
+   ordered.map((x,i)=>`<button class="option" data-correct="${x.correct?'1':'0'}" data-answer="${escapeHtml(a[ans])}" onclick="choose(this,${x.correct})"><span class="option-label">${String.fromCharCode(65+i)}.</span><b class="option-text">${x.text}</b></button>`).join('')+
+   `</div>`;
+}
+function write(y,n){
+ return `<p><b>先不要看提示，試著自己完成整句。</b></p>
+ <textarea id="student" placeholder="你可以在這裡輸入，也可以拿紙筆寫寫看。"></textarea>
+ <div class="actions">
+   <button onclick="toggleHint()">需要提示</button>
+   <button class="primary" onclick="showRefs()">查看參考答案</button>
+ </div>
+ <div class="complete-confirm"><button id="completeBtn" type="button" onclick="confirmQuestionComplete()">✓ 我完成這一題了</button><div class="small" style="margin-top:7px">完成翻譯後，點一下就能留下練習紀錄。</div></div>
+ <div id="hint" class="hint"></div>
+ <div id="refs" class="refs"></div>`;
+}
+function switchExam(type){
+ const gsat=type==='gsat';
+ document.getElementById('gsatPanel').classList.toggle('hidden',!gsat);
+ document.getElementById('astPanel').classList.toggle('hidden',gsat);
+ document.getElementById('tabGsat').classList.toggle('active',gsat);
+ document.getElementById('tabAst').classList.toggle('active',!gsat);
+}
+function showAnswers(y){
+ currentYear=y;
+ const d=allData[y];
+ document.getElementById('answerContent').innerHTML=`
+   <h2 style="margin-top:0;color:var(--green)">${examLabel(y)}　題目與答案</h2>
+   <p class="small">以下譯文供學習參考。翻譯不只有一種正確寫法；參考譯法以大考中心公布資料與可接受表達為主要依據。</p>
+   ${[1,2].map((n,i)=>`
+     ${i?'<hr style="border:0;border-top:1px solid var(--line)">':''}
+     <div style="margin:18px 0">
+       <b>第 ${n} 題</b>
+       <p class="prompt" style="font-size:1.05em">${d[n].cn}</p>
+       <div class="actions"><button onclick="toggleAnswerRefs(${n})">查看參考答案</button></div>
+       <div id="answerRefs${n}" class="hint">${d[n].refs.map((r,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${r}</span></p>`).join('')}</div>
+     </div>`).join('')}`;
+ document.getElementById('homeView').classList.add('hidden');
+ ['recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+ document.getElementById('practiceView').classList.add('hidden');
+ document.getElementById('answerView').classList.remove('hidden');
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleAnswerRefs(n){const x=document.getElementById('answerRefs'+n);if(x)x.style.display=x.style.display==='block'?'none':'block';}
+function enterYear(y){
+ currentYear=y;
+ if(typeof startNewPracticeAttempt==='function')startNewPracticeAttempt(y);
+ document.getElementById('homeView').classList.add('hidden');
+ ['recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+ document.getElementById('answerView').classList.add('hidden');
+ document.getElementById('practiceView').classList.remove('hidden');
+ document.getElementById('practiceYearTitle').textContent=practiceTitle(y,'中譯英');
+ q=1;step=0;showQ(1);
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function goHome(){
+ document.getElementById('practiceView').classList.add('hidden');
+ document.getElementById('answerView').classList.add('hidden');
+ ['mistakeView','recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+ document.getElementById('homeView').classList.remove('hidden');
+ document.getElementById('randomResult').textContent='';
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function randomYear(type){
+ const box=document.getElementById('randomResult');
+ const pools={
+   gsat:[114,113,112,111,110,109,108,107,106,105],
+   ast:[10801,10701]
+ };
+ const years=pools[type]||pools.gsat;
+ const label=type==='ast'?'指考':'學測';
+ let i=0;
+ box.textContent='正在挑選…';
+ const timer=setInterval(()=>{
+   const preview=years[i%years.length];
+   box.textContent=examLabel(preview);
+   i++;
+   if(i>5){
+     clearInterval(timer);
+     const picked=years[Math.floor(Math.random()*years.length)];
+     const pickedLabel=examLabel(picked);
+     box.innerHTML=`<div class="random-picked">今天來練 <b>${pickedLabel}</b>！</div><div class="random-actions"><button type="button" class="random-start" onclick="enterYear(${picked})">開始練寫 ${pickedLabel} →</button><button type="button" class="random-again" onclick="randomYear('${type}')">再挑一次</button></div>`;
+   }
+ },120);
+}
+function render(){
+ let d=data()[q];
+ document.getElementById('practiceYearTitle').textContent=practiceTitle(currentYear,'中譯英');
+ document.getElementById('app').innerHTML=`
+ <div class="card stage-nav-card">
+   <div class="steps">${d.steps.map((s,i)=>`<button class="${i===step?'active':''}" onclick="go(${i})">${i+1}. ${s}</button>`).join('')}<button class="extension-entry" onclick="showExtensionPage(q)">延伸題目</button></div>
+ </div>
+ <div class="card step-page">
+   <div class="prompt in-step-prompt">${d.cn}</div>
+   ${d.contents[step]}
+ </div>
+ ${step<3 ? `<div class="page-nav">
+   <div><button onclick="prevPage()" ${q===1 && step===0?'disabled':''}>← 上一頁</button></div>
+   <div class="home"><button onclick="goHome()">回首頁</button></div>
+   <div class="next"><button class="primary" onclick="nextPage()">下一頁 →</button></div>
+ </div>` : q===1 ? `<div class="finish-box">
+   <strong>這一題練完了</strong>
+   <div class="finish-actions">
+     <button onclick="prevPage()">← 上一頁</button>
+     <button onclick="goHome()">回首頁</button>
+     <button onclick="showQ(2)">練第 2 題 →</button>
+   </div>
+ </div>` : `<div class="finish-box">
+   <strong>${examLabel(currentYear)}兩題練習完成</strong>
+   <div class="finish-actions">
+     <button onclick="prevPage()">← 上一頁</button>
+     <button onclick="goHome()">回首頁</button>
+     <button onclick="showExtensionPage(1)">第 1 題延伸 →</button>
+   </div>
+ </div>`}`;
+ if(step===0){
+   const stageSkeleton=document.querySelector('#app .step-page .skeleton');
+   if(stageSkeleton) stageSkeleton.style.display='none';
+ }
+ if(step===3){
+   const hint=document.getElementById('hint');
+   if(hint) hint.innerHTML=d.hint;
+   if(!d.hint){
+     const hintBtn=document.querySelector('#app .actions button[onclick="toggleHint()"]');
+     if(hintBtn) hintBtn.style.display='none';
+   }
+   if(typeof syncCompleteButton==='function')syncCompleteButton();
+ }
+ if(typeof normalizeOptionPositions==='function')normalizeOptionPositions();
+}
+function showQ(n){
+ practiceMode='question';
+ q=n;step=0;
+ document.getElementById('qb1').classList.toggle('active',n===1);
+ document.getElementById('qb2').classList.toggle('active',n===2);
+ render();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function go(i){step=i;render()}
+function prevPage(){
+ if(step>0){step--;render();return;}
+ if(q===2){
+   q=1;step=3;
+   document.getElementById('qb1').classList.add('active');
+   document.getElementById('qb2').classList.remove('active');
+   render();
+ }
+}
+function nextPage(){
+ if(step<3){step++;render();return;}
+ if(q===1){showQ(2);}
+}
+function choose(el,ok){
+ el.parentNode.querySelectorAll('.option').forEach(x=>x.classList.remove('ok','no'));
+ el.classList.add(ok?'ok':'no');
+ let old=el.parentNode.querySelector('.feedback');if(old)old.remove();
+ let f=document.createElement('div');f.className='feedback';f.textContent=ok?'答對了。':'再想想看。';
+ el.parentNode.insertBefore(f,el.nextSibling);
+ if(ok && step===0){
+   const stageSkeleton=document.querySelector('#app .step-page .skeleton');
+   if(stageSkeleton) stageSkeleton.style.display='block';
+ }
+ if(ok){
+   const reveal=el.parentNode.nextElementSibling;
+   if(reveal && reveal.classList.contains('post-answer-note')) reveal.style.display='block';
+ }
+ if(typeof recordFixedAttempt==='function')recordFixedAttempt(el,ok,el.dataset.answer||'');
+}
+function addChip(el){
+ const build=document.getElementById('build');
+ const b=document.createElement('button');
+ b.className='chip';b.textContent=el.textContent;b.dataset.origin=el.textContent;
+ b.onclick=function(){returnChip(this)};
+ build.appendChild(b);el.style.display='none';
+ document.getElementById('fb').textContent='';
+}
+function returnChip(el){
+ const t=el.dataset.origin;
+ document.querySelectorAll('#pool .chip').forEach(x=>{if(x.textContent===t)x.style.display='inline-block'});
+ el.remove();document.getElementById('fb').textContent='';
+}
+function resetChips(){
+ document.getElementById('build').innerHTML='';
+ document.querySelectorAll('#pool .chip').forEach(x=>x.style.display='inline-block');
+ document.getElementById('fb').textContent='';
+}
+function checkBuild(ans){
+ const got=[...document.querySelectorAll('#build .chip')].map(x=>x.textContent).join(' ');
+ const ok=got===ans;
+ document.getElementById('fb').textContent=ok?'排列正確。':'再調整一下順序。';
+ if(typeof recordBuildAttempt==='function')recordBuildAttempt(ok,ans);
+}
+function toggleHint(){
+ let x=document.getElementById('hint');x.style.display=x.style.display==='block'?'none':'block';
+}
+function showRefs(){
+ let x=document.getElementById('refs');
+ if(x.style.display==='block'){x.style.display='none';return;}
+ let d=data()[q],txt=document.getElementById('student').value.trim(),html='';
+ if(txt) html+=`<b>你的答案</b><p>${escapeHtml(txt)}</p>`;
+ html+=`<b>參考譯法</b>${d.refs.map((r,i)=>`<p class="ref-answer numbered-ref"><span class="ref-num">${i+1}.</span><span class="ref-text">${r}</span></p>`).join('')}`;
+ if(d.take) html+=`<p class="takeaway-note"><b>這題建議記住</b><br>${d.take}</p>`;
+ x.innerHTML=html;x.style.display='block';
+}
+function extRefs(e){return Array.isArray(e[1])?e[1]:[e[1]];}
+function extRefsHtml(e){
+ const rs=extRefs(e);
+ return rs.map((r,i)=>rs.length>1
+   ? `<p class="ref-answer numbered-ref"><span class="ref-num">${i+1}.</span><span class="ref-text">${r}</span></p>`
+   : `<p class="ref-answer">${r}</p>`
+ ).join('');
+}
+function extRefsHeading(e){
+ return '<b>參考譯法</b><br>';
+}
+function toggleExtHint(id){let x=document.getElementById(id);if(x)x.style.display=x.style.display==='block'?'none':'block';}
+function extensionPanel(){
+ let d=data()[q];
+ return `<div class="card" style="border:2px solid #b8c9bd;background:#f4f8f4">
+   <h3 style="margin-top:0;color:var(--green)">延伸挑戰</h3>
+   <p><b>剛才學到的表達，換一個情境還會用嗎？</b></p>
+   <p class="small">先自己完成翻譯。可以在這裡輸入，也可以拿紙筆寫寫看；完成後再查看參考答案。</p>
+   ${d.ext.map((e,i)=>`<div style="margin:20px 0;padding-top:${i?'18px':'0'};border-top:${i?'1px solid var(--line)':'0'}">
+     <p><b>${i+1}. ${e[0]}</b></p>
+     <textarea id="ex${i}" placeholder="先自己寫寫看。"></textarea>
+     <div class="actions">${e[3]?`<button onclick="toggleExtHint(\'exhint${i}\')">需要提示</button>`:''}<button onclick="toggleExtAnswer(${i})">查看參考答案</button></div>
+     ${e[3]?`<div id="exhint${i}" class="hint">${e[3]}</div>`:''}
+     <div id="exa${i}" class="hint">${extRefsHeading(e)}${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
+   </div>`).join('')}
+ </div>`;
+}
+
+function showExtensionPage(n){
+  practiceMode='extension';
+  q=n;
+  const d=data()[n];
+  document.getElementById('practiceYearTitle').textContent=practiceTitle(currentYear,'延伸挑戰');
+  document.getElementById('qb1').classList.toggle('active',n===1);
+  document.getElementById('qb2').classList.toggle('active',n===2);
+  document.getElementById('app').innerHTML=`
+    <div class="card extension-page">
+      <div class="extension-page-title compact-extension-title">
+        <strong>第 ${n} 題延伸</strong>
+        <span>${d.cn}</span>
+      </div>
+      ${d.ext.map((e,i)=>`
+        <div class="extension-item">
+          <p><b>${i+1}. ${e[0]}</b></p>
+          <textarea id="yex${n}_${i}" placeholder="先自己寫寫看。"></textarea>
+          <div class="actions">${e[3]?`<button onclick="toggleExtHint(\'yexhint${n}_${i}\')">需要提示</button>`:''}<button onclick="toggleYearExtAnswer(${n},${i})">查看參考答案</button></div>
+          ${e[3]?`<div id="yexhint${n}_${i}" class="hint">${e[3]}</div>`:''}
+          <div id="yexa${n}_${i}" class="hint">${extRefsHeading(e)}${extRefsHtml(e)}${e[2]?`<div class="ext-note">${e[2]}</div>`:''}</div>
+        </div>`).join('')}
+      <div class="complete-confirm extension-complete-confirm">
+        <button id="extCompleteBtn" type="button" onclick="confirmExtensionComplete(${n})">✓ 完成延伸題</button>
+        <div class="small" style="margin-top:7px">完成後，點一下記錄完成狀態。</div>
+      </div>
+    </div>
+    <div class="extension-nav-v58">
+      <div class="ext-nav-row ${n===1?'single-right':'single-left'}">
+        ${n===1
+          ? '<button onclick="showExtensionPage(2)">第 2 題延伸 →</button>'
+          : '<button onclick="showExtensionPage(1)">← 第 1 題延伸</button>'}
+      </div>
+      <div class="ext-nav-row ext-return-row">
+        <button onclick="returnToQuestion(1)">← 回到第 1 題</button>
+        <button onclick="goHome()">回首頁</button>
+        <button onclick="returnToQuestion(2)">回到第 2 題 →</button>
+      </div>
+    </div>`;
+  if(typeof syncExtensionCompleteButton==='function')syncExtensionCompleteButton(n);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleYearExtAnswer(n,i){
+  const x=document.getElementById('yexa'+n+'_'+i);
+  if(x)x.style.display=x.style.display==='block'?'none':'block';
+}
+function returnToQuestion(n){
+  document.getElementById('practiceYearTitle').textContent=practiceTitle(currentYear,'中譯英');
+  showQ(n);
+}
+
+function backToQ2Translation(){
+  practiceMode='question';
+  q=2;step=3;
+  document.getElementById('practiceYearTitle').textContent=practiceTitle(currentYear,'中譯英');
+  document.getElementById('qb1').classList.remove('active');
+  document.getElementById('qb2').classList.add('active');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleExtAnswer(i){
+ let x=document.getElementById('exa'+i);if(x){
+   const opening=x.style.display!=='block';
+   x.style.display=opening?'block':'none';
+ }
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function zoom(n){fs=Math.max(16,Math.min(24,fs+n));document.body.style.fontSize=fs+'px'}
+function zoomReset(){fs=18;document.body.style.fontSize='18px'}
+</script>
+
+<script>
+/* v29：複習清單支援 113、114 年；「再練一次」直接回到該年該題第4階段。 */
+const MISTAKE_KEY='translationTrainerMistakesV1';
+function readMistakes(){try{return JSON.parse(localStorage.getItem(MISTAKE_KEY)||'[]')}catch(e){return []}}
+function writeMistakes(items){try{localStorage.setItem(MISTAKE_KEY,JSON.stringify(items))}catch(e){} updateMistakeCount()}
+function getCurrentMistake(){
+  const d=allData[currentYear]&&allData[currentYear][q];
+  if(!d)return null;
+  return {id:currentYear+'-'+q,year:examLabel(currentYear),yearNum:currentYear,q:q,zh:d.cn};
+}
+function isSavedMistake(){
+  const cur=getCurrentMistake();return !!cur&&readMistakes().some(x=>x.id===cur.id);
+}
+function toggleMistake(){
+  const cur=getCurrentMistake();if(!cur)return;
+  let items=readMistakes(),i=items.findIndex(x=>x.id===cur.id);
+  if(i>=0)items.splice(i,1);else items.push(cur);
+  writeMistakes(items);syncMistakeButton();
+}
+function syncMistakeButton(){
+  const b=document.getElementById('mistakeToggle');
+  if(b)b.textContent=isSavedMistake()?'✓ 已加入':'＋ 加入複習';
+}
+function addMistakeButton(){
+  if(step!==3||document.getElementById('mistakeToggle'))return;
+  const host=document.querySelector('#practiceView .actions');if(!host)return;
+  const b=document.createElement('button');
+  b.id='mistakeToggle';b.type='button';b.className='mistake-toggle';b.onclick=toggleMistake;
+  host.appendChild(b);syncMistakeButton();
+}
+function updateMistakeCount(){
+  const el=document.getElementById('mistakeCount');if(!el)return;
+  const n=readMistakes().length;el.textContent=n?`已加入 ${n} 題`:'目前沒有複習題目';
+}
+function openMistakes(){
+  ['homeView','answerView','practiceView','recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+  document.getElementById('mistakeView').classList.remove('hidden');renderMistakes();
+}
+function renderMistakes(){
+  const box=document.getElementById('mistakeList'),items=readMistakes();
+  if(!items.length){
+    box.innerHTML='<div class="empty-mistakes"><span>目前沒有複習題目。</span><span>完成翻譯後，可以加入複習，</span><span>之後再回來重新練習。</span></div>';return;
+  }
+  box.innerHTML=items.map(x=>`
+    <div class="mistake-row">
+      <div><strong>${x.year} 第 ${x.q} 題</strong><p>${x.zh}</p></div>
+      <div class="mistake-row-actions">
+        <button type="button" onclick="practiceMistake(${x.yearNum||114},${x.q})">再練一次</button>
+        <button type="button" onclick="removeMistake('${x.id}')">移除</button>
+      </div>
+    </div>`).join('');
+}
+function removeMistake(id){writeMistakes(readMistakes().filter(x=>x.id!==id));renderMistakes()}
+function practiceMistake(y,num){
+  practiceMode='question';
+  document.getElementById('mistakeView').classList.add('hidden');
+  document.getElementById('homeView').classList.add('hidden');
+  document.getElementById('answerView').classList.add('hidden');
+  document.getElementById('practiceView').classList.remove('hidden');
+  currentYear=y;q=num;step=3;
+  document.getElementById('practiceYearTitle').textContent=practiceTitle(y,'中譯英');
+  document.getElementById('qb1').classList.toggle('active',num===1);
+  document.getElementById('qb2').classList.toggle('active',num===2);
+  render();window.scrollTo({top:0,behavior:'smooth'});
+}
+function portalNotice(){alert('課程學生專屬，目前不對外開放。')}
+
+/* v44 練習紀錄：每年份最多 3 次；完成確認＋錯題複習重點 */
+const RECORD_KEY='translationTrainerRecordsV2';
+const RECORD_NAME_KEY='translationTrainerRecordNameV1';
+let activeRecordId=null;
+let activeAttemptByYear={};
+let pendingNameRecordId=null;
+function readRecords(){try{return JSON.parse(localStorage.getItem(RECORD_KEY)||'[]')}catch(e){return []}}
+function writeRecords(items){try{localStorage.setItem(RECORD_KEY,JSON.stringify(items))}catch(e){}updateRecordCount();updateYearRecordLimitIndicators()}
+function getRecordName(){try{return localStorage.getItem(RECORD_NAME_KEY)||''}catch(e){return ''}}
+function todayString(){const d=new Date(),p=n=>String(n).padStart(2,'0');return `${d.getFullYear()} / ${p(d.getMonth()+1)} / ${p(d.getDate())}`}
+function yearRecords(y){return readRecords().filter(r=>Number(r.year)===Number(y)).sort((a,b)=>(b.created||0)-(a.created||0))}
+function updateYearRecordLimitIndicators(){
+  document.querySelectorAll('#gsatPanel .year-card.available, #astPanel .year-card.available').forEach(card=>{
+    const b=card.querySelector('.year-actions button.primary');
+    if(!b)return;
+    const m=(b.getAttribute('onclick')||'').match(/enterYear\((\d+)\)/);
+    if(!m)return;
+    const y=Number(m[1]),full=yearRecords(y).length>=3;
+    b.textContent=full?'開始練寫 · 紀錄已滿':'開始練寫';
+    b.classList.toggle('record-full',full);
+    b.title=full?`${examLabel(y)}已有 3 筆練習紀錄；仍可繼續練習，但若要留下新紀錄，請先刪除其中一筆。`:'';
+  });
+}
+function recordLimitMessage(y){
+  alert(`${examLabel(y)}已有 3 筆練習紀錄。若要留下新的練習紀錄，請先到「練習紀錄」刪除其中一筆。你仍然可以繼續練習。`);
+}
+function startNewPracticeAttempt(y){
+  delete activeAttemptByYear[y];
+  return preparePracticeAttempt(y);
+}
+function preparePracticeAttempt(y){
+  if(activeAttemptByYear[y])return activeAttemptByYear[y];
+  const items=yearRecords(y);
+  if(items.length>=3){
+    activeAttemptByYear[y]=null;
+    return null;
+  }
+  const id=`${y}-${Date.now()}`;activeAttemptByYear[y]=id;return id;
+}
+function getActiveRecord(create=true){
+  let id=activeAttemptByYear[currentYear];
+  if(!id)id=preparePracticeAttempt(currentYear);
+  if(!id)return null;
+  let items=readRecords(),r=items.find(x=>x.id===id);
+  if(!r&&create){
+    r={id,year:currentYear,date:todayString(),created:Date.now(),q1:false,q2:false,ext1:false,ext2:false,review:[],firstAttempts:{}};
+    items.unshift(r);writeRecords(items);
+  }
+  return r||null;
+}
+function updateActiveRecord(mutator){
+  const r=getActiveRecord(true);if(!r)return null;
+  let items=readRecords(),i=items.findIndex(x=>x.id===r.id);if(i<0)return null;
+  mutator(items[i]);items[i].date=todayString();writeRecords(items);return items[i];
+}
+function confirmQuestionComplete(){
+  const r=updateActiveRecord(x=>x['q'+q]=true);
+  if(!r){
+    if(yearRecords(currentYear).length>=3)recordLimitMessage(currentYear);
+    syncCompleteButton();
+    return;
+  }
+  syncCompleteButton();
+}
+function syncCompleteButton(){
+  const b=document.getElementById('completeBtn');if(!b)return;
+  const id=activeAttemptByYear[currentYear],r=id&&readRecords().find(x=>x.id===id),done=r&&r['q'+q];
+  if(done){
+    b.textContent='✓ 已記錄';b.classList.add('done');
+  }else if(!id&&yearRecords(currentYear).length>=3){
+    b.textContent='練習紀錄已滿';b.classList.remove('done');
+  }else{
+    b.textContent='✓ 我完成這一題了';b.classList.remove('done');
+  }
+}
+
+function confirmExtensionComplete(n){
+  const r=updateActiveRecord(x=>x['ext'+n]=true);
+  if(!r){
+    if(yearRecords(currentYear).length>=3)recordLimitMessage(currentYear);
+    syncExtensionCompleteButton(n);
+    return;
+  }
+  syncExtensionCompleteButton(n);
+}
+function syncExtensionCompleteButton(n){
+  const b=document.getElementById('extCompleteBtn');if(!b)return;
+  const id=activeAttemptByYear[currentYear];
+  const r=id&&readRecords().find(x=>x.id===id);
+  const done=!!(r&&r['ext'+n]);
+  if(done){
+    b.textContent='✓ 已完成延伸題';
+    b.classList.add('done');
+  }else if(!id&&yearRecords(currentYear).length>=3){
+    b.textContent='練習紀錄已滿';
+    b.classList.remove('done');
+  }else{
+    b.textContent='✓ 完成延伸題';
+    b.classList.remove('done');
+  }
+}
+function interactionKeyForOption(el){
+  const grids=[...document.querySelectorAll('.step-page .options-grid')];
+  const idx=Math.max(0,grids.indexOf(el.closest('.options-grid')));
+  return `q${q}-s${step}-o${idx}`;
+}
+function showReviewToast(anchor,text){
+  const parent=anchor.closest('.options-grid')||anchor.parentNode;
+  let t=parent.parentNode.querySelector('.review-toast[data-for="'+interactionKeyForOption(anchor)+'"]');
+  if(!t){t=document.createElement('div');t.className='review-toast';t.dataset.for=interactionKeyForOption(anchor);parent.insertAdjacentElement('afterend',t)}
+  t.textContent=`已加入本次複習重點：${text}`;
+}
+function recordFixedAttempt(el,ok,answer){
+  const key=interactionKeyForOption(el),r=getActiveRecord(true);if(!r)return;
+  if(r.firstAttempts&&Object.prototype.hasOwnProperty.call(r.firstAttempts,key))return;
+  updateActiveRecord(x=>{
+    x.firstAttempts=x.firstAttempts||{};x.firstAttempts[key]=ok;
+    if(!ok&&answer&&!x.review.includes(answer))x.review.push(answer);
+  });
+  if(!ok&&answer)showReviewToast(el,answer);
+}
+function recordBuildAttempt(ok,answer){
+  const key=`q${q}-s${step}-build`,r=getActiveRecord(true);if(!r)return;
+  if(r.firstAttempts&&Object.prototype.hasOwnProperty.call(r.firstAttempts,key))return;
+  const updated=updateActiveRecord(x=>{
+    x.firstAttempts=x.firstAttempts||{};x.firstAttempts[key]=ok;
+    if(!ok&&answer&&!x.review.includes(answer))x.review.push(answer);
+  });
+  if(!ok&&updated){
+    const fb=document.getElementById('fb');if(fb){const t=document.createElement('div');t.className='review-toast';t.textContent=`已加入本次複習重點：${answer}`;fb.insertAdjacentElement('afterend',t)}
+  }
+}
+function normalizeOptionPositions(){
+  document.querySelectorAll('.step-page .options-grid').forEach(grid=>{
+    [...grid.querySelectorAll('.option')].forEach((b,i)=>{
+      const strong=b.querySelector('b');
+      if(strong)b.innerHTML=`${String.fromCharCode(65+i)}. <b>${strong.textContent}</b>`;
+    });
+  });
+}
+function updateRecordCount(){
+  const el=document.getElementById('recordCount');if(!el)return;
+  const items=readRecords(),years=new Set(items.map(r=>r.year)).size;
+  el.textContent=items.length?`已有 ${years} 個年份、${items.length} 次練習紀錄`:'查看每次練習與需要再複習的內容';
+}
+function openRecords(){
+  ['homeView','answerView','practiceView','mistakeView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+  document.getElementById('recordView').classList.remove('hidden');renderRecords();window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderRecords(){
+  const box=document.getElementById('recordList');if(!box)return;
+  const items=readRecords();
+  if(!items.length){box.innerHTML='<div class="empty-records"><span>目前還沒有練習紀錄。</span><span>完成整句翻譯後，按「我完成這一題了」，</span><span>就能留下這次的練習紀錄。</span></div>';return}
+  const years=[...new Set(items.map(r=>r.year))].sort((a,b)=>b-a);
+  box.innerHTML=years.map(y=>{
+    const rows=items.filter(r=>r.year===y).sort((a,b)=>(b.created||0)-(a.created||0));
+    return `<div class="record-year-group"><div class="record-year-head"><h3>${examLabel(y)}</h3><button type="button" onclick="clearYearRecords(${y})">清除此年份</button></div>${rows.map((r,i)=>`
+      <div class="record-row"><div><h3>第 ${rows.length-i} 次練習</h3><p>${r.date}</p><p>第 1 題 ${r.q1?'✓ 已完成':'尚未完成'}　　第 2 題 ${r.q2?'✓ 已完成':'尚未完成'}</p><p>這次可以再複習：${(r.review||[]).length?(r.review||[]).map(escapeHtml).join('、'):'目前沒有新增複習重點'}</p></div><div class="record-row-actions"><button type="button" onclick="showRecordCard('${r.id}')">產生紀錄卡</button><button type="button" onclick="deleteRecord('${r.id}')">刪除紀錄</button></div></div>`).join('')}</div>`
+  }).join('');
+}
+function deleteRecord(id){
+  if(!confirm('確定要刪除這筆練習紀錄嗎？清除後無法復原。'))return;
+  const r=readRecords().find(x=>x.id===id);writeRecords(readRecords().filter(x=>x.id!==id));
+  if(r&&activeAttemptByYear[r.year]===id)delete activeAttemptByYear[r.year];renderRecords();
+}
+function clearYearRecords(y){
+  if(!confirm(`確定要清除 ${examLabel(y)}的所有練習紀錄嗎？清除後無法復原。`))return;
+  writeRecords(readRecords().filter(x=>x.year!==y));delete activeAttemptByYear[y];renderRecords();
+}
+function clearAllRecords(){
+  if(!readRecords().length)return;
+  if(!confirm('確定要清除所有練習紀錄嗎？清除後無法復原。'))return;
+  writeRecords([]);activeAttemptByYear={};renderRecords();
+}
+function showRecordCard(id){
+  activeRecordId=id;pendingNameRecordId=id;const r=readRecords().find(x=>x.id===id);if(!r)return;
+  ['homeView','answerView','practiceView','mistakeView','recordView'].forEach(x=>{const el=document.getElementById(x);if(el)el.classList.add('hidden')});
+  document.getElementById('recordCardView').classList.remove('hidden');
+  const prompt=document.getElementById('recordNamePrompt');
+  if(getRecordName()){prompt.classList.add('hidden');renderRecordCard(id)}else{prompt.classList.remove('hidden');document.getElementById('recordNameCard').value='';renderRecordCard(id)}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function applyRecordName(){const el=document.getElementById('recordNameCard'),v=el?el.value.trim():'';if(v){try{localStorage.setItem(RECORD_NAME_KEY,v)}catch(e){}}document.getElementById('recordNamePrompt').classList.add('hidden');renderRecordCard(pendingNameRecordId)}
+function skipRecordName(){document.getElementById('recordNamePrompt').classList.add('hidden');renderRecordCard(pendingNameRecordId)}
+function clearStoredRecordName(){try{localStorage.removeItem(RECORD_NAME_KEY)}catch(e){}const el=document.getElementById('recordNameCard');if(el)el.value='';document.getElementById('recordNamePrompt').classList.add('hidden');renderRecordCard(pendingNameRecordId)}
+function editRecordName(){const p=document.getElementById('recordNamePrompt'),el=document.getElementById('recordNameCard');p.classList.remove('hidden');if(el)el.value=getRecordName()}
+function renderRecordCard(id){
+  const r=readRecords().find(x=>x.id===id);if(!r)return;const name=getRecordName(),review=r.review||[];
+  document.getElementById('recordCard').innerHTML=`<div class="rc-brand">歷屆翻譯練寫器</div><h2>${examLabel(r.year)}　練習紀錄</h2><div class="rc-meta"><div><strong>姓名／暱稱</strong>　${name?escapeHtml(name):'—'}</div><div><strong>完成日期</strong>　${r.date}</div></div><div class="rc-status"><div>第 1 題　${r.q1?'✓ 已完成':'—'}</div><div>第 2 題　${r.q2?'✓ 已完成':'—'}</div><div>第 1 題延伸　${r.ext1?'✓ 已完成':'—'}</div><div>第 2 題延伸　${r.ext2?'✓ 已完成':'—'}</div></div><div class="rc-review"><strong>這次可以再複習</strong>${review.length?review.map(x=>`<div>${escapeHtml(x)}</div>`).join(''):'<div>目前沒有新增複習重點</div>'}</div><div class="rc-foot">Lulu Wu · 歷屆翻譯練寫器</div>`;
+}
+function recordCardCanvas(){
+  const r=readRecords().find(x=>x.id===activeRecordId);if(!r)return null;const name=getRecordName(),review=r.review||[];
+  const c=document.createElement('canvas');c.width=1200;c.height=900;const x=c.getContext('2d');x.fillStyle='#fffdf8';x.fillRect(0,0,c.width,c.height);x.fillStyle='#315f43';x.textAlign='center';x.font='700 34px "Microsoft YaHei",sans-serif';x.fillText('歷屆翻譯練寫器',600,78);x.fillStyle='#26362c';x.font='700 48px "Microsoft YaHei",sans-serif';x.fillText(`${examLabel(r.year)}  練習紀錄`,600,145);x.textAlign='left';x.font='28px "Microsoft YaHei",sans-serif';x.fillText(`姓名／暱稱：${name||'—'}`,100,220);x.fillText(`完成日期：${r.date}`,680,220);x.strokeStyle='#d9e1da';x.beginPath();x.moveTo(100,255);x.lineTo(1100,255);x.stroke();x.font='30px "Microsoft YaHei",sans-serif';x.fillText(`第 1 題    ${r.q1?'✓ 已完成':'—'}`,120,325);x.fillText(`第 2 題    ${r.q2?'✓ 已完成':'—'}`,650,325);x.fillText(`第 1 題延伸    ${r.ext1?'✓ 已完成':'—'}`,120,385);x.fillText(`第 2 題延伸    ${r.ext2?'✓ 已完成':'—'}`,650,385);x.fillStyle='#f2f7f2';x.fillRect(100,450,1000,240);x.fillStyle='#26362c';x.font='700 30px "Microsoft YaHei",sans-serif';x.fillText('這次可以再複習',135,505);x.font='28px "Microsoft YaHei",sans-serif';const lines=review.length?review:['目前沒有新增複習重點'];lines.slice(0,4).forEach((s,i)=>x.fillText('• '+s,145,560+i*48));x.textAlign='center';x.fillStyle='#657269';x.font='24px "Microsoft YaHei",sans-serif';x.fillText('Lulu Wu · 歷屆翻譯練寫器',600,820);return c;
+}
+function downloadRecordImage(){const c=recordCardCanvas();if(!c)return;const a=document.createElement('a'),r=readRecords().find(x=>x.id===activeRecordId);a.download=`${activeRecordId}_${r&&isAstYear(r.year)?'指考':'學測'}練習紀錄.png`;a.href=c.toDataURL('image/png');a.click()}
+async function shareRecordImage(){const c=recordCardCanvas(),status=document.getElementById('recordShareStatus');if(!c)return;const blob=await new Promise(res=>c.toBlob(res,'image/png'));const r=readRecords().find(x=>x.id===activeRecordId),file=new File([blob],`${activeRecordId}_${r&&isAstYear(r.year)?'指考':'學測'}練習紀錄.png`,{type:'image/png'});try{if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'歷屆翻譯練寫器 練習紀錄'});if(status)status.textContent='已開啟裝置分享功能。'}else{downloadRecordImage();if(status)status.textContent='此瀏覽器不支援直接分享圖片，已改為產生 PNG 圖片。'}}catch(e){if(status&&e.name!=='AbortError')status.textContent='分享未完成，你仍可使用「儲存紀錄圖片」。'}}
+window.addEventListener('DOMContentLoaded',()=>{updateMistakeCount();updateRecordCount();updateYearRecordLimitIndicators();const originalRender=render;window.render=function(){const out=originalRender.apply(this,arguments);setTimeout(addMistakeButton,0);return out}});
+
+</script>
+
+
+<script>
+/* v24：修正「我的複習清單 → 回首頁」 */
+function returnHomeFromMistakes(){
+  const mistakeView=document.getElementById('mistakeView');
+  if(mistakeView)mistakeView.classList.add('hidden');
+  goHome();
+  if(typeof updateMistakeCount==='function')updateMistakeCount();
+}
+</script>
+
+
+<script id="v85-home-year-collapse-js">
+(function(){
+  function setupHomeYearGroups(){
+    var panel=document.getElementById('gsatPanel');
+    if(!panel) return;
+    var grids=panel.querySelectorAll('.year-grid');
+    var mainGrid=grids[0];
+    var olderGrid=document.getElementById('olderYearsGrid');
+    var wrap=document.getElementById('olderYearsToggleWrap');
+    if(!mainGrid || !olderGrid || !wrap) return;
+
+    /* 每次依首頁年份卡片目前順序：前 6 張顯示，其餘自動移入較早年份。 */
+    var cards=Array.prototype.slice.call(mainGrid.querySelectorAll(':scope > .year-card'));
+    cards.slice(6).forEach(function(card){ olderGrid.appendChild(card); });
+    wrap.hidden = olderGrid.children.length === 0;
+  }
+
+  window.toggleOlderYears=function(){
+    var grid=document.getElementById('olderYearsGrid');
+    var btn=document.getElementById('olderYearsToggle');
+    if(!grid || !btn) return;
+    var willOpen=grid.hidden;
+    grid.hidden=!willOpen;
+    btn.setAttribute('aria-expanded', String(willOpen));
+    btn.textContent=willOpen ? '收起較早年份 ▲' : '查看更早年份 ▼';
+  };
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupHomeYearGroups);
+  else setupHomeYearGroups();
+})();
+</script>
+</body>
+</html>
