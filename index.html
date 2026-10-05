@@ -997,8 +997,7 @@ textarea {
 /* 手機：不硬塞 2×2；導覽緊湊但維持觸控尺寸 */
 @media (max-width:640px){
   .practice-head{
-    padding:10px 12px !important;
-  }
+    padding:10px 12px !important;  }
   .practice-head h2,
   .practice-head h3{
     font-size:1.12em !important;
@@ -1997,8 +1996,7 @@ textarea {
   }
 
   /* 複習清單／練習紀錄空白狀態：依語意分行，不改卡片尺寸與按鈕 */
-  .empty-mistakes span,
-  .empty-records span{
+  .empty-mistakes span,  .empty-records span{
     display:block;
     max-width:100%;
     margin-left:auto;
@@ -2205,6 +2203,12 @@ textarea {
   }
 }
 
+
+
+/* v122：關鍵表達四選項改為 1×4；保留原卡片尺寸與其他版面。 */
+.key-card .options-grid.option-count-4{
+  grid-template-columns:1fr !important;
+}
 </style>
 
 <style id="v85-home-year-collapse">
@@ -2557,7 +2561,7 @@ const allData={
     steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
     contents:[
       `<div class="task-intro"><strong>句子架構：</strong><span>中文沒有明說「誰看到」，英文可以怎麼處理比較自然？</span></div>
-       ${opts(['politicians can see + V-ing','there can see politicians + V-ing','politicians can be seen + V-ing'],2)}
+       ${opts(['politicians can see + V-⁠ing','there can see politicians + V-⁠ing','politicians can be seen + V-⁠ing'],2)}
        <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>Every election season + politicians can be seen + ______</strong></div>`,
       `<h3>關鍵表達</h3>
        <div class="key-grid">
@@ -2991,8 +2995,7 @@ refs:[`Conquering Jade Mountain has always been one of the most difficult challe
          <button class="chip" onclick="addChip(this)">Fast fashion</button>
          <button class="chip" onclick="addChip(this)">allowing people to buy trendy clothing</button>
          <button class="chip" onclick="addChip(this)">is characterized by speed and low prices,</button>
-       </div>
-       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Fast fashion is characterized by speed and low prices, allowing people to buy trendy clothing at affordable prices.')">提交</button></div>
+       </div>       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Fast fashion is characterized by speed and low prices, allowing people to buy trendy clothing at affordable prices.')">提交</button></div>
        <div id="fb" class="feedback"></div>`,
       write(10701,1)
     ],
