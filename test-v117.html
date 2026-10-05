@@ -2212,9 +2212,11 @@ textarea {
 .key-card .options-grid.option-count-4{
   grid-template-columns:1fr !important;
 }
-.no-break-token{
-  white-space:nowrap !important;
-  display:inline-block;
+@media (min-width:601px) and (max-width:900px){
+  .no-break-token{
+    white-space:nowrap !important;
+    display:inline-block;
+  }
 }
 </style>
 
@@ -2568,7 +2570,7 @@ const allData={
     steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
     contents:[
       `<div class="task-intro"><strong>句子架構：</strong><span>中文沒有明說「誰看到」，英文可以怎麼處理比較自然？</span></div>
-       ${opts(['politicians can see + V-ing','there can see politicians + <span class="no-break-token">V-ing</span>','politicians can be seen + V-ing'],2)}
+       ${opts(['politicians can see + <span class="no-break-token">V-ing</span>','there can see politicians + <span class="no-break-token">V-ing</span>','politicians can be seen + <span class="no-break-token">V-ing</span>'],2)}
        <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>Every election season + politicians can be seen + ______</strong></div>`,
       `<h3>關鍵表達</h3>
        <div class="key-grid">
