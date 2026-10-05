@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>歷屆翻譯練寫器</title>
+<style>
+:root{
+  --bg:#f7f5ed;--card:#fff;--ink:#24342e;--green:#365f50;--soft:#e7efe9;
+  --line:#d8dfd8;--gold:#f4e7b8;--bad:#f8e1dc;--muted:#68766f;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft YaHei","Noto Sans TC",sans-serif;background:var(--bg);color:var(--ink);font-size:18px;line-height:1.7}
+button,textarea{font:inherit}
+button{cursor:pointer}
+.wrap{max-width:920px;margin:auto;padding:24px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.title h1{margin:0;font-size:30px;color:var(--green)}
+.title p{margin:2px 0 0;color:#52635b}
+.controls button,.actions button,.page-nav button,.home-btn{
+  border:1.5px solid var(--green);background:white;color:var(--green);border-radius:12px;
+  padding:9px 15px;font-weight:800
+}
+.actions .primary,.page-nav .primary{background:var(--green);color:white}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-top:18px;box-shadow:0 3px 12px #0000000b}
+.hero{padding:30px}
+.hero h2{margin:0 0 8px;color:var(--green);font-size:27px}
+.exam-tabs{display:flex;gap:10px;margin:18px 0 6px}
+.exam-tabs button{border:1.5px solid var(--green);background:white;color:var(--green);border-radius:999px;padding:9px 20px;font-weight:800}
+.exam-tabs button.active{background:var(--green);color:white}
+.exam-panel.hidden{display:none!important}
+.year-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.year-card{border:1.5px solid var(--line);background:white;border-radius:16px;padding:18px;text-align:left}
+.year-card strong{display:block;font-size:22px;color:var(--green);text-align:center}
+.year-card small{display:block;color:var(--muted);text-align:center}
+.year-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.year-actions button{border:1.5px solid var(--green);background:white;color:var(--green);border-radius:10px;padding:7px 10px;font-weight:800}
+.year-actions button.primary{background:var(--green);color:white}
+.year-actions button.record-full{background:#f4f1e7;color:var(--green);border-color:#b9c5bc}
+.coming{padding:28px;text-align:center;border:1.5px dashed #aebbb3;border-radius:15px;background:#fbfcfa;color:var(--muted)}
+.year-card.available:hover{border-color:var(--green);transform:translateY(-1px)}
+.year-card.locked{opacity:.55;cursor:default}
+.random-box{background:var(--soft)}
+.random-result{font-weight:800;color:var(--green);margin-top:10px;min-height:32px}
+.year-head{background:var(--soft);border-radius:18px;padding:18px;margin-top:18px}
+.qnav{display:flex;gap:10px;margin-top:12px}
+.qnav button,.steps button{border:0;border-radius:999px;padding:9px 14px;font-weight:800;background:#edf1ed;color:var(--ink)}
+.qnav button.active,.steps button.active{background:var(--green);color:white}
+.prompt{font-size:23px;font-weight:800}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.step-page{min-height:360px}
+.option{display:block;width:100%;text-align:left;margin:10px 0;padding:13px 15px;border:1px solid var(--line);background:white;border-radius:12px;font-weight:800}
+.key-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px}
+.key-card{border:1.5px solid var(--line);border-radius:15px;padding:15px;background:#fbfcfa}
+.key-card h4{margin:0 0 8px;color:var(--green);font-size:1.05em}
+.key-card .option{margin:7px 0;padding:9px 11px;line-height:1.45}
+.finish-box{margin-top:18px;padding:16px;border:1.5px solid #b8c9bd;border-radius:14px;background:#f4f8f4;text-align:center}
+.finish-box strong{display:block;color:var(--green);font-size:1.08em;margin-bottom:10px}
+.finish-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.finish-actions button{border:1.5px solid var(--green);background:white;color:var(--green);border-radius:12px;padding:10px 15px;font-weight:800}
+.finish-actions .primary{background:var(--green);color:white}
+
+.option.ok{background:#e2f0e7;border-color:#8bb59b}
+.option.no{background:var(--bad)}
+.option .zh{font-weight:500}
+.feedback{font-weight:800;margin-top:8px}
+.skeleton{background:#f3f7f4;border-left:5px solid var(--green);border-radius:10px;padding:13px 15px;margin:14px 0}
+.skeleton strong{font-size:1.08em}
+.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.chip{padding:11px 14px;border:1px solid var(--line);background:white;border-radius:10px;font-weight:800}
+.answerline{min-height:62px;border:2px dashed #a8b8ae;border-radius:12px;padding:10px;margin:12px 0;background:#fafcf9;display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
+.answerline .chip{background:#eef4ef;border-color:#9eb2a5}
+textarea{width:100%;min-height:140px;border:1.5px solid #aebbb3;border-radius:14px;padding:14px;resize:vertical;background:#fff}
+.hint,.refs,.extend{display:none;margin-top:14px;padding:15px;border-radius:12px;background:#f2f6f2}
+.refs{background:#fff8df}
+.extend{background:#eef4f6}
+.small{font-size:.92em;color:#56665f}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.page-nav{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,auto) minmax(0,1fr);gap:10px;margin-top:18px;align-items:center}
+.page-nav .next{text-align:right}
+.page-nav .home{text-align:center}
+.page-nav button:disabled{opacity:.4;cursor:default}
+.ref-answer{font-weight:800}
+.footer{text-align:center;color:var(--muted);font-size:14px;margin:28px 0}
+.hidden{display:none!important}
+@media(max-width:700px){
+ body{font-size:18px}.wrap{padding:15px}.title h1{font-size:26px}.prompt{font-size:21px}.card{padding:17px}
+ .controls{width:100%;display:flex;justify-content:flex-end}.steps{gap:6px}.steps button{font-size:15px;padding:7px 10px}
+ .year-grid{grid-template-columns:repeat(2,1fr)}.page-nav{grid-template-columns:1fr 1fr}.page-nav .home{grid-column:1/-1;grid-row:2}.page-nav .next{text-align:right}
+ .key-grid{grid-template-columns:1fr}.key-card{padding:12px}.key-card .option{padding:8px 10px;margin:6px 0}
+}
+
+/* v9：翻譯練寫器響應式易讀調整 */
+.translation-sentence,
+.prompt,
+.question-text,
+.source-sentence {
+  font-size: 1.18em;
+  line-height: 1.8;
+}
+.ref-answer {
+  font-size: 1.08em;
+  line-height: 1.75;
+}
+button, .option {
+  min-height: 44px;
+}
+textarea {
+  font-size: 1.08em;
+  line-height: 1.7;
+}
+@media (max-width: 900px) {
+  .translation-sentence,
+  .prompt,
+  .question-text,
+  .source-sentence {
+    font-size: 1.16em;
+    line-height: 1.8;
+  }
+  .card {
+    padding: 18px;
+  }
+  .option {
+    padding: 12px 14px;
+  }
+}
+@media (max-width: 600px) {
+  body {
+    font-size: 16px;
+  }
+  .translation-sentence,
+  .prompt,
+  .question-text,
+  .source-sentence {
+    font-size: 1.14em;
+    line-height: 1.85;
+  }
+  .ref-answer {
+    font-size: 1.05em;
+    line-height: 1.8;
+  }
+  .card {
+    padding: 15px;
+    border-radius: 14px;
+  }
+  .option {
+    font-size: 1em;
+    padding: 12px 13px;
+    margin: 7px 0;
+  }
+  textarea {
+    min-height: 170px;
+    font-size: 1.05em;
+  }
+  .page-nav,
+  .finish-actions {
+    gap: 8px;
+  }
+  .page-nav button,
+  .finish-actions button {
+    padding: 11px 13px;
+  }
+}
+
+
+/* v10：英文練習內容字級再放大一級 */
+.option {
+  font-size: 1.08em;
+}
+.translation-sentence,
+.prompt,
+.question-text,
+.source-sentence {
+  font-size: 1.24em;
+}
+.ref-answer {
+  font-size: 1.12em;
+}
+.key-card .option {
+  font-size: 1.08em;
+}
+@media (max-width: 900px) {
+  .option {
+    font-size: 1.08em;
+  }
+  .translation-sentence,
+  .prompt,
+  .question-text,
+  .source-sentence {
+    font-size: 1.22em;
+  }
+}
+@media (max-width: 600px) {
+  .option {
+    font-size: 1.07em;
+    line-height: 1.5;
+  }
+  .translation-sentence,
+  .prompt,
+  .question-text,
+  .source-sentence {
+    font-size: 1.18em;
+    line-height: 1.85;
+  }
+  .ref-answer {
+    font-size: 1.08em;
+    line-height: 1.8;
+  }
+}
+
+
+/* v11：首頁標題置中 */
+.home-title,
+.home-subtitle {
+  text-align: center;
+}
+
+
+/* v15：三裝置響應式調整；保留原有隨機挑一回功能 */
+
+/* 電腦 */
+@media (min-width:901px){
+  .option,.chip,.skeleton strong{font-size:1.12em}
+  .option,.chip{min-height:48px}
+  .page-nav button,.actions button,.home-btn,.controls button{min-height:44px}
+  textarea{min-height:150px;line-height:1.7}
+}
+
+/* 平板 */
+@media (min-width:601px) and (max-width:900px){
+  .option,.chip,.skeleton strong{font-size:1.10em}
+  .option,.chip{min-height:48px}
+  .page-nav button,.actions button,.home-btn,.controls button{min-height:46px}
+  textarea{min-height:160px;line-height:1.7}
+}
+
+/* 手機 */
+@media (max-width:600px){
+  .option,.chip,.skeleton strong{font-size:1.07em}
+  .option{
+    min-height:50px;
+    line-height:1.5;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+  .chip{
+    min-height:46px;
+    line-height:1.45;
+    white-space:normal;
+  }
+  .page-nav button,.actions button,.home-btn,.controls button{min-height:46px}
+  textarea{min-height:170px;line-height:1.7}
+}
+
+
+/* v16：首頁標題與副標以整個畫面中線置中 */
+#homeView .top{
+  position:relative;
+  justify-content:center;
+}
+#homeView .title{
+  width:100%;
+  text-align:center;
+}
+#homeView .title h1,
+#homeView .title p{
+  text-align:center;
+}
+
+
+/* v17：修正首頁標題真正以整個頁面中線置中 */
+.top{
+  display:grid !important;
+  grid-template-columns:1fr auto 1fr !important;
+  align-items:center !important;
+  width:100%;
+}
+.top .title{
+  grid-column:2 !important;
+  text-align:center !important;
+  width:auto !important;
+}
+.top .title h1,
+.top .title p{
+  text-align:center !important;
+}
+.top .controls{
+  grid-column:3 !important;
+  justify-self:end !important;
+  width:auto !important;
+  display:flex !important;
+}
+@media (max-width:600px){
+  .top{
+    grid-template-columns:1fr auto 1fr !important;
+  }
+  .top .title{
+    grid-column:2 !important;
+  }
+  .top .controls{
+    grid-column:3 !important;
+    justify-self:end !important;
+    width:auto !important;
+  }
+}
+
+
+/* v18：既有版面三裝置操作微調 */
+
+/* 字級控制：兩顆按鈕完全等大並保留舒適間距 */
+.controls{
+  display:flex !important;
+  gap:10px !important;
+}
+.controls button{
+  width:58px !important;
+  height:48px !important;
+  min-width:58px !important;
+  min-height:48px !important;
+  padding:0 !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+}
+
+/* 平板：控制鍵稍收斂但維持易點 */
+@media (min-width:601px) and (max-width:900px){
+  .controls{gap:9px !important}
+  .controls button{
+    width:56px !important;
+    height:46px !important;
+    min-width:56px !important;
+    min-height:46px !important;
+  }
+}
+
+/* 手機：沿用既有功能與結構，只把首頁壓縮成較舒適的操作密度 */
+@media (max-width:600px){
+  .wrap{padding:12px !important}
+
+  .top{
+    grid-template-columns:1fr auto 1fr !important;
+    gap:8px !important;
+    margin-bottom:8px;
+  }
+  .top .title{
+    grid-column:2 !important;
+    text-align:center !important;
+  }
+  .top .title h1{
+    font-size:23px !important;
+    line-height:1.25 !important;
+    white-space:nowrap;
+  }
+  .top .title p{
+    font-size:14px !important;
+    line-height:1.45 !important;
+    white-space:nowrap;
+  }
+  .top .controls{
+    grid-column:3 !important;
+    justify-self:end !important;
+    gap:7px !important;
+    width:auto !important;
+  }
+  .controls button{
+    width:46px !important;
+    height:44px !important;
+    min-width:46px !important;
+    min-height:44px !important;
+    border-radius:11px !important;
+  }
+
+  #homeView .hero{
+    padding:14px !important;
+    margin-top:10px !important;
+  }
+  #homeView .hero h2{
+    font-size:20px !important;
+    margin-bottom:2px !important;
+  }
+  #homeView .hero > p{
+    font-size:14px !important;
+    line-height:1.45 !important;
+    margin:2px 0 8px !important;
+  }
+  .exam-tabs{
+    margin:10px 0 4px !important;
+    gap:8px !important;
+  }
+  .exam-tabs button{
+    flex:1;
+    min-height:44px;
+    padding:7px 12px !important;
+  }
+  .year-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:9px !important;
+    margin-top:10px !important;
+  }
+  .year-card{
+    padding:12px !important;
+    border-radius:13px !important;
+  }
+  .year-card strong{font-size:18px !important}
+  .year-card small{font-size:12px !important;line-height:1.35 !important}
+  .year-actions{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:7px !important;
+    margin-top:9px !important;
+  }
+  .year-actions button{
+    width:100%;
+    min-height:42px !important;
+    padding:7px 8px !important;
+    font-size:14px !important;
+  }
+
+  .random-box{
+    margin-top:10px !important;
+    padding:13px !important;
+    text-align:center;
+  }
+  .random-box h3{
+    margin:0 0 2px !important;
+    font-size:18px !important;
+  }
+  .random-box p{
+    margin:2px 0 8px !important;
+    line-height:1.4 !important;
+  }
+  .random-box .home-btn{
+    width:100%;
+    min-height:44px !important;
+  }
+  .random-result{min-height:0 !important;margin-top:6px !important}
+  .footer{margin:16px 0 !important}
+}
+
+/* 極窄手機：標題仍置中，避免 A-/A+ 擠壓標題 */
+@media (max-width:390px){
+  .top{
+    grid-template-columns:1fr !important;
+  }
+  .top .title{
+    grid-column:1 !important;
+    grid-row:1 !important;
+  }
+  .top .controls{
+    grid-column:1 !important;
+    grid-row:2 !important;
+    justify-self:center !important;
+  }
+  .top .title h1{white-space:normal}
+  .top .title p{white-space:normal}
+}
+
+
+/* v23：把學習工具直接放進「不知道今天要練哪一回？」同一張卡片的右半部 */
+.random-box{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:0 !important;
+  align-items:stretch !important;
+  padding:0 !important;
+  overflow:hidden;
+}
+.random-left{
+  padding:28px 22px;
+  min-width:0;
+}
+.random-tools{
+  padding:24px 22px;
+  border-left:1px solid var(--line);
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.random-tools-head h3{
+  margin:0 0 4px;
+  color:var(--green);
+}
+.random-tools-head p{
+  margin:0 0 12px;
+}
+.tool-entry{
+  width:100%;
+  min-height:64px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:rgba(255,255,255,.78);
+  color:var(--green);
+  padding:11px 13px;
+  margin-top:9px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  text-align:center;
+  cursor:pointer;
+}
+.tool-entry span{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  min-width:0;
+}
+.tool-entry strong{font-weight:800}
+.tool-entry small{
+  color:var(--muted);
+  font-weight:600;
+  line-height:1.35;
+}
+.tool-entry b{
+  font-size:1.35em;
+  flex:0 0 auto;
+}
+.portal-entry{background:rgba(248,250,246,.9)}
+
+.mistake-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.mistake-head h2{margin:0 0 4px}
+.mistake-head p{margin:0}
+.mistake-list{margin-top:16px}
+.empty-mistakes{
+  padding:32px 18px;
+  text-align:center;
+  border:1px dashed var(--line);
+  border-radius:14px;
+  color:var(--muted);
+  line-height:1.65;
+}
+.mistake-row{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding:15px 0;
+  border-bottom:1px solid var(--line);
+}
+.mistake-row p{margin:5px 0 0;line-height:1.55}
+.mistake-row-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+}
+.mistake-row-actions button,.mistake-toggle{
+  min-height:42px;
+  border:1px solid var(--green);
+  background:white;
+  color:var(--green);
+  border-radius:10px;
+  padding:8px 12px;
+  font-weight:750;
+  cursor:pointer;
+}
+
+/* 平板：仍保留左右配置，但略收窄 */
+@media (min-width:601px) and (max-width:900px){
+  .random-box{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .random-left,.random-tools{padding:20px 17px}
+  .tool-entry{min-height:60px;padding:10px 11px}
+}
+
+/* 手機：同一張卡片改成上下排列，不擠壓文字與按鈕 */
+@media (max-width:600px){
+  .random-box{grid-template-columns:1fr}
+  .random-left{padding:17px 15px}
+  .random-tools{
+    padding:15px;
+    border-left:0;
+    border-top:1px solid var(--line);
+  }
+  .random-tools-head p{margin-bottom:7px}
+  .tool-entry{min-height:58px;margin-top:8px}
+  .mistake-head{align-items:flex-start}
+  .mistake-row{flex-direction:column}
+  .mistake-row-actions{width:100%}
+  .mistake-row-actions button{flex:1}
+}
+
+
+/* v25：只調整「不知道今天要練哪一回？」左半區內容置中 */
+.random-left{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-align:center !important;
+}
+.random-left .home-btn,
+.random-left button{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+
+/* v28：補回首頁個人識別。獨立定位，不參與主內容排版與置中計算。 */
+#homeView{position:relative}
+.home-brand{
+  position:absolute;
+  top:10px;
+  right:14px;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:2px;
+  color:var(--green);
+  line-height:1.2;
+  pointer-events:none;
+}
+.home-brand strong{
+  font-size:.92rem;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+.home-brand span{
+  font-size:.76rem;
+  color:var(--muted);
+  font-weight:650;
+}
+@media (max-width:900px){
+  .home-brand{
+    top:8px;
+    right:10px;
+  }
+}
+@media (max-width:600px){
+  .home-brand{
+    position:static;
+    align-items:center;
+    margin:4px auto 8px;
+    text-align:center;
+  }
+}
+
+
+/* v32：四階段題目呈現位置統一
+   - 上方只保留四個階段按鈕
+   - 中文原題移到每一階段的主要練習卡片最上方
+   - 三裝置都讓題目與當頁操作內容保持在同一視覺區域
+   - 不縮小原有文字
+*/
+.stage-nav-card{
+  padding-top:18px !important;
+  padding-bottom:18px !important;
+  margin-bottom:14px !important;
+}
+.stage-nav-card .steps{
+  margin-top:0 !important;
+}
+.step-page{
+  padding-top:24px !important;
+}
+.in-step-prompt{
+  margin:0 0 22px !important;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+}
+.in-step-prompt + h3{
+  margin-top:0 !important;
+}
+.in-step-prompt + p{
+  margin-top:0 !important;
+}
+@media (max-width:900px){
+  .stage-nav-card{
+    padding-top:14px !important;
+    padding-bottom:14px !important;
+    margin-bottom:12px !important;
+  }
+  .step-page{
+    padding-top:20px !important;
+  }
+  .in-step-prompt{
+    margin-bottom:18px !important;
+    padding-bottom:15px;
+  }
+}
+@media (max-width:600px){
+  .stage-nav-card{
+    padding-top:12px !important;
+    padding-bottom:12px !important;
+    margin-bottom:10px !important;
+  }
+  .step-page{
+    padding-top:18px !important;
+  }
+  .in-step-prompt{
+    margin-bottom:16px !important;
+    padding-bottom:14px;
+  }
+}
+
+
+/* v33：練習頁垂直空間與延伸挑戰整體調整 */
+.task-intro{
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:6px 18px;
+  margin:0 0 18px;
+}
+.task-intro strong{
+  flex:0 0 auto;
+  font-size:1.18em;
+  color:var(--ink);
+}
+.task-intro span{
+  min-width:0;
+  line-height:1.65;
+  color:var(--muted);
+}
+.extension-page-title{
+  display:flex;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:6px 16px;
+  margin-bottom:22px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+}
+.extension-page-title strong{
+  font-size:1.25em;
+  color:var(--green);
+}
+.extension-page-title span{color:var(--muted)}
+.extension-question-block{
+  padding:4px 0 24px;
+}
+.extension-question-block + .extension-question-block{
+  border-top:1px solid var(--line);
+  padding-top:26px;
+}
+.extension-source{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 14px;
+  align-items:baseline;
+  margin-bottom:14px;
+}
+.extension-source strong{color:var(--green)}
+.extension-source span{font-weight:700}
+.extension-item{
+  margin:14px 0 20px;
+}
+.extension-item + .extension-item{
+  padding-top:16px;
+  border-top:1px dashed var(--line);
+}
+@media (min-width:901px){
+  .task-intro{flex-wrap:nowrap}
+}
+@media (max-width:600px){
+  .task-intro{
+    gap:4px 8px;
+    margin-bottom:14px;
+  }
+  .task-intro strong,
+  .task-intro span{
+    line-height:1.5;
+  }
+  .extension-page-title,
+  .extension-source{
+    display:block;
+  }
+  .extension-page-title span,
+  .extension-source span{
+    display:block;
+    margin-top:5px;
+  }
+}
+
+
+/* v34：兩層導覽緊湊化 + 延伸挑戰分成第1題／第2題兩頁
+   保留原字級與可點擊性，主要縮減上下 padding 與區塊間距。
+*/
+.qnav{
+  padding-top:10px !important;
+  padding-bottom:10px !important;
+  margin-bottom:10px !important;
+}
+.qnav button{
+  min-height:42px !important;
+  padding-top:8px !important;
+  padding-bottom:8px !important;
+}
+.stage-nav-card{
+  padding-top:9px !important;
+  padding-bottom:9px !important;
+  margin-bottom:10px !important;
+}
+.stage-nav-card .steps{
+  gap:8px !important;
+}
+.stage-nav-card .steps button{
+  min-height:42px !important;
+  padding-top:8px !important;
+  padding-bottom:8px !important;
+}
+@media (max-width:900px){
+  .qnav,
+  .stage-nav-card{
+    padding-top:8px !important;
+    padding-bottom:8px !important;
+    margin-bottom:9px !important;
+  }
+  .qnav button,
+  .stage-nav-card .steps button{
+    min-height:44px !important;
+    padding-top:8px !important;
+    padding-bottom:8px !important;
+  }
+}
+@media (max-width:600px){
+  .qnav,
+  .stage-nav-card{
+    padding-top:7px !important;
+    padding-bottom:7px !important;
+    margin-bottom:8px !important;
+  }
+  .qnav button,
+  .stage-nav-card .steps button{
+    min-height:44px !important;
+    padding-top:7px !important;
+    padding-bottom:7px !important;
+  }
+  .stage-nav-card .steps{
+    gap:6px !important;
+  }
+}
+
+
+/* v35：縮減題目導覽淡綠區塊高度 */
+.practice-head{
+  padding-top:14px !important;
+  padding-bottom:14px !important;
+  min-height:0 !important;
+}
+.practice-head h2,
+.practice-head h3{
+  margin-top:0 !important;
+  margin-bottom:10px !important;
+}
+.practice-head .qnav{
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+  padding-top:0 !important;
+  padding-bottom:0 !important;
+}
+@media (max-width:900px){
+  .practice-head{
+    padding-top:12px !important;
+    padding-bottom:12px !important;
+  }
+  .practice-head h2,
+  .practice-head h3{margin-bottom:8px !important}
+}
+@media (max-width:600px){
+  .practice-head{
+    padding-top:10px !important;
+    padding-bottom:10px !important;
+  }
+}
+
+
+.compact-extension-title{
+  margin-bottom:16px !important;
+  padding-bottom:14px !important;
+}
+@media (min-width:601px){
+  .compact-extension-title{
+    display:flex !important;
+    align-items:baseline !important;
+    flex-wrap:nowrap !important;
+    gap:14px !important;
+  }
+  .compact-extension-title strong{flex:0 0 auto}
+  .compact-extension-title span{min-width:0}
+}
+@media (max-width:600px){
+  .compact-extension-title{
+    display:block !important;
+  }
+  .compact-extension-title span{
+    display:block;
+    margin-top:5px;
+  }
+}
+
+
+/* v36：低捲動版面
+   原則：導覽退居次要、題目與操作區成為視覺焦點；
+   桌機四選項優先 2×2，平板視寬度 2×2，手機保持易讀易點。
+*/
+
+/* 年份／題號區：標題略大，按鈕較小，保留適量呼吸空間 */
+.practice-head{
+  padding:14px 18px !important;
+  min-height:0 !important;
+}
+.practice-head h2,
+.practice-head h3{
+  font-size:1.22em !important;
+  line-height:1.35 !important;
+  margin:0 0 12px !important;
+}
+.practice-head .qnav{
+  margin:0 !important;
+  padding:0 !important;
+  gap:8px !important;
+}
+.practice-head .qnav button{
+  font-size:.90em !important;
+  min-height:38px !important;
+  padding:6px 12px !important;
+}
+
+/* 四階段導覽：與題號按鈕同一視覺尺寸 */
+.stage-nav-card{
+  padding:8px 14px !important;
+  margin-bottom:10px !important;
+}
+.stage-nav-card .steps{
+  gap:8px !important;
+  margin:0 !important;
+}
+.stage-nav-card .steps button{
+  font-size:.90em !important;
+  min-height:38px !important;
+  padding:6px 12px !important;
+}
+
+/* 練習內容卡略緊湊，但不縮題目與主要英文練習字級 */
+.step-page{
+  padding-top:20px !important;
+  padding-bottom:20px !important;
+}
+.in-step-prompt{
+  margin-bottom:16px !important;
+  padding-bottom:14px !important;
+}
+.task-intro{
+  margin-bottom:14px !important;
+}
+
+/* 所有一般選擇題：桌機優先 2×2，減少四張直排造成的垂直浪費 */
+@media (min-width:901px){
+  .options{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:10px 12px !important;
+  }
+  .options button{
+    width:100% !important;
+    min-height:58px !important;
+    padding:10px 16px !important;
+    margin:0 !important;
+  }
+}
+
+/* 平板：足夠寬度時同樣 2×2 */
+@media (min-width:641px) and (max-width:900px){
+  .practice-head{
+    padding:12px 16px !important;
+  }
+  .practice-head h2,
+  .practice-head h3{
+    margin-bottom:10px !important;
+  }
+  .practice-head .qnav button,
+  .stage-nav-card .steps button{
+    font-size:.88em !important;
+    min-height:42px !important;
+    padding:7px 11px !important;
+  }
+  .options{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:9px 10px !important;
+  }
+  .options button{
+    width:100% !important;
+    min-height:54px !important;
+    padding:9px 12px !important;
+    margin:0 !important;
+  }
+}
+
+/* 手機：不硬塞 2×2；導覽緊湊但維持觸控尺寸 */
+@media (max-width:640px){
+  .practice-head{
+    padding:10px 12px !important;
