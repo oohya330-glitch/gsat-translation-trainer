@@ -2215,18 +2215,20 @@ textarea {
   grid-template-columns:1fr !important;
 }
 
-/* v126：115 第1題短選項卡三端寬度優化。
-   電腦／平板比照步驟一單張選項卡的欄寬；手機維持全寬。 */
+/* v127：115 第1題短四選項卡三端排版優化。
+   電腦／平板採 2×2，手機採 1×4；沿用既有選項懸掛縮排。 */
 @media (min-width:641px){
-  .key-card.key-card-step-width .options-grid{
-    width:calc(50% - 6px) !important;
-    max-width:calc(50% - 6px) !important;
+  .key-card.key-card-step-width .options-grid.option-count-4{
+    width:100% !important;
+    max-width:none !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
   }
 }
 @media (max-width:640px){
-  .key-card.key-card-step-width .options-grid{
+  .key-card.key-card-step-width .options-grid.option-count-4{
     width:100% !important;
     max-width:none !important;
+    grid-template-columns:1fr !important;
   }
 }
 </style>
@@ -2993,9 +2995,9 @@ refs:[`Conquering Jade Mountain has always been one of the most difficult challe
        <div class="key-card"><h4>帶給人們會心的一笑</h4><p class="small"><b>下列哪一個英文表達不適合？</b></p>${opts(['bring people a knowing smile','give people an understanding smile','make people smile knowingly','bring people a meaningful smile'],3,3)}<p class="post-answer-note"><b>knowing / approving / understanding smile</b> 都可表達「會心的一笑」；也可說 <b>make people smile knowingly</b>。</p></div>`,
       `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">and often bring people a knowing smile.</button><button class="chip" onclick="addChip(this)">Some of them seem meaningless,</button><button class="chip" onclick="addChip(this)">but they are quite eye-catching</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Some of them seem meaningless, but they are quite eye-catching and often bring people a knowing smile.')">提交</button></div><div id="fb" class="feedback"></div>`,
       write(10801,2)
-    ],
-    refs:[
-      `Some of them seem meaningless, but they are quite eye-catching and often bring people a knowing smile.`,      `Some of them appear to be meaningless, but they are rather eye-catching and often make people smile knowingly.`
+    ],    refs:[
+      `Some of them seem meaningless, but they are quite eye-catching and often bring people a knowing smile.`,
+      `Some of them appear to be meaningless, but they are rather eye-catching and often make people smile knowingly.`
     ],
     take:'<b>seem / appear (to be) / look + adj.</b>　看似……<br><b>quite / rather eye-catching</b>　相當引人注目<br><b>a knowing / approving / understanding smile</b>　會心的一笑<br><b>make / cause people smile knowingly</b>　使人會心一笑',
     hint:'<b>Some of them ..., but ...</b><br><b>a knowing smile</b>',
