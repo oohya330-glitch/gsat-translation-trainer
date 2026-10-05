@@ -2207,23 +2207,9 @@ textarea {
 
 
 
-/* v117 預覽：關鍵表達四選項統一改為 1×4 長卡；113-1 的 V-ing 保持完整不拆行。
-   僅調整關鍵表達卡片內的四選項排列與指定 token 換行行為；不改答案、文字、卡片尺寸或其他版面。 */
+/* v122：關鍵表達四選項改為 1×4；保留原卡片尺寸與其他版面。 */
 .key-card .options-grid.option-count-4{
   grid-template-columns:1fr !important;
-}
-/* v120：113 學測第 1 題句子架構，修正平板直式時 V-ing 被切斷。
-   以平板直式視窗寬度＋方向判定，不再依賴 hover / pointer，避免 iPad Safari 未命中。
-   僅讓指定 V-ing token 保持完整；不改文字、答案、卡片尺寸、字級或 2×2 排列。 */
-@media (min-width:700px) and (max-width:1180px) and (orientation:portrait){
-  .gsat113-q1-ving{
-    display:inline-block !important;
-    white-space:nowrap !important;
-    word-break:keep-all !important;
-    overflow-wrap:normal !important;
-    hyphens:none !important;
-    -webkit-hyphens:none !important;
-  }
 }
 </style>
 
@@ -2577,7 +2563,7 @@ const allData={
     steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
     contents:[
       `<div class="task-intro"><strong>句子架構：</strong><span>中文沒有明說「誰看到」，英文可以怎麼處理比較自然？</span></div>
-       ${opts(['politicians can see + <span class="gsat113-q1-ving">V-ing</span>','there can see politicians + <span class="gsat113-q1-ving">V-ing</span>','politicians can be seen + <span class="gsat113-q1-ving">V-ing</span>'],2)}
+       ${opts(['politicians can see + V-⁠ing','there can see politicians + V-⁠ing','politicians can be seen + V-⁠ing'],2)}
        <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>Every election season + politicians can be seen + ______</strong></div>`,
       `<h3>關鍵表達</h3>
        <div class="key-grid">
