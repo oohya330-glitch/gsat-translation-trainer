@@ -2209,6 +2209,28 @@ textarea {
 .key-card .options-grid.option-count-4{
   grid-template-columns:1fr !important;
 }
+
+/* v125：115 第2題「依英語能力」三選項固定 1×3 直排；其他三選項版面不變。 */
+.key-card.key-card-1x3 .options-grid.option-count-3{
+  grid-template-columns:1fr !important;
+}
+
+/* v127：115 第1題短四選項卡三端排版優化。
+   電腦／平板採 2×2，手機採 1×4；沿用既有選項懸掛縮排。 */
+@media (min-width:641px){
+  .key-card.key-card-step-width .options-grid.option-count-4{
+    width:100% !important;
+    max-width:none !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+@media (max-width:640px){
+  .key-card.key-card-step-width .options-grid.option-count-4{
+    width:100% !important;
+    max-width:none !important;
+    grid-template-columns:1fr !important;
+  }
+}
 </style>
 
 <style id="v85-home-year-collapse">
@@ -2271,6 +2293,13 @@ textarea {
       </div>
       <div id="gsatPanel" class="exam-panel">
         <div class="year-grid">
+          <div class="year-card available">
+            <strong>115 學測</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(115)">開始練寫</button>
+              <button onclick="showAnswers(115)">題目與答案</button>
+            </div>
+          </div>
           <div class="year-card available">
             <strong>114 學測</strong><small>中譯英 2 題</small>
             <div class="year-actions">
@@ -2491,6 +2520,7 @@ textarea {
 /* v102 確認版：以 v101 新正式母版為唯一基礎，新增 108 指考兩題至「指考」頁籤；保留兩個參考譯法，並適度補充官方可接受替代表達；既有學測內容與版面不改。 */
 /* v114 確認版：以 v111 為乾淨基礎，保留 108 指考，新增 107 指考；沿用既有延伸模式路由與專用導覽，並套用指定手機底部三鍵同列。 */
 /* v79 確認版：以 v76 正式母版為唯一基礎新增 107；107 採四階段「句子架構→關鍵表達→整合練習→自己翻譯」，每階段皆有實際操作，不新增複選功能；既有 108～114 不改。 */
+/* v124：以 v123 正式母版為基礎新增 115 學測兩題、首頁入口、參考譯法、延伸題與隨機年份；其餘既有內容與功能不改。 */
 const allData={
 114:{
   1:{
@@ -2965,8 +2995,7 @@ refs:[`Conquering Jade Mountain has always been one of the most difficult challe
        <div class="key-card"><h4>帶給人們會心的一笑</h4><p class="small"><b>下列哪一個英文表達不適合？</b></p>${opts(['bring people a knowing smile','give people an understanding smile','make people smile knowingly','bring people a meaningful smile'],3,3)}<p class="post-answer-note"><b>knowing / approving / understanding smile</b> 都可表達「會心的一笑」；也可說 <b>make people smile knowingly</b>。</p></div>`,
       `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">and often bring people a knowing smile.</button><button class="chip" onclick="addChip(this)">Some of them seem meaningless,</button><button class="chip" onclick="addChip(this)">but they are quite eye-catching</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Some of them seem meaningless, but they are quite eye-catching and often bring people a knowing smile.')">提交</button></div><div id="fb" class="feedback"></div>`,
       write(10801,2)
-    ],
-    refs:[
+    ],    refs:[
       `Some of them seem meaningless, but they are quite eye-catching and often bring people a knowing smile.`,
       `Some of them appear to be meaningless, but they are rather eye-catching and often make people smile knowingly.`
     ],
@@ -2995,7 +3024,8 @@ refs:[`Conquering Jade Mountain has always been one of the most difficult challe
          <button class="chip" onclick="addChip(this)">Fast fashion</button>
          <button class="chip" onclick="addChip(this)">allowing people to buy trendy clothing</button>
          <button class="chip" onclick="addChip(this)">is characterized by speed and low prices,</button>
-       </div>       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Fast fashion is characterized by speed and low prices, allowing people to buy trendy clothing at affordable prices.')">提交</button></div>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Fast fashion is characterized by speed and low prices, allowing people to buy trendy clothing at affordable prices.')">提交</button></div>
        <div id="fb" class="feedback"></div>`,
       write(10701,1)
     ],
@@ -3043,7 +3073,79 @@ refs:[`Conquering Jade Mountain has always been one of the most difficult challe
       ['網路購物所使用的過多包裝製造了大量垃圾，造成環境問題。','The excessive packaging used for online shopping produces large amounts of waste, resulting in environmental problems.','', '<b>excessive packaging</b> = 過多包裝<br><b>online shopping</b> = 網路購物<br><b>waste</b> = 垃圾／廢棄物']
     ]
   }
+},
+115:{
+  1:{
+    cn:'現在越來越多高中英文老師已經增加在課堂上使用英文的百分比。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「已經增加」應該使用哪一種時態？</span></div>
+       ${opts(['more and more ... increase ...','more and more ... have increased ...','more and more ... are increasing ...'],1,1)}
+       <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>more and more ... + have increased + ______</strong></div>
+       <p class="small post-answer-note"><b>have / has + p.p.</b> = 現在完成式。這裡的「已經增加」要用現在完成式。</p>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-card key-card-step-width"><h4>增加……的百分比</h4>
+       ${opts(['increase the percentage of ...','increase the amount of ...','increase the number of ...','increase the frequency of ...'],0,2)}
+       <p class="post-answer-note"><b>percentage</b> = 百分比<br><b>amount</b> = 數量、總量<br><b>number</b> = 數目<br><b>frequency</b> = 頻率</p></div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的結構與關鍵表達排成自然的英文。</span></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">the percentage of English use in class.</button>
+         <button class="chip" onclick="addChip(this)">have increased</button>
+         <button class="chip" onclick="addChip(this)">More and more senior high school English teachers</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('More and more senior high school English teachers have increased the percentage of English use in class.')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(115,1)
+    ],
+    refs:[
+      `Now, more and more senior high school English teachers have increased the percentage of English use in class.`,
+      `Nowadays, more and more senior high school English teachers have increased the percentage of using English in class.`
+    ],
+    take:'<b>have / has + p.p.</b>　現在完成式<br><b>increase the percentage of ...</b>　增加……的百分比',
+    hint:'<b>have / has + p.p.</b><br><b>increase the percentage of ...</b>',
+    ext:[
+      ['近年來，越來越多年輕人在連假時選擇出國，而不是在國內旅遊。','In recent years, more and more young people have chosen to travel abroad during long weekends rather than travel domestically.','', '<b>long weekends</b> = 連假<br><b>rather than + V</b> = 而不是……<br><b>domestically</b> = 在國內'],
+      ['近年來，越來越多人已經開始在購買飲料或咖啡時使用環保杯。','In recent years, more and more people have started using reusable cups when buying drinks or coffee.','', '<b>reusable cup</b> = 環保杯<br><b>when V-ing</b> = 當……時']
+    ]
+  },
+  2:{
+    cn:'他們將學生依英語能力分成不同組別，進行多樣的聽、說活動。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「把 A 分成 B」應該使用哪一個搭配？</span></div>
+       ${opts(['divide A into B','divide A in B','divide A among B'],0,0)}
+       <div class="skeleton"><span class="small">標準搭配：</span><br><strong>divide A into B</strong> = 把 A 分成 B</div>
+       <p class="small post-answer-note">例如：<b>divide students into different groups</b></p>`,
+      `<h3>關鍵表達</h3>
+       <div class="key-grid">
+         <div class="key-card key-card-1x3"><h4>依英語能力</h4>${opts(['based on English ability','related to English ability','focused on English ability'],0,1)}<p class="post-answer-note"><b>based on</b> = 根據、依照<br><b>related to</b> = 與……有關<br><b>focused on</b> = 著重於……</p></div>
+         <div class="key-card"><h4>多樣的</h4><p class="small"><b>哪一個不能表達「多樣的」？</b></p>${opts(['various','diverse','a wide variety of','a large number of'],3,3)}<p class="post-answer-note"><b>various</b> = 多樣的<br><b>diverse</b> = 多樣的<br><b>a wide variety of</b> = 各式各樣的<br><b>a large number of</b> = 大量的、數量很多</p></div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div>
+       <div class="answerline" id="build"></div>
+       <div class="chips" id="pool">
+         <button class="chip" onclick="addChip(this)">and conduct various listening and speaking activities.</button>
+         <button class="chip" onclick="addChip(this)">based on their English ability</button>
+         <button class="chip" onclick="addChip(this)">They divide students into different groups</button>
+       </div>
+       <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('They divide students into different groups based on their English ability and conduct various listening and speaking activities.')">提交</button></div>
+       <div id="fb" class="feedback"></div>`,
+      write(115,2)
+    ],
+    refs:[
+      `They divide students into different groups based on their English ability and conduct various listening and speaking activities.`,
+      `They divide students into different groups based on their English proficiency and conduct a variety of listening and speaking activities.`
+    ],
+    take:'<b>divide A into B</b>　把 A 分成 B<br><b>based on</b>　根據、依照<br><b>various / diverse / a variety of</b>　多樣的',
+    hint:'<b>divide A into B</b><br><b>based on ...</b><br><b>various / diverse / a variety of ...</b>',
+    ext:[
+      ['這些商品依價格被分成不同類別，方便顧客選擇。','These products are divided into different categories based on their prices, making it easier for customers to choose.','', '<b>category</b> = 類別<br><b>be divided into ...</b><br><b>make it easier for 人 to V</b>'],
+      ['這座體育館提供多樣的運動課程，讓民眾依自己的興趣選擇。','This sports center offers a wide variety of sports programs, allowing people to choose based on their interests.','', '<b>sports programs</b> = 運動課程<br><b>a wide variety of ...</b><br><b>based on ...</b>']
+    ]
+  }
 }
+
 
 };
 
@@ -3154,7 +3256,7 @@ function goHome(){
 function randomYear(type){
  const box=document.getElementById('randomResult');
  const pools={
-   gsat:[114,113,112,111,110,109,108,107,106,105],
+   gsat:[115,114,113,112,111,110,109,108,107,106,105],
    ast:[10801,10701]
  };
  const years=pools[type]||pools.gsat;
