@@ -2212,10 +2212,14 @@ textarea {
 .key-card .options-grid.option-count-4{
   grid-template-columns:1fr !important;
 }
-@media (min-width:601px) and (max-width:900px){
-  .no-break-token{
+/* v119：113 學測第 1 題句子架構，僅平板觸控裝置讓 V-ing 保持完整。
+   使用 coarse pointer 避免一般桌機瀏覽器在相同視窗寬度時被套用。 */
+@media (min-width:601px) and (max-width:1180px) and (hover:none) and (pointer:coarse){
+  .gsat113-q1-ving{
+    display:inline-block !important;
     white-space:nowrap !important;
-    display:inline-block;
+    word-break:keep-all !important;
+    overflow-wrap:normal !important;
   }
 }
 </style>
@@ -2570,7 +2574,7 @@ const allData={
     steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
     contents:[
       `<div class="task-intro"><strong>句子架構：</strong><span>中文沒有明說「誰看到」，英文可以怎麼處理比較自然？</span></div>
-       ${opts(['politicians can see + <span class="no-break-token">V-ing</span>','there can see politicians + <span class="no-break-token">V-ing</span>','politicians can be seen + <span class="no-break-token">V-ing</span>'],2)}
+       ${opts(['politicians can see + <span class="gsat113-q1-ving">V-ing</span>','there can see politicians + <span class="gsat113-q1-ving">V-ing</span>','politicians can be seen + <span class="gsat113-q1-ving">V-ing</span>'],2)}
        <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>Every election season + politicians can be seen + ______</strong></div>`,
       `<h3>關鍵表達</h3>
        <div class="key-grid">
