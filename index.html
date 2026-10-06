@@ -997,8 +997,7 @@ textarea {
 /* 手機：不硬塞 2×2；導覽緊湊但維持觸控尺寸 */
 @media (max-width:640px){
   .practice-head{
-    padding:10px 12px !important;
-  }
+    padding:10px 12px !important;  }
   .practice-head h2,
   .practice-head h3{
     font-size:1.12em !important;
@@ -1997,8 +1996,7 @@ textarea {
   }
 
   /* 複習清單／練習紀錄空白狀態：依語意分行，不改卡片尺寸與按鈕 */
-  .empty-mistakes span,
-  .empty-records span{
+  .empty-mistakes span,  .empty-records span{
     display:block;
     max-width:100%;
     margin-left:auto;
@@ -2997,8 +2995,7 @@ refs:[`Conquering Jade Mountain has always been one of the most difficult challe
        <div class="key-card"><h4>帶給人們會心的一笑</h4><p class="small"><b>下列哪一個英文表達不適合？</b></p>${opts(['bring people a knowing smile','give people an understanding smile','make people smile knowingly','bring people a meaningful smile'],3,3)}<p class="post-answer-note"><b>knowing / approving / understanding smile</b> 都可表達「會心的一笑」；也可說 <b>make people smile knowingly</b>。</p></div>`,
       `<div class="task-intro"><strong>整合練習：</strong><span>把前面取得的語塊重組成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">and often bring people a knowing smile.</button><button class="chip" onclick="addChip(this)">Some of them seem meaningless,</button><button class="chip" onclick="addChip(this)">but they are quite eye-catching</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Some of them seem meaningless, but they are quite eye-catching and often bring people a knowing smile.')">提交</button></div><div id="fb" class="feedback"></div>`,
       write(10801,2)
-    ],
-    refs:[
+    ],    refs:[
       `Some of them seem meaningless, but they are quite eye-catching and often bring people a knowing smile.`,
       `Some of them appear to be meaningless, but they are rather eye-catching and often make people smile knowingly.`
     ],
