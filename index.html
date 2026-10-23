@@ -2242,6 +2242,50 @@ textarea {
 
 
 
+
+<style id="mock-exam-card-design-H">
+/* H 邊框確認版：白色卡片、淡綠點線內框；已移除四角小花，保留原有內容和互動。 */
+#mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E1"],
+#mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E2"] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #FFFFFF;
+  border-color: #C7DACD;
+}
+#mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E1"]::before,
+#mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E2"]::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1.5px dotted #8EAF9C;
+  border-radius: 11px;
+  pointer-events: none;
+  z-index: 0;
+}
+#mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E1"] > *,
+#mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E2"] > * {
+  position: relative;
+  z-index: 1;
+}
+#mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E1"] .year-actions button,
+#mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E2"] .year-actions button {
+  background: #DCEADF;
+}
+</style>
+<style id="mock-exam-115-styles">
+/* 模擬考分類：沿用既有字體、字級、卡片、題目與答案呈現。 */
+#mockPanel .mock-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+#mockPanel .mock-filter{min-width:0}
+#mockPanel .mock-filter label{display:block;font-weight:800;color:var(--green);margin-bottom:5px}
+#mockPanel .mock-filter select{width:100%;min-height:44px;padding:9px 10px;border:1.5px solid var(--line);border-radius:10px;background:white;color:var(--ink);font:inherit}
+#mockPanel .year-card small+small{margin-top:3px}
+#mockPanel .year-actions{justify-content:center}
+#mockPanel .year-actions button{min-height:44px}
+#mockPanel #mockEmpty{margin-top:16px}
+@media(max-width:600px){#mockPanel .mock-filters{grid-template-columns:1fr;gap:9px;margin-top:12px}}
+@media(max-width:390px){#homeView .exam-tabs{flex-wrap:wrap}#homeView .exam-tabs #tabMock{flex:1 1 100%}}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -2260,10 +2304,11 @@ textarea {
     </div>
     <div class="card hero">
       <h2>選擇年份開始練習</h2>
-      <p>每回 2 題，透過不同練習一步步完成翻譯。</p>
+      <p id="examDescription">每回 2 題，透過不同練習一步步完成翻譯。</p>
       <div class="exam-tabs">
         <button id="tabGsat" class="active" onclick="switchExam('gsat')">學測</button>
         <button id="tabAst" onclick="switchExam('ast')">指考</button>
+        <button id="tabMock" onclick="switchExam('mock')">模擬考</button>
       </div>
       <div id="gsatPanel" class="exam-panel">
         <div class="year-grid">
@@ -2374,6 +2419,24 @@ textarea {
             </div>
           </div>
         </div>
+      </div>
+      <div id="mockPanel" class="exam-panel hidden">
+        <div class="mock-filters">
+          <div class="mock-filter"><label for="mockYear">學年度</label><select id="mockYear" onchange="filterMockExams()"><option value="all">全部年份</option><option value="115">115 學年度</option></select></div>
+          <div class="mock-filter"><label for="mockSource">出版社／區域</label><select id="mockSource" onchange="filterMockExams()"><option value="all">全部來源</option><option value="hanlin">翰林</option></select></div>
+          <div class="mock-filter"><label for="mockRound">考試次別</label><select id="mockRound" onchange="filterMockExams()"><option value="all">全部次別</option><option value="E1">第 1 次</option><option value="E2">第 2 次</option></select></div>
+        </div>
+        <div class="year-grid" id="mockExamGrid">
+          <div class="year-card available" data-year="115" data-source="hanlin" data-round="E1">
+            <strong>115 學年度</strong><small>翰林｜第 1 次模擬考</small><small>中譯英 2 題</small>
+            <div class="year-actions"><button onclick="showMockAnswers('115-hanlin-E1')">題目與答案</button></div>
+          </div>
+          <div class="year-card available" data-year="115" data-source="hanlin" data-round="E2">
+            <strong>115 學年度</strong><small>翰林｜第 2 次模擬考</small><small>中譯英 2 題</small>
+            <div class="year-actions"><button onclick="showMockAnswers('115-hanlin-E2')">題目與答案</button></div>
+          </div>
+        </div>
+        <p id="mockEmpty" class="small hidden">目前沒有符合條件的試題。</p>
       </div>
     </div>
     <div class="home-function-zone">
@@ -3226,11 +3289,14 @@ function write(y,n){
  <div id="refs" class="refs"></div>`;
 }
 function switchExam(type){
- const gsat=type==='gsat';
+ const gsat=type==='gsat',ast=type==='ast',mock=type==='mock';
  document.getElementById('gsatPanel').classList.toggle('hidden',!gsat);
- document.getElementById('astPanel').classList.toggle('hidden',gsat);
+ document.getElementById('astPanel').classList.toggle('hidden',!ast);
+ document.getElementById('mockPanel').classList.toggle('hidden',!mock);
  document.getElementById('tabGsat').classList.toggle('active',gsat);
- document.getElementById('tabAst').classList.toggle('active',!gsat);
+ document.getElementById('tabAst').classList.toggle('active',ast);
+ document.getElementById('tabMock').classList.toggle('active',mock);
+ document.getElementById('examDescription').textContent=mock?'模擬考僅提供題目與參考答案，不包含互動練寫功能。':'每回 2 題，透過不同練習一步步完成翻譯。';
 }
 function showAnswers(y){
  currentYear=y;
@@ -3821,6 +3887,70 @@ function returnHomeFromMistakes(){
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',setupHomeYearGroups);
   else setupHomeYearGroups();
 })();
+</script>
+
+<script id="mock-exam-115-data-and-view">
+const mockExamBank = { "115-hanlin-E1": {
+  title: "115 學年度｜翰林 第 1 次模擬考",
+  questions: {"1":{"cn":"去海外讀書不僅是為了獲得知識，更是為了培養獨立性。","refs":["Studying abroad is not only for gaining knowledge but also for developing independence.","Studying overseas is not only for acquiring knowledge but also for fostering independence."]},"2":{"cn":"除了探索新環境，學生們也有機會學會如何面對各種艱難的挑戰。","refs":["Besides exploring new environments, students also have the opportunity to learn how to face difficult challenges.","In addition to discovering new surroundings, students also get the chance to learn how to deal with various hardships."]}}
+}, "115-hanlin-E2": {
+  "title": "115 學年度｜翰林 第 2 次模擬考",
+  "questions": {
+    "1": {
+      "cn": "線上學習平台提供了豐富的資源，讓學生可以根據自己的步調學習，而不再受限於地理位置。",
+      "refs": [
+        "Online learning platforms provide abundant resources, allowing students to learn at their own pace without being restricted by geographical location anymore.",
+        "Online learning platforms provide rich resources, which allows students to learn at their own pace without being restricted by geographical location anymore."
+      ]
+    },
+    "2": {
+      "cn": "除了節省了通勤時間以外，這種學習方式也讓偏遠地區的人們有機會接受高品質的教育。",
+      "refs": [
+        "In addition to saving commuting time, this approach to learning gives people in remote areas the opportunity to receive high-quality education.",
+        "Besides saving commuting time, this method of learning enables people living in remote areas to have the chance to receive high-quality education."
+      ]
+    }
+  }
+}};
+function filterMockExams(){
+ const y=document.getElementById('mockYear').value;
+ const source=document.getElementById('mockSource').value;
+ const round=document.getElementById('mockRound').value;
+ let count=0;
+ document.querySelectorAll('#mockExamGrid .year-card').forEach(card=>{
+  const visible=(y==='all'||card.dataset.year===y)&&(source==='all'||card.dataset.source===source)&&(round==='all'||card.dataset.round===round);
+  card.classList.toggle('hidden',!visible);
+  if(visible)count++;
+ });
+ document.getElementById('mockEmpty').classList.toggle('hidden',count!==0);
+}
+function showMockAnswers(id){
+ const exam=mockExamBank[id];if(!exam)return;
+ const questions=exam.questions;
+ document.getElementById('answerContent').innerHTML=`
+   <h2 style="margin-top:0;color:var(--green)">${exam.title}　題目與答案</h2>
+   <p class="small">以下提供參考譯法，英文表達不只一種。</p>
+   ${[1,2].map((n,i)=>`
+     ${i?'<hr style="border:0;border-top:1px solid var(--line)">':''}
+     <div style="margin:18px 0">
+       <b>第 ${n} 題</b>
+       <p class="prompt" style="font-size:1.05em">${questions[n].cn}</p>
+       <div class="actions"><button onclick="toggleMockAnswerRefs(${n})" id="mockAnswerButton${n}" aria-expanded="false">查看參考答案</button></div>
+       <div id="mockAnswerRefs${n}" class="hint">${questions[n].refs.map((r,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${r}</span></p>`).join('')}</div>
+     </div>`).join('')}`;
+ document.getElementById('homeView').classList.add('hidden');
+ ['recordView','recordCardView','practiceView','mistakeView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+ document.getElementById('answerView').classList.remove('hidden');
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleMockAnswerRefs(n){
+ const box=document.getElementById('mockAnswerRefs'+n),button=document.getElementById('mockAnswerButton'+n);
+ if(!box||!button)return;
+ const visible=box.style.display!=='block';
+ box.style.display=visible?'block':'none';
+ button.textContent=visible?'隱藏參考答案':'查看參考答案';
+ button.setAttribute('aria-expanded',String(visible));
+}
 </script>
 </body>
 </html>
