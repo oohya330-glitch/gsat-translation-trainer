@@ -2360,6 +2360,21 @@ textarea {
   justify-content:center;
  }
 }
+/* V130 手機功能區：說明文字自然平衡換行。 */
+@media (max-width:600px) {
+  .home-function-zone .home-function-card > span {
+    display:block;
+    width:100%;
+    min-width:0;
+    height:auto;
+    min-height:0;
+    text-align:center;
+    white-space:normal;
+    overflow-wrap:break-word;
+    word-break:normal;
+    text-wrap:balance;
+  }
+}
 </style>
 </head>
 <body>
