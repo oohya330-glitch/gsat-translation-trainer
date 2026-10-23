@@ -2344,6 +2344,23 @@ textarea {
   box-decoration-break:clone;
 }
 </style>
+
+<style id="mock-v130-heading-and-actions-only">
+/* 只針對六回模擬考答案頁的兩顆按鈕；不更動任何事件處理。 */
+#answerView .mock-answer-actions {
+ display:flex;
+ justify-content:flex-start;
+ align-items:center;
+ gap:10px;
+ flex-wrap:wrap;
+}
+@media (max-width:600px) {
+ #answerView .mock-answer-actions {
+  gap:16px;
+  justify-content:center;
+ }
+}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -4101,18 +4118,26 @@ function filterMockExams(){
  });
  document.getElementById('mockEmpty').classList.toggle('hidden',count!==0);
 }
+function mockShortTitle(id){
+ const exam=mockExamBank[id];
+ if(!exam)return '';
+ const year=id.split('-')[0];
+ const publisher=id.includes('-hanlin-')?'翰林':id.includes('-national-')?'南一':'';
+ const round=id.endsWith('-E1')?'一模':id.endsWith('-E2')?'二模':id.endsWith('-E3')?'三模':id.endsWith('-E4')?'四模':'';
+ return [year,publisher,round].filter(Boolean).join(' ');
+}
 function showMockAnswers(id){
  const exam=mockExamBank[id];if(!exam)return;
  const questions=exam.questions;
  document.getElementById('answerContent').innerHTML=`
-   <h2 style="margin-top:0;color:var(--green)">${exam.title}　<span class="mock-answer-heading-label">題目與答案</span></h2>
+   <h2 style="margin-top:0;color:var(--green)">${mockShortTitle(id)} <span class="mock-answer-heading-label">題目與答案</span></h2>
    <p class="small">以下提供參考譯法，英文表達不只一種。</p>
    ${[1,2].map((n,i)=>`
      ${i?'<hr style="border:0;border-top:1px solid var(--line)">':''}
      <div style="margin:18px 0">
        <b>第 ${n} 題</b>
        <p class="prompt" style="font-size:1.05em">${questions[n].cn}</p>
-       <div class="actions"><button onclick="toggleMockAnswerRefs(${n})" id="mockAnswerButton${n}" aria-expanded="false">參考答案</button><button onclick="toggleMockAlternatives(${n})" id="mockAltButton${n}" aria-expanded="false">替代字詞</button></div>
+       <div class="actions mock-answer-actions"><button onclick="toggleMockAnswerRefs(${n})" id="mockAnswerButton${n}" aria-expanded="false">參考答案</button><button onclick="toggleMockAlternatives(${n})" id="mockAltButton${n}" aria-expanded="false">替代字詞</button></div>
        <div id="mockAlt${n}" class="hint" style="background:#f2f6f2"><b>可替換表達</b><div class="mock-alt-grid">${(mockAlternatives[id]?.[n]||[]).map(pair=>`<div class="mock-alt-row"><span>${pair[0]}</span><span><span class="mock-alt-arrow">→</span><span class="mock-alt-value">${pair[1]}</span></span></div>`).join('')}</div><p class="small">請依句意與文法結構調整，不一定能逐字替換。</p></div>
        <div id="mockAnswerRefs${n}" class="hint">${questions[n].refs.map((r,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${r}</span></p>`).join('')}</div>
      </div>`).join('')}`;
