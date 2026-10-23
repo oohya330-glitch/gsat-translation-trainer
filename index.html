@@ -2550,6 +2550,10 @@ textarea {
             <strong>114 學年度</strong><small>翰林｜四模</small><small>中譯英 2 題</small>
             <div class="year-actions"><button onclick="showMockAnswers('114-hanlin-E4')">題目與答案</button></div>
           </div>
+          <div class="year-card available" data-year="114" data-source="national" data-round="E1">
+            <strong>114 學年度</strong><small>南一｜一模</small><small>中譯英 2 題</small>
+            <div class="year-actions"><button onclick="showMockAnswers('114-national-E1')">題目與答案</button></div>
+          </div>
         </div>
         <p id="mockEmpty" class="small hidden">目前沒有符合條件的試題。</p>
       </div>
@@ -4027,6 +4031,20 @@ function returnHomeFromMistakes(){
 
 <script id="mock-exam-115-data-and-view">
 const mockExamBank = {
+ "114-national-E1": {
+  title:"114 學年度南一第 1 次模擬考",
+  questions:{
+   "1":{cn:"近年來，健身房成為忙碌的都市人釋放壓力和維持身材的理想場所。",refs:[
+    "In recent years, gyms have become ideal places for busy city people to release stress and stay in good shape.",
+    "Recently, gyms have become ideal places for busy people living in cities to relieve pressure and stay fit."
+   ]},
+   "2":{cn:"多數健身房都有教練帶領團體課程，幫助新手建立正確的運動習慣。",refs:[
+    "Most gyms have coaches who lead group classes to help beginners develop proper exercise habits.",
+    "Most gyms have instructors who lead group classes to help newcomers form correct exercise routines."
+   ]}
+  }
+ },
+
  "114-hanlin-E4": {
   title:"114 學年度翰林第 4 次模擬考",
   questions:{
@@ -4125,6 +4143,11 @@ const mockExamBank = {
 }};
 // 替代字詞：對應已收錄的三回模擬考題目。
 const mockAlternatives = {
+ "114-national-E1": {
+  "1": [["In recent years","Recently"],["gyms","fitness centers"],["busy city people","busy urban residents"],["release stress","relieve pressure"],["stay in good shape","stay fit"]],
+  "2": [["coaches","instructors"],["lead group classes","conduct group classes"],["beginners","newcomers"],["develop proper exercise habits","establish good exercise routines"]]
+ },
+
  "114-hanlin-E4": {
   "1": [["perform outstandingly","perform remarkably"],["in various fields","in diverse fields"],["repeatedly","frequently"],["win awards","receive prizes"],["international competitions","global contests"]],
   "2": [["achievements","accomplishments"],["reflect","demonstrate"],["younger generation","young generation"],["actively enhancing","actively improving"],["competitive advantages","competitiveness"]]
@@ -4192,26 +4215,3 @@ function showMockAnswers(id){
    <p class="small">以下提供參考譯法，英文表達不只一種。</p>
    ${[1,2].map((n,i)=>`
      ${i?'<hr style="border:0;border-top:1px solid var(--line)">':''}
-     <div style="margin:18px 0">
-       <b>第 ${n} 題</b>
-       <p class="prompt" style="font-size:1.05em">${questions[n].cn}</p>
-       <div class="actions mock-answer-actions"><button onclick="toggleMockAnswerRefs(${n})" id="mockAnswerButton${n}" aria-expanded="false">參考答案</button><button onclick="toggleMockAlternatives(${n})" id="mockAltButton${n}" aria-expanded="false">替代字詞</button></div>
-       <div id="mockAlt${n}" class="hint" style="background:#f2f6f2"><b>可替換表達</b><div class="mock-alt-grid">${(mockAlternatives[id]?.[n]||[]).map(pair=>`<div class="mock-alt-row"><span>${pair[0]}</span><span><span class="mock-alt-arrow">→</span><span class="mock-alt-value">${pair[1]}</span></span></div>`).join('')}</div><p class="small">請依句意與文法結構調整，不一定能逐字替換。</p></div>
-       <div id="mockAnswerRefs${n}" class="hint">${questions[n].refs.map((r,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${r}</span></p>`).join('')}</div>
-     </div>`).join('')}`;
- document.getElementById('homeView').classList.add('hidden');
- ['recordView','recordCardView','practiceView','mistakeView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
- document.getElementById('answerView').classList.remove('hidden');
- window.scrollTo({top:0,behavior:'smooth'});
-}
-function toggleMockAnswerRefs(n){
- const box=document.getElementById('mockAnswerRefs'+n),button=document.getElementById('mockAnswerButton'+n);
- if(!box||!button)return;
- const visible=box.style.display!=='block';
- box.style.display=visible?'block':'none';
- button.textContent=visible?'隱藏參考答案':'參考答案';
- button.setAttribute('aria-expanded',String(visible));
-}
-</script>
-</body>
-</html>
