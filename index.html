@@ -2282,6 +2282,14 @@ textarea {
 @media(max-width:600px){#mockPanel .mock-filters{grid-template-columns:1fr;gap:9px;margin-top:12px}}
 @media(max-width:390px){#homeView .exam-tabs{flex-wrap:wrap}#homeView .exam-tabs #tabMock{flex:1 1 100%}}
 </style>
+<style id="mock-card-meta-type-v128">
+#mockPanel #mockExamGrid .year-card small{font-size:17px!important;font-weight:750!important;line-height:1.5!important;color:var(--ink)!important}
+@media(max-width:600px){#mockPanel #mockExamGrid .year-card small{font-size:15px!important}}
+</style>
+<style id="mock-publisher-button-colors">
+#mockExamGrid .year-card[data-source="hanlin"] .year-actions button{background:#DCEADF;color:var(--green);border-color:var(--green)}
+#mockExamGrid .year-card[data-source="national"] .year-actions button{background:#FFFFFF;color:var(--green);border-color:var(--green)}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -2418,7 +2426,7 @@ textarea {
       </div>
       <div id="mockPanel" class="exam-panel hidden">
         <div class="mock-filters">
-          <div class="mock-filter"><label for="mockYear">學年度</label><select id="mockYear" onchange="filterMockExams()"><option value="all">全部年份</option><option value="115">115 學年度</option></select></div>
+          <div class="mock-filter"><label for="mockYear">學年度</label><select id="mockYear" onchange="filterMockExams()"><option value="all">全部年份</option><option value="114">114 學年度</option><option value="115">115 學年度</option></select></div>
           <div class="mock-filter"><label for="mockSource">出版社／區域</label><select id="mockSource" onchange="filterMockExams()"><option value="all">全部來源</option><option value="hanlin">翰林</option><option value="national">南一</option></select></div>
           <div class="mock-filter"><label for="mockRound">考試次別</label><select id="mockRound" onchange="filterMockExams()"><option value="all">全部次別</option><option value="E1">第 1 次</option><option value="E2">第 2 次</option></select></div>
         </div>
@@ -2440,6 +2448,7 @@ textarea {
             <div class="year-actions"><button onclick="showMockAnswers('115-national-E2')">題目與答案</button></div>
           </div>
         </div>
+          <div class="year-card available" data-year="114" data-source="hanlin" data-round="E1"><strong>114 學年度</strong><small>翰林｜第 1 次模擬考</small><small>中譯英 2 題</small><div class="year-actions"><button onclick="showMockAnswers('114-hanlin-E1')">題目與答案</button></div></div>
         <p id="mockEmpty" class="small hidden">目前沒有符合條件的試題。</p>
       </div>
     </div>
@@ -3915,7 +3924,7 @@ function returnHomeFromMistakes(){
 </script>
 
 <script id="mock-exam-115-data-and-view">
-const mockExamBank = { "115-hanlin-E1": {
+const mockExamBank = { "114-hanlin-E1": {title:"114 學年度翰林第 1 次模擬考",questions:{"1":{cn:"不少城市在推動人行道擴建時，常遇到來自當地居民的反對。",refs:["Many cities often face opposition from local residents when promoting sidewalk expansion.","Many cities frequently encounter resistance from local residents when working to widen sidewalks."]},"2":{cn:"有些商家擔心人行道的擴建會使顧客進出他們的商店變得不方便，進而影響生意。",refs:["Some shop owners are concerned that sidewalk expansions will make it inconvenient for customers to enter and exit their stores, affecting business.","Some store owners worry that expanding sidewalks will make it difficult for customers to access their stores, potentially hurting their business."]}}}, "115-hanlin-E1": {
   title: "115 學年度｜翰林 第 1 次模擬考",
   questions: {"1":{"cn":"去海外讀書不僅是為了獲得知識，更是為了培養獨立性。","refs":["Studying abroad is not only for gaining knowledge but also for developing independence.","Studying overseas is not only for acquiring knowledge but also for fostering independence."]},"2":{"cn":"除了探索新環境，學生們也有機會學會如何面對各種艱難的挑戰。","refs":["Besides exploring new environments, students also have the opportunity to learn how to face difficult challenges.","In addition to discovering new surroundings, students also get the chance to learn how to deal with various hardships."]}}
 }, "115-hanlin-E2": {
@@ -3962,7 +3971,7 @@ const mockExamBank = { "115-hanlin-E1": {
   }
 }};
 // 替代字詞：對應已收錄的三回模擬考題目。
-const mockAlternatives = {
+const mockAlternatives = {"114-hanlin-E1":{"1":[["often","frequently"],["face opposition","encounter resistance"],["local residents","people living in the area"],["try to expand sidewalks","work to widen sidewalks"],["expand sidewalks","widen sidewalks"]],"2":[["shop owners","store owners"],["are concerned that","worry that"],["sidewalk expansions","the expansion of sidewalks"],["make it inconvenient for customers","make it difficult for customers"],["affect business","hurt business"]]},
  "115-hanlin-E1": {
   "1": [["study abroad","study overseas"],["gain knowledge","acquire knowledge"],["develop independence","foster independence"],["not only ... but also ...","not merely ... but also ..."]],
   "2": [["besides","in addition to"],["explore new environments","discover new surroundings"],["have the opportunity to","get the chance to"],["face difficult challenges","deal with difficult challenges"]]
