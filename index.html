@@ -2205,6 +2205,10 @@ textarea {
   }
 }
 
+/* 模擬考替代字詞：雙欄、手機單欄，保留原按鈕風格 */
+.mock-alt-grid{margin-top:10px;display:grid;gap:8px}
+.mock-alt-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-bottom:1px solid var(--line);padding:8px 0;line-height:1.5}
+@media(max-width:600px){.mock-alt-row{grid-template-columns:1fr;gap:2px}}
 </style>
 
 <style id="v85-home-year-collapse">
@@ -3923,6 +3927,23 @@ const mockExamBank = { "115-hanlin-E1": {
     }
   }
 }};
+// 替代字詞：只收錄本檔中已核實的兩回模擬考題目。
+const mockAlternatives = {
+ "115-hanlin-E1": {
+  "1": [["study abroad","study overseas"],["gain knowledge","acquire knowledge"],["develop independence","foster independence"],["not only ... but also ...","not merely ... but also ..."]],
+  "2": [["besides","in addition to"],["explore new environments","discover new surroundings"],["have the opportunity to","get the chance to"],["face difficult challenges","deal with difficult challenges"]]
+ },
+ "115-hanlin-E2": {
+  "1": [["online learning platforms","digital learning platforms"],["provide abundant resources","offer a wide range of resources"],["at their own pace","at a pace that suits them"],["without being restricted by geographical location","regardless of where they live"]],
+  "2": [["in addition to","besides"],["save commuting time","reduce time spent commuting"],["this approach to learning","this method of learning"],["people in remote areas","people living in remote areas"],["receive high-quality education","access high-quality education"]]
+ }
+};
+function toggleMockAlternatives(n){
+ const box=document.getElementById('mockAlt'+n),btn=document.getElementById('mockAltButton'+n);
+ if(!box||!btn)return;
+ const open=box.style.display!=='block';box.style.display=open?'block':'none';
+ btn.textContent=open?'隱藏替代字詞':'替代字詞';btn.setAttribute('aria-expanded',String(open));
+}
 function filterMockExams(){
  const y=document.getElementById('mockYear').value;
  const source=document.getElementById('mockSource').value;
@@ -3946,7 +3967,8 @@ function showMockAnswers(id){
      <div style="margin:18px 0">
        <b>第 ${n} 題</b>
        <p class="prompt" style="font-size:1.05em">${questions[n].cn}</p>
-       <div class="actions"><button onclick="toggleMockAnswerRefs(${n})" id="mockAnswerButton${n}" aria-expanded="false">查看參考答案</button></div>
+       <div class="actions"><button onclick="toggleMockAnswerRefs(${n})" id="mockAnswerButton${n}" aria-expanded="false">查看參考答案</button><button onclick="toggleMockAlternatives(${n})" id="mockAltButton${n}" aria-expanded="false">替代字詞</button></div>
+       <div id="mockAlt${n}" class="hint" style="background:#f2f6f2"><b>可替換表達</b><div class="mock-alt-grid">${(mockAlternatives[id]?.[n]||[]).map(pair=>`<div class="mock-alt-row"><span>${pair[0]}</span><span>→ ${pair[1]}</span></div>`).join('')}</div><p class="small">請依句意與文法結構調整，不一定能逐字替換。</p></div>
        <div id="mockAnswerRefs${n}" class="hint">${questions[n].refs.map((r,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${r}</span></p>`).join('')}</div>
      </div>`).join('')}`;
  document.getElementById('homeView').classList.add('hidden');
