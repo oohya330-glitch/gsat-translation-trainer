@@ -2311,6 +2311,39 @@ textarea {
   border-color:var(--green);
 }
 </style>
+
+<style id="mock-six-exam-unified-buttons-and-hanging-indent">
+/* 六回及未來新增模擬考：題目與答案按鈕一律淡綠底，不依出版社區分。 */
+#mockExamGrid .year-card .year-actions button,
+#mockExamGrid .year-card[data-source="hanlin"] .year-actions button,
+#mockExamGrid .year-card[data-source="national"] .year-actions button {
+  background:#DCEADF !important;
+  color:#365F50 !important;
+  border-color:#365F50 !important;
+}
+/* 每一組英文表達維持自己的欄位；續行對齊英文起點。
+   第二欄箭頭獨立占位，續行不會跑到箭頭下方。 */
+.mock-alt-row > span { min-width:0; overflow-wrap:anywhere; }
+.mock-alt-row > span:nth-child(2) {
+  display:grid;
+  grid-template-columns:1.35em minmax(0,1fr);
+  align-items:start;
+}
+.mock-alt-row > span:nth-child(2) .mock-alt-arrow { grid-column:1; white-space:nowrap; }
+.mock-alt-row > span:nth-child(2) .mock-alt-value { grid-column:2; min-width:0; overflow-wrap:anywhere; }
+</style>
+<style id="mock-answer-heading-label-style">
+/* 方案 A：只為模擬考題目與答案頁的標題文字加淡綠底，保持原標題位置與大小。 */
+.mock-answer-heading-label{
+  display:inline;
+  background:#DCEADF;
+  color:#365F50;
+  border-radius:7px;
+  padding:2px 8px;
+  -webkit-box-decoration-break:clone;
+  box-decoration-break:clone;
+}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -2471,6 +2504,10 @@ textarea {
           <div class="year-card available" data-year="114" data-source="hanlin" data-round="E1">
             <strong>114 學年度</strong><small>翰林｜第 1 次模擬考</small><small>中譯英 2 題</small>
             <div class="year-actions"><button onclick="showMockAnswers('114-hanlin-E1')">題目與答案</button></div>
+          </div>
+          <div class="year-card available" data-year="114" data-source="hanlin" data-round="E2">
+            <strong>114 學年度</strong><small>翰林｜第 2 次模擬考</small><small>中譯英 2 題</small>
+            <div class="year-actions"><button onclick="showMockAnswers('114-hanlin-E2')">題目與答案</button></div>
           </div>
         </div>
         <p id="mockEmpty" class="small hidden">目前沒有符合條件的試題。</p>
@@ -3948,7 +3985,20 @@ function returnHomeFromMistakes(){
 </script>
 
 <script id="mock-exam-115-data-and-view">
-const mockExamBank = { "114-hanlin-E1": {
+const mockExamBank = {
+ "114-hanlin-E2": {
+  title:"114 學年度翰林第 2 次模擬考",
+  questions:{
+   "1":{cn:"在這個藝廊裡有很多塑膠製成的文創商品，其中大部分是由王先生創作的。",refs:[
+    "In this gallery, there are many cultural and creative products made of plastic, and most of them were created by Mr. Wang.",
+    "In this gallery, there are many plastic-based cultural and creative products, most of which were created by Mr. Wang."
+   ]},
+   "2":{cn:"他之前需要做的就是看見塑膠廢棄物的價值，並將垃圾轉變成藝術。",refs:[
+    "All he needed to do before was to see the value in plastic waste and transform garbage into art.",
+    "What he had to do before was recognize the value of plastic waste and turn trash into art."
+   ]}
+  }
+ }, "114-hanlin-E1": {
   title: "114 學年度翰林第 1 次模擬考",
   questions: {
     "1": {cn:"不少城市在推動人行道擴建時，常遇到來自當地居民的反對。",refs:[
@@ -4008,6 +4058,10 @@ const mockExamBank = { "114-hanlin-E1": {
 }};
 // 替代字詞：對應已收錄的三回模擬考題目。
 const mockAlternatives = {
+ "114-hanlin-E2":{
+  "1":[["cultural and creative products made of plastic","plastic-based cultural and creative products"],["most of them","most of which"],["were created by","were made by"],["In this gallery","At this gallery"]],
+  "2":[["All he needed to do","What he had to do"],["see the value in","recognize the value of"],["plastic waste","discarded plastic"],["transform garbage into art","turn trash into art"],["garbage","trash"]]
+ },
  "114-hanlin-E1": {
   "1": [["often","frequently"],["face opposition","encounter resistance"],["local residents","people living in the area"],["try to expand sidewalks","work to widen sidewalks"],["expand sidewalks","widen sidewalks"]],
   "2": [["shop owners","store owners"],["are concerned that","worry that"],["sidewalk expansions","the expansion of sidewalks"],["make it inconvenient for customers","make it difficult for customers"],["affect business","hurt business"]]
@@ -4051,15 +4105,15 @@ function showMockAnswers(id){
  const exam=mockExamBank[id];if(!exam)return;
  const questions=exam.questions;
  document.getElementById('answerContent').innerHTML=`
-   <h2 style="margin-top:0;color:var(--green)">${exam.title}　題目與答案</h2>
+   <h2 style="margin-top:0;color:var(--green)">${exam.title}　<span class="mock-answer-heading-label">題目與答案</span></h2>
    <p class="small">以下提供參考譯法，英文表達不只一種。</p>
    ${[1,2].map((n,i)=>`
      ${i?'<hr style="border:0;border-top:1px solid var(--line)">':''}
      <div style="margin:18px 0">
        <b>第 ${n} 題</b>
        <p class="prompt" style="font-size:1.05em">${questions[n].cn}</p>
-       <div class="actions"><button onclick="toggleMockAnswerRefs(${n})" id="mockAnswerButton${n}" aria-expanded="false">查看參考答案</button><button onclick="toggleMockAlternatives(${n})" id="mockAltButton${n}" aria-expanded="false">替代字詞</button></div>
-       <div id="mockAlt${n}" class="hint" style="background:#f2f6f2"><b>可替換表達</b><div class="mock-alt-grid">${(mockAlternatives[id]?.[n]||[]).map(pair=>`<div class="mock-alt-row"><span>${pair[0]}</span><span>→ ${pair[1]}</span></div>`).join('')}</div><p class="small">請依句意與文法結構調整，不一定能逐字替換。</p></div>
+       <div class="actions"><button onclick="toggleMockAnswerRefs(${n})" id="mockAnswerButton${n}" aria-expanded="false">參考答案</button><button onclick="toggleMockAlternatives(${n})" id="mockAltButton${n}" aria-expanded="false">替代字詞</button></div>
+       <div id="mockAlt${n}" class="hint" style="background:#f2f6f2"><b>可替換表達</b><div class="mock-alt-grid">${(mockAlternatives[id]?.[n]||[]).map(pair=>`<div class="mock-alt-row"><span>${pair[0]}</span><span><span class="mock-alt-arrow">→</span><span class="mock-alt-value">${pair[1]}</span></span></div>`).join('')}</div><p class="small">請依句意與文法結構調整，不一定能逐字替換。</p></div>
        <div id="mockAnswerRefs${n}" class="hint">${questions[n].refs.map((r,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${r}</span></p>`).join('')}</div>
      </div>`).join('')}`;
  document.getElementById('homeView').classList.add('hidden');
@@ -4072,7 +4126,7 @@ function toggleMockAnswerRefs(n){
  if(!box||!button)return;
  const visible=box.style.display!=='block';
  box.style.display=visible?'block':'none';
- button.textContent=visible?'隱藏參考答案':'查看參考答案';
+ button.textContent=visible?'隱藏參考答案':'參考答案';
  button.setAttribute('aria-expanded',String(visible));
 }
 </script>
