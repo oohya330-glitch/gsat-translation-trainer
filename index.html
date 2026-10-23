@@ -2244,7 +2244,7 @@ textarea {
 
 
 <style id="mock-exam-card-design-H">
-/* H 邊框確認版：白色卡片、淡綠點線內框；已移除四角小花，保留原有內容和互動。 */
+/* 模擬考卡片：白色背景、淡綠實線外框；不顯示內部點線邊框。 */
 #mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E1"],
 #mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E2"] {
   position: relative;
@@ -2252,16 +2252,6 @@ textarea {
   overflow: hidden;
   background: #FFFFFF;
   border-color: #C7DACD;
-}
-#mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E1"]::before,
-#mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E2"]::before {
-  content: "";
-  position: absolute;
-  inset: 7px;
-  border: 1.5px dotted #8EAF9C;
-  border-radius: 11px;
-  pointer-events: none;
-  z-index: 0;
 }
 #mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E1"] > *,
 #mockExamGrid .year-card[data-year="115"][data-source="hanlin"][data-round="E2"] > * {
@@ -2445,10 +2435,11 @@ textarea {
         <div class="home-function-card random-card">
           <div class="home-function-icon random"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="9" width="30" height="30" rx="7"/><circle class="solid-green" cx="17" cy="17" r="2.3"/><circle class="solid-green" cx="31" cy="17" r="2.3"/><circle class="solid-green" cx="24" cy="24" r="2.3"/><circle class="solid-green" cx="17" cy="31" r="2.3"/><circle class="solid-green" cx="31" cy="31" r="2.3"/></svg></div>
           <strong>隨機挑一回</strong>
-          <span>先選學測或指考，再交給系統幫你挑一回。</span>
+          <span>先選學測、指考或模擬考，再交給系統幫你挑一回。</span>
           <div class="random-actions random-type-actions">
             <button type="button" class="random-start" onclick="randomYear('gsat')">學測</button>
             <button type="button" class="random-again" onclick="randomYear('ast')">指考</button>
+            <button type="button" class="random-again" onclick="randomYear('mock')">模擬考</button>
           </div>
           <div id="randomResult" class="random-result"></div>
         </div>
@@ -3340,6 +3331,26 @@ function goHome(){
 }
 function randomYear(type){
  const box=document.getElementById('randomResult');
+ if(type==='mock'){
+   // 從現有模擬考卡片與題庫挑選，不受首頁篩選條件影響；僅提供題目與參考答案。
+   const ids=Array.from(document.querySelectorAll('#mockExamGrid .year-card[data-year][data-source][data-round]'))
+     .map(card=>`${card.dataset.year}-${card.dataset.source}-${card.dataset.round}`)
+     .filter(id=>typeof mockExamBank!=='undefined'&&mockExamBank[id]);
+   if(!ids.length){box.textContent='目前沒有可隨機挑選的模擬考。';return;}
+   let i=0;
+   box.textContent='正在挑選…';
+   const timer=setInterval(()=>{
+     box.textContent=mockExamBank[ids[i%ids.length]].title;
+     i++;
+     if(i>5){
+       clearInterval(timer);
+       const picked=ids[Math.floor(Math.random()*ids.length)];
+       const label=mockExamBank[picked].title;
+       box.innerHTML=`<div class="random-picked">這次挑到 <b>${label}</b>！</div><div class="random-actions"><button type="button" class="random-start" onclick="showMockAnswers('${picked}')">查看題目與答案 →</button><button type="button" class="random-again" onclick="randomYear('mock')">再挑一次</button></div>`;
+     }
+   },120);
+   return;
+ }
  const pools={
    gsat:[114,113,112,111,110,109,108,107,106,105],
    ast:[10801,10701,10601,10501]
