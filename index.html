@@ -2431,6 +2431,10 @@ textarea {
             <strong>115 學年度</strong><small>翰林｜第 2 次模擬考</small><small>中譯英 2 題</small>
             <div class="year-actions"><button onclick="showMockAnswers('115-hanlin-E2')">題目與答案</button></div>
           </div>
+          <div class="year-card available" data-year="115" data-source="national" data-round="E1">
+            <strong>115 學年度</strong><small>南一｜第 1 次模擬考</small><small>中譯英 2 題</small>
+            <div class="year-actions"><button onclick="showMockAnswers('115-national-E1')">題目與答案</button></div>
+          </div>
           <div class="year-card available" data-year="115" data-source="national" data-round="E2">
             <strong>115 學年度</strong><small>南一｜第 2 次模擬考</small><small>中譯英 2 題</small>
             <div class="year-actions"><button onclick="showMockAnswers('115-national-E2')">題目與答案</button></div>
@@ -3932,6 +3936,18 @@ const mockExamBank = { "115-hanlin-E1": {
       ]
     }
   }
+}, "115-national-E1": {
+  title: "115 學年度｜南一 第 1 次模擬考",
+  questions: {
+    "1": {"cn":"許多人會把自己喜歡角色的小娃娃掛在包包上，並在出門時炫耀它們。","refs":[
+      "Many people hang small dolls of their favorite characters on their bags and show them off when they go out.",
+      "Many people hang small dolls of their favorite characters on their bags and show them off when going out."
+    ]},
+    "2": {"cn":"有些人會為自己的娃娃搭配不同的衣服和配件，這使它們看起來與眾不同。","refs":[
+      "Some people dress their dolls in different clothes and accessories, which makes them look unique.",
+      "Some people dress up their dolls in different outfits and accessories, which makes them look one of a kind."
+    ]}
+  }
 }, "115-national-E2": {
   title: "115 學年度｜南一 第 2 次模擬考",
   questions: {
@@ -3954,6 +3970,10 @@ const mockAlternatives = {
  "115-hanlin-E2": {
   "1": [["online learning platforms","digital learning platforms"],["provide abundant resources","offer a wide range of resources"],["at their own pace","at a pace that suits them"],["without being restricted by geographical location","regardless of where they live"]],
   "2": [["in addition to","besides"],["save commuting time","reduce time spent commuting"],["this approach to learning","this method of learning"],["people in remote areas","people living in remote areas"],["receive high-quality education","access high-quality education"]]
+ },
+ "115-national-E1": {
+  "1": [["many people","a lot of people"],["small dolls","little dolls"],["favorite characters","best-loved characters"],["hang ... on their bags","attach ... to their bags"],["show them off","display them proudly"]],
+  "2": [["dress their dolls","dress up their dolls"],["different clothes","different outfits"],["accessories","fashion accessories"],["look unique","look one of a kind"],["different from others","like no other"]]
  },
  "115-national-E2": {
   "1": [["in recent years","over the past few years"],["tourism industry","travel industry"],["decline significantly","decline sharply"],["due to","because of"],["high hotel costs","high accommodation prices"]],
