@@ -997,7 +997,8 @@ textarea {
 /* 手機：不硬塞 2×2；導覽緊湊但維持觸控尺寸 */
 @media (max-width:640px){
   .practice-head{
-    padding:10px 12px !important;  }
+    padding:10px 12px !important;
+  }
   .practice-head h2,
   .practice-head h3{
     font-size:1.12em !important;
@@ -1996,7 +1997,8 @@ textarea {
   }
 
   /* 複習清單／練習紀錄空白狀態：依語意分行，不改卡片尺寸與按鈕 */
-  .empty-mistakes span,  .empty-records span{
+  .empty-mistakes span,
+  .empty-records span{
     display:block;
     max-width:100%;
     margin-left:auto;
@@ -2362,6 +2364,13 @@ textarea {
             <div class="year-actions">
               <button class="primary" onclick="enterYear(10601)">開始練寫</button>
               <button onclick="showAnswers(10601)">題目與答案</button>
+            </div>
+          </div>
+          <div class="year-card available">
+            <strong>105 指考</strong><small>中譯英 2 題</small>
+            <div class="year-actions">
+              <button class="primary" onclick="enterYear(10501)">開始練寫</button>
+              <button onclick="showAnswers(10501)">題目與答案</button>
             </div>
           </div>
         </div>
@@ -2995,7 +3004,8 @@ refs:[`Conquering Jade Mountain has always been one of the most difficult challe
          <button class="chip" onclick="addChip(this)">at affordable prices.</button>
          <button class="chip" onclick="addChip(this)">Fast fashion</button>
          <button class="chip" onclick="addChip(this)">allowing people to buy trendy clothing</button>
-         <button class="chip" onclick="addChip(this)">is characterized by speed and low prices,</button>       </div>
+         <button class="chip" onclick="addChip(this)">is characterized by speed and low prices,</button>
+       </div>
        <div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Fast fashion is characterized by speed and low prices, allowing people to buy trendy clothing at affordable prices.')">提交</button></div>
        <div id="fb" class="feedback"></div>`,
       write(10701,1)
@@ -3051,11 +3061,11 @@ refs:[`Conquering Jade Mountain has always been one of the most difficult challe
     steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
     contents:[
       `<div class="task-intro"><strong>句子架構：</strong><span>「一項盛事，由……舉辦」哪個結構最適合？</span></div>
-       ${opts(['an event + hosted by ...','an event + hosting ...','an event + to host ...'],0)}
+       ${opts(['an event + hosting ...','an event + hosted by ...','an event + to host ...'],1,1)}
        <div class="skeleton post-answer-note"><b>N. + p.p.</b>：<b>an event hosted by ...</b> = 一項由……舉辦的盛事</div>`,
       `<h3>關鍵表達</h3><div class="key-grid" style="grid-template-columns:1fr">
          <div class="key-card"><h4>體育與文化盛事</h4>${opts(['a sporting and cultural event','a sporting and culture event'],0,0)}<p class="small post-answer-note">❌ <b>sporting and culture</b><br>✅ <b>sporting and cultural</b><br>兩者皆用形容詞修飾 <b>event</b>。</p></div>
-         <div class="key-card"><h4>每兩年一次</h4>${opts(['every two years','twice every year'],0,1)}<p class="small post-answer-note"><b>every two years</b> = 每兩年一次<br><b>twice every year</b> = 每年兩次<br><b>biennially</b> = 每兩年一次</p></div>
+         <div class="key-card"><h4>每兩年一次</h4>${opts(['twice every year','every two years'],1,1)}<p class="small post-answer-note"><b>every two years</b> = 每兩年一次<br><b>twice every year</b> = 每年兩次<br><b>biennially</b> = 每兩年一次</p></div>
        </div>`,
       `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">every two years.</button><button class="chip" onclick="addChip(this)">The Universiade</button><button class="chip" onclick="addChip(this)">hosted by a different city</button><button class="chip" onclick="addChip(this)">is an international</button><button class="chip" onclick="addChip(this)">sporting and cultural event</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('The Universiade is an international sporting and cultural event hosted by a different city every two years.')">提交</button></div><div id="fb" class="feedback"></div>`,
       write(10601,1)
@@ -3076,11 +3086,11 @@ refs:[`Conquering Jade Mountain has always been one of the most difficult challe
     steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
     contents:[
       `<div class="task-intro"><strong>句子架構：</strong><span>「學習／領會運動家精神的真諦」最適合哪個結構？</span></div>
-       ${opts(['learn + N.','learn about + N.','learn to + V.'],0)}
+       ${opts(['learn about + N.','learn to + V.','learn + N.'],2,2)}
        <div class="skeleton post-answer-note"><b>learn + N.</b> = 學習／領會某事<br><b>learn about + N.</b> = 了解有關……的資訊<br><b>learn to + V.</b> = 學會做……</div>`,
       `<h3>關鍵表達</h3><div class="key-grid" style="grid-template-columns:1fr">
-         <div class="key-card"><h4>學生運動員</h4>${opts(['student athletes','athletic students'],0,0)}<p class="small post-answer-note"><b>student athletes</b> = 學生運動員<br><b>athletic students</b> = 擅長運動的學生</p></div>
-         <div class="key-card"><h4>世界各地的大學</h4>${opts(['universities around the world','worldwide universities'],0,1)}<p class="small post-answer-note">✅ <b>universities around the world</b><br>也可說 <b>universities worldwide</b>。</p></div>
+         <div class="key-card"><h4>學生運動員</h4>${opts(['athletic students','student athletes'],1,1)}<p class="small post-answer-note"><b>student athletes</b> = 學生運動員<br><b>athletic students</b> = 擅長運動的學生</p></div>
+         <div class="key-card"><h4>世界各地的大學</h4>${opts(['universities around the world','worldwide universities'],0,0)}<p class="small post-answer-note">✅ <b>universities around the world</b><br>也可說 <b>universities worldwide</b>。</p></div>
        </div>`,
       `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">the true meaning of sportsmanship.</button><button class="chip" onclick="addChip(this)">During the games,</button><button class="chip" onclick="addChip(this)">build friendships and learn</button><button class="chip" onclick="addChip(this)">from universities around the world</button><button class="chip" onclick="addChip(this)">student athletes</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('During the games, student athletes from universities around the world build friendships and learn the true meaning of sportsmanship.')">提交</button></div><div id="fb" class="feedback"></div>`,
       write(10601,2)
@@ -3094,6 +3104,62 @@ refs:[`Conquering Jade Mountain has always been one of the most difficult challe
     ext:[
       ['良好的溝通有助於人們建立互信，並維持良好的人際關係。',['Good communication helps people build mutual trust and maintain good relationships.','Good communication helps people develop mutual trust and maintain positive relationships.'],'','<b>build mutual trust</b> = 建立互信<br><b>maintain good relationships</b> = 維持良好關係'],
       ['參加團體活動不僅能幫助學生建立自信，也能讓他們學習與他人合作。',['Taking part in group activities not only helps students build confidence but also teaches them to cooperate with others.','Participating in group activities not only helps students develop confidence but also teaches them to work with others.'],'','<b>build confidence</b> = 建立自信<br><b>cooperate with others</b> = 與他人合作<br><b>take part in / participate in + N.</b> = 參加……']
+    ]
+  }
+}
+,10501:{
+  1:{
+    cn:'蚊子一旦叮咬過某些傳染病的患者，就可能將病毒傳給其他人。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>「一旦……，就可能……」哪個結構最適合？</span></div>
+       ${opts(['A happens until B happens.','Once A happens, B may happen.','A happens so that B may happen.'],1,1)}
+       <div class="skeleton post-answer-note"><b>Once A happens, B may happen.</b> = 一旦 A 發生，B 就可能發生。</div>`,
+      `<h3>關鍵表達</h3><div class="key-grid" style="grid-template-columns:1fr">
+         <div class="key-card"><h4>某些傳染病的患者</h4>${opts(['patients with certain infectious diseases','patients of certain infectious diseases'],0,0)}<p class="small post-answer-note"><b>patients with + 疾病</b> = 患有某種疾病的病患。<br>疾病前用 <b>with</b>，不說 <b>patients of + 疾病</b>。</p></div>
+         <div class="key-card"><h4>將病毒傳給其他人</h4>${opts(['transmit others the virus','transmit the virus to others'],1,1)}<p class="small post-answer-note"><b>transmit A to B</b> = 將 A 傳給 B。</p></div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">the virus to others.</button><button class="chip" onclick="addChip(this)">with certain infectious diseases,</button><button class="chip" onclick="addChip(this)">they may transmit</button><button class="chip" onclick="addChip(this)">Once mosquitoes bite patients</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('Once mosquitoes bite patients with certain infectious diseases, they may transmit the virus to others.')">提交</button></div><div id="fb" class="feedback"></div>`,
+      write(10501,1)
+    ],
+    refs:[
+      `Once mosquitoes bite patients with certain infectious diseases, they may transmit the virus to others.`,
+      `Once mosquitoes bite people who have certain infectious diseases, they may pass the virus on to others.`
+    ],
+    take:'<b>Once + 子句, 主句</b>　一旦……，就……<br><b>patients with + 疾病</b>　患有……的病患<br><b>transmit A to B</b>　將 A 傳給 B<br><b>pass A on to B</b>　將 A 傳給 B',
+    hint:'<b>Once + S + V, S + may + V.</b><br><b>patients with + 疾病</b><br><b>transmit A to B</b>',
+    ext:[
+      ['一旦個人資料被公開，就可能被他人不當利用。',['Once personal information is made public, it may be misused by others.','Once personal information is exposed, others may use it improperly.'],'','<b>Once + S + V, S + may + V.</b><br><b>personal information</b> = 個人資料<br><b>be made public / be exposed</b> = 被公開'],
+      ['一旦學生養成規律閱讀的習慣，他們就能逐漸擴充字彙量。',['Once students develop a habit of reading regularly, they can gradually expand their vocabulary.','Once students form a regular reading habit, they can gradually build their vocabulary.'],'','<b>develop / form a habit</b> = 養成習慣<br><b>expand / build one\'s vocabulary</b> = 擴充字彙量'],
+      ['網路讓我們能在短時間內將大量資訊傳送給世界各地的人。',['The Internet allows us to transmit large amounts of information to people around the world in a short time.','The Internet enables us to send large amounts of information to people worldwide in a short time.'],'','<b>transmit A to B</b><br><b>large amounts of information</b> = 大量資訊<br><b>allow / enable A to V.</b> = 讓 A 能夠……'],
+      ['衛星可以將訊號傳送到地球上的偏遠地區。',['Satellites can transmit signals to remote areas on Earth.','Satellites can send signals to remote parts of the world.'],'','<b>transmit signals to ...</b> = 將訊號傳送至……<br><b>remote areas</b> = 偏遠地區']
+    ]
+  },
+  2:{
+    cn:'它們在人類中快速散播疾病，造成的死亡遠超乎我們所能想像。',
+    steps:['句子架構','關鍵表達','整合練習','自己翻譯'],
+    contents:[
+      `<div class="task-intro"><strong>句子架構：</strong><span>下列哪一個表達的意思與其他三個不同？</span></div>
+       ${opts(['cause + N.','lead to + N.','bring about + N.','result from + N.'],3,3)}
+       <div class="skeleton post-answer-note"><b>cause / lead to / bring about</b> = 造成、導致<br><b>result from</b> = 起因於、由……造成，方向相反。</div>`,
+      `<h3>關鍵表達</h3><div class="key-grid" style="grid-template-columns:1fr">
+         <div class="key-card"><h4>在人類中散播疾病</h4>${opts(['spread diseases among humans','spread humans with diseases'],0,0)}<p class="small post-answer-note"><b>spread + 疾病 + among + 人群</b> = 在某群人之中散播疾病。</p></div>
+         <div class="key-card"><h4>遠超乎我們的想像</h4><div class="task-intro" style="margin-top:0"><span>哪一個表達不適合？</span></div>${opts(['far beyond our imagination','far beyond what we can imagine','far beyond how we can imagine'],2,2)}<p class="small post-answer-note"><b>beyond our imagination</b> 與 <b>beyond what we can imagine</b> 都可以；<b>how we can imagine</b> 不能在這裡作 <b>beyond</b> 的受詞。</p></div>
+       </div>`,
+      `<div class="task-intro"><strong>整合練習：</strong><span>把前面學過的表達整合成自然的英文。</span></div><div class="answerline" id="build"></div><div class="chips" id="pool"><button class="chip" onclick="addChip(this)">far beyond our imagination.</button><button class="chip" onclick="addChip(this)">among humans,</button><button class="chip" onclick="addChip(this)">They rapidly spread diseases</button><button class="chip" onclick="addChip(this)">causing deaths</button></div><div class="actions"><button onclick="resetChips()">復原</button><button class="primary" onclick="checkBuild('They rapidly spread diseases among humans, causing deaths far beyond our imagination.')">提交</button></div><div id="fb" class="feedback"></div>`,
+      write(10501,2)
+    ],
+    refs:[
+      `They rapidly spread diseases among humans, causing deaths far beyond our imagination.`,
+      `They spread diseases rapidly among humans, resulting in more deaths than we can imagine.`
+    ],
+    take:'<b>spread A among B</b>　在 B 之中散播 A<br><b>cause + N.</b>　造成……<br><b>result in + N.</b>　導致……<br><b>far beyond + N.</b>　遠遠超出……',
+    hint:'<b>spread A among B</b><br><b>causing + N.</b><br><b>far beyond + N.</b>',
+    ext:[
+      ['長期缺乏睡眠可能導致難以集中注意力以及學習表現不佳。',['Long-term lack of sleep may lead to difficulty concentrating and poor academic performance.','Long-term sleep deprivation may result in difficulty concentrating and poor academic performance.'],'','<b>lead to / result in + N.</b><br><b>difficulty concentrating</b> = 難以集中注意力<br><b>poor academic performance</b> = 學習表現不佳'],
+      ['科技的快速發展為我們的生活帶來了巨大的改變。',['The rapid development of technology has brought about major changes in our lives.','Rapid technological development has caused major changes in the way we live.'],'','<b>bring about / cause + N.</b><br><b>major changes</b> = 巨大的改變'],
+      ['這次颱風造成的損失遠超乎我們的預期。',['The damage caused by the typhoon was far beyond our expectations.','The damage caused by the typhoon was much greater than we had expected.'],'','<b>far beyond our expectations</b> = 遠超乎我們的預期<br><b>damage caused by ...</b> = ……造成的損失'],
+      ['人工智慧的影響可能遠超乎我們目前的想像。',['The impact of artificial intelligence may be far beyond our current imagination.','The impact of artificial intelligence may be much greater than we can currently imagine.'],'','<b>the impact of ...</b> = ……的影響<br><b>far beyond our current imagination</b> = 遠超乎我們目前的想像']
     ]
   }
 }
@@ -3111,12 +3177,13 @@ function routeQuestionNav(n){
   }
 }
 
-function isAstYear(y){return [10801,10701,10601].includes(Number(y));}
+function isAstYear(y){return [10801,10701,10601,10501].includes(Number(y));}
 function displayYear(y){
   const n=Number(y);
   if(n===10801)return 108;
   if(n===10701)return 107;
   if(n===10601)return 106;
+  if(n===10501)return 105;
   return n;
 }
 function examTypeName(y){return isAstYear(y)?'指考':'學測';}
@@ -3209,7 +3276,7 @@ function randomYear(type){
  const box=document.getElementById('randomResult');
  const pools={
    gsat:[114,113,112,111,110,109,108,107,106,105],
-   ast:[10801,10701,10601]
+   ast:[10801,10701,10601,10501]
  };
  const years=pools[type]||pools.gsat;
  const label=type==='ast'?'指考':'學測';
