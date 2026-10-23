@@ -2208,6 +2208,8 @@ textarea {
 /* 模擬考替代字詞：雙欄、手機單欄，保留原按鈕風格 */
 .mock-alt-grid{margin-top:10px;display:grid;gap:8px}
 .mock-alt-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;border-bottom:1px solid var(--line);padding:8px 0;line-height:1.5}
+/* V126 局部調整：三回模擬考的可替換表達英文，與區塊標題同級字體且粗體 */
+.mock-alt-row > span{font-size:1.125em;font-weight:700;line-height:1.65;overflow-wrap:anywhere;min-width:0}
 @media(max-width:600px){.mock-alt-row{grid-template-columns:1fr;gap:2px}}
 </style>
 
@@ -2417,7 +2419,7 @@ textarea {
       <div id="mockPanel" class="exam-panel hidden">
         <div class="mock-filters">
           <div class="mock-filter"><label for="mockYear">學年度</label><select id="mockYear" onchange="filterMockExams()"><option value="all">全部年份</option><option value="115">115 學年度</option></select></div>
-          <div class="mock-filter"><label for="mockSource">出版社／區域</label><select id="mockSource" onchange="filterMockExams()"><option value="all">全部來源</option><option value="hanlin">翰林</option></select></div>
+          <div class="mock-filter"><label for="mockSource">出版社／區域</label><select id="mockSource" onchange="filterMockExams()"><option value="all">全部來源</option><option value="hanlin">翰林</option><option value="national">南一</option></select></div>
           <div class="mock-filter"><label for="mockRound">考試次別</label><select id="mockRound" onchange="filterMockExams()"><option value="all">全部次別</option><option value="E1">第 1 次</option><option value="E2">第 2 次</option></select></div>
         </div>
         <div class="year-grid" id="mockExamGrid">
@@ -2428,6 +2430,10 @@ textarea {
           <div class="year-card available" data-year="115" data-source="hanlin" data-round="E2">
             <strong>115 學年度</strong><small>翰林｜第 2 次模擬考</small><small>中譯英 2 題</small>
             <div class="year-actions"><button onclick="showMockAnswers('115-hanlin-E2')">題目與答案</button></div>
+          </div>
+          <div class="year-card available" data-year="115" data-source="national" data-round="E2">
+            <strong>115 學年度</strong><small>南一｜第 2 次模擬考</small><small>中譯英 2 題</small>
+            <div class="year-actions"><button onclick="showMockAnswers('115-national-E2')">題目與答案</button></div>
           </div>
         </div>
         <p id="mockEmpty" class="small hidden">目前沒有符合條件的試題。</p>
@@ -3926,8 +3932,20 @@ const mockExamBank = { "115-hanlin-E1": {
       ]
     }
   }
+}, "115-national-E2": {
+  title: "115 學年度｜南一 第 2 次模擬考",
+  questions: {
+    "1": {"cn":"近年來，臺灣的旅遊產業因為旅館費用高昂而大幅衰退。","refs":[
+      "In recent years, Taiwan's tourism industry has declined significantly due to high hotel costs.",
+      "In recent years, Taiwan's tourism industry has declined sharply because hotel prices are high."
+    ]},
+    "2": {"cn":"為了善用旅遊預算，越來越多人寧可出國旅遊，也不願意安排國內旅行。","refs":[
+      "To make better use of their travel budget, more and more people would rather travel abroad than plan domestic trips.",
+      "In order to make better use of their travel budget, an increasing number of people prefer traveling abroad to arranging domestic trips."
+    ]}
+  }
 }};
-// 替代字詞：只收錄本檔中已核實的兩回模擬考題目。
+// 替代字詞：對應已收錄的三回模擬考題目。
 const mockAlternatives = {
  "115-hanlin-E1": {
   "1": [["study abroad","study overseas"],["gain knowledge","acquire knowledge"],["develop independence","foster independence"],["not only ... but also ...","not merely ... but also ..."]],
@@ -3936,6 +3954,10 @@ const mockAlternatives = {
  "115-hanlin-E2": {
   "1": [["online learning platforms","digital learning platforms"],["provide abundant resources","offer a wide range of resources"],["at their own pace","at a pace that suits them"],["without being restricted by geographical location","regardless of where they live"]],
   "2": [["in addition to","besides"],["save commuting time","reduce time spent commuting"],["this approach to learning","this method of learning"],["people in remote areas","people living in remote areas"],["receive high-quality education","access high-quality education"]]
+ },
+ "115-national-E2": {
+  "1": [["in recent years","over the past few years"],["tourism industry","travel industry"],["decline significantly","decline sharply"],["due to","because of"],["high hotel costs","high accommodation prices"]],
+  "2": [["to make better use of","to use ... more effectively"],["travel budget","budget for travel"],["more and more people","an increasing number of people"],["would rather ... than ...","prefer ... to ..."],["travel abroad","take trips overseas"]]
  }
 };
 function toggleMockAlternatives(n){
