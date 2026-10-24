@@ -2225,10 +2225,32 @@ textarea {
  #practiceView .write-actions .full-write-label{display:none}
  #practiceView .write-actions .mobile-write-label{display:inline}
 }
-/* V145: independent six-card mock sections */
+
+/* V146 based on V145: group controls stay between the six-card sections, like GSAT year collapse. */
 #mockExamGrid .mock-group-toggle{grid-column:1/-1;display:flex;justify-content:center;margin:6px 0 2px;}
 #mockExamGrid .mock-group-toggle button{border:0;background:transparent;color:var(--green);font:inherit;font-weight:800;padding:9px 14px;min-height:44px;border-radius:10px;cursor:pointer;}
 #mockExamGrid .mock-group-toggle button:hover{background:var(--soft);}
+
+/* V149：模擬考獨立作答練習頁，不影響既有學測、指考與題庫頁 */
+.mock-practice-entry{display:flex;justify-content:flex-end;margin:12px 0 18px}
+.mock-practice-entry button{border:1.5px solid var(--green);background:var(--green);color:white;border-radius:12px;padding:9px 20px;font-weight:800;min-height:46px}
+.mock-practice-item h3{margin:0 0 8px;color:var(--green)}
+.mock-practice-item .prompt{margin:0 0 14px;font-size:1.08em}
+.mock-practice-item textarea{width:100%;min-height:145px}
+.mock-practice-item .actions button{min-width:120px}
+.mock-practice-footer{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+@media(max-width:600px){.mock-practice-entry button{width:100%}.mock-practice-item textarea{min-height:155px}.mock-practice-item .actions{display:grid;grid-template-columns:1fr 1fr}.mock-practice-item .actions button{min-width:0;padding:9px 6px}.mock-practice-footer button{flex:1}}
+
+/* V150：整回作答練習入口與回首頁並排，避免誤認為第 1 題功能 */
+#answerView .mock-answer-footer{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;margin-top:22px}
+#answerView .mock-practice-footer-entry{background:var(--green);color:white}
+@media(max-width:600px){#answerView .mock-answer-footer{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#answerView .mock-answer-footer button{min-width:0;width:100%;padding:9px 8px;white-space:nowrap}}
+
+/* V151：模擬考卡片與學測卡片一致的雙按鈕設計 */
+#mockExamGrid .year-card .year-actions{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:nowrap}
+#mockExamGrid .year-card .year-actions button{background:transparent !important;color:var(--green) !important;border:1.5px solid var(--green) !important;white-space:nowrap}
+#mockExamGrid .year-card .year-actions button.primary{background:var(--green) !important;color:#fff !important;border-color:var(--green) !important}
+@media(max-width:380px){#mockExamGrid .year-card .year-actions{gap:6px}#mockExamGrid .year-card .year-actions button{padding-left:7px;padding-right:7px}}
 </style>
 
 <style id="v85-home-year-collapse">
@@ -2417,12 +2439,28 @@ textarea {
     width:100%;
   }
 }
-
+</style>
+<style id="v146-mock-tablet-and-random-copy">
 /* V146: balanced two-line random-card description across desktop and iPad. */
 .random-card .random-description{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%;min-height:3.1em;line-height:1.55;}
 .random-card .random-description > span{display:block;min-height:0;width:auto;max-width:100%;text-align:center;line-height:1.55;white-space:normal;overflow-wrap:normal;word-break:normal;}
-/* V147: in-grid group controls for all devices. */
-#mockMoreWrap{display:none!important;}#mockExamGrid>.mock-group-toggle{grid-column:1/-1;display:flex!important;justify-content:center;align-items:center;margin:6px 0 2px;}
+/* V146: tablet and desktop use in-grid six-card group controls, never the bottom toggle. */
+#mockMoreWrap{display:none!important;}
+#mockExamGrid>.mock-group-toggle{grid-column:1/-1;display:flex!important;justify-content:center;align-items:center;margin:6px 0 2px;}
+</style>
+
+<style id="v152-mock-actions-match-gsat">
+/* V152: 模擬考卡片雙按鈕比照學測；覆蓋歷史統一淡綠規則。 */
+#homeView #mockExamGrid .year-card .year-actions button.primary {
+  background:var(--green) !important;
+  color:#fff !important;
+  border-color:var(--green) !important;
+}
+#homeView #mockExamGrid .year-card .year-actions button:not(.primary) {
+  background:#fff !important;
+  color:var(--green) !important;
+  border-color:var(--green) !important;
+}
 </style>
 </head>
 <body>
@@ -2574,44 +2612,44 @@ textarea {
         <div class="year-grid" id="mockExamGrid">
           <div class="year-card available" data-year="115" data-source="hanlin" data-round="E1">
             <strong>115 學年度</strong><small>翰林｜一模</small><small>中譯英 2 題</small>
-            <div class="year-actions"><button onclick="showMockAnswers('115-hanlin-E1')">題目與答案</button></div>
+            <div class="year-actions"><button class="primary" onclick="enterMockPractice('115-hanlin-E1')">開始練寫</button><button onclick="showMockAnswers('115-hanlin-E1')">題目與答案</button></div>
           </div>
           <div class="year-card available" data-year="115" data-source="hanlin" data-round="E2">
             <strong>115 學年度</strong><small>翰林｜二模</small><small>中譯英 2 題</small>
-            <div class="year-actions"><button onclick="showMockAnswers('115-hanlin-E2')">題目與答案</button></div>
+            <div class="year-actions"><button class="primary" onclick="enterMockPractice('115-hanlin-E2')">開始練寫</button><button onclick="showMockAnswers('115-hanlin-E2')">題目與答案</button></div>
           </div>
           <div class="year-card available" data-year="115" data-source="national" data-round="E1">
             <strong>115 學年度</strong><small>南一｜一模</small><small>中譯英 2 題</small>
-            <div class="year-actions"><button onclick="showMockAnswers('115-national-E1')">題目與答案</button></div>
+            <div class="year-actions"><button class="primary" onclick="enterMockPractice('115-national-E1')">開始練寫</button><button onclick="showMockAnswers('115-national-E1')">題目與答案</button></div>
           </div>
           <div class="year-card available" data-year="115" data-source="national" data-round="E2">
             <strong>115 學年度</strong><small>南一｜二模</small><small>中譯英 2 題</small>
-            <div class="year-actions"><button onclick="showMockAnswers('115-national-E2')">題目與答案</button></div>
+            <div class="year-actions"><button class="primary" onclick="enterMockPractice('115-national-E2')">開始練寫</button><button onclick="showMockAnswers('115-national-E2')">題目與答案</button></div>
           </div>
           <div class="year-card available" data-year="114" data-source="hanlin" data-round="E1">
             <strong>114 學年度</strong><small>翰林｜一模</small><small>中譯英 2 題</small>
-            <div class="year-actions"><button onclick="showMockAnswers('114-hanlin-E1')">題目與答案</button></div>
+            <div class="year-actions"><button class="primary" onclick="enterMockPractice('114-hanlin-E1')">開始練寫</button><button onclick="showMockAnswers('114-hanlin-E1')">題目與答案</button></div>
           </div>
           <div class="year-card available" data-year="114" data-source="hanlin" data-round="E2">
             <strong>114 學年度</strong><small>翰林｜二模</small><small>中譯英 2 題</small>
-            <div class="year-actions"><button onclick="showMockAnswers('114-hanlin-E2')">題目與答案</button></div>
+            <div class="year-actions"><button class="primary" onclick="enterMockPractice('114-hanlin-E2')">開始練寫</button><button onclick="showMockAnswers('114-hanlin-E2')">題目與答案</button></div>
           </div>
           <div class="year-card available" data-year="114" data-source="hanlin" data-round="E3">
             <strong>114 學年度</strong><small>翰林｜三模</small><small>中譯英 2 題</small>
-            <div class="year-actions"><button onclick="showMockAnswers('114-hanlin-E3')">題目與答案</button></div>
+            <div class="year-actions"><button class="primary" onclick="enterMockPractice('114-hanlin-E3')">開始練寫</button><button onclick="showMockAnswers('114-hanlin-E3')">題目與答案</button></div>
           </div>
           <div class="year-card available" data-year="114" data-source="hanlin" data-round="E4">
             <strong>114 學年度</strong><small>翰林｜四模</small><small>中譯英 2 題</small>
-            <div class="year-actions"><button onclick="showMockAnswers('114-hanlin-E4')">題目與答案</button></div>
+            <div class="year-actions"><button class="primary" onclick="enterMockPractice('114-hanlin-E4')">開始練寫</button><button onclick="showMockAnswers('114-hanlin-E4')">題目與答案</button></div>
           </div>
 
           <div class="year-card available" data-year="114" data-source="national" data-round="E1">
             <strong>114 學年度</strong><small>南一｜一模</small><small>中譯英 2 題</small>
-            <div class="year-actions"><button onclick="showMockAnswers('114-national-E1')">題目與答案</button></div>
+            <div class="year-actions"><button class="primary" onclick="enterMockPractice('114-national-E1')">開始練寫</button><button onclick="showMockAnswers('114-national-E1')">題目與答案</button></div>
           </div>
           <div class="year-card available" data-year="114" data-source="national" data-round="E2">
             <strong>114 學年度</strong><small>南一｜二模</small><small>中譯英 2 題</small>
-            <div class="year-actions"><button onclick="showMockAnswers('114-national-E2')">題目與答案</button></div>
+            <div class="year-actions"><button class="primary" onclick="enterMockPractice('114-national-E2')">開始練寫</button><button onclick="showMockAnswers('114-national-E2')">題目與答案</button></div>
           </div>
         </div>
         <p id="mockEmpty" class="small hidden">目前沒有符合條件的試題。</p>
@@ -2712,8 +2750,17 @@ textarea {
   <section id="answerView" class="hidden">
     <div class="card">
       <div id="answerContent"></div>
-      <div style="text-align:center;margin-top:22px"><button class="home-btn" onclick="goHome()">回首頁</button></div>
+      <div class="mock-answer-footer"><button class="home-btn" type="button" onclick="goHome()">回首頁</button></div>
     </div>
+  </section>
+
+  <section id="mockPracticeView" class="hidden">
+    <div class="year-head mock-practice-head">
+      <h2 id="mockPracticeTitle" style="margin:0;color:var(--green)"></h2>
+      <p class="small" style="margin:4px 0 0">先試著翻譯，再視需要查看提示與參考答案；作答框可以留白。</p>
+    </div>
+    <div id="mockPracticeContent"></div>
+    <div class="mock-practice-footer"><button type="button" class="home-btn" onclick="backToMockAnswers()">返回題目與答案</button><button type="button" class="home-btn" onclick="goHome()">回首頁</button></div>
   </section>
 
   <section id="practiceView" class="hidden">
@@ -3569,9 +3616,20 @@ function switchExam(type){
  document.getElementById('tabGsat').classList.toggle('active',gsat);
  document.getElementById('tabAst').classList.toggle('active',ast);
  document.getElementById('tabMock').classList.toggle('active',mock);
- document.getElementById('examDescription').textContent=mock?'模擬考僅提供題目與參考答案，不包含互動練寫功能。':'每回 2 題，透過不同練習一步步完成翻譯。';
+ document.getElementById('examDescription').classList.toggle('hidden',mock);
+ document.getElementById('examDescription').textContent='每回 2 題，透過不同練習一步步完成翻譯。';
 }
+/* V155：切換頁面時直接對齊該頁內容標題，略過網站大標題；不使用動畫。 */
+function jumpToViewStart(viewId){
+ const target=document.getElementById(viewId);
+ if(!target || target.classList.contains('hidden'))return;
+ const top=Math.max(0,Math.round(target.getBoundingClientRect().top+window.scrollY));
+ document.documentElement.style.scrollBehavior='auto';
+ window.scrollTo({top:top,behavior:'instant'});
+}
+
 function showAnswers(y){
+ switchExam(isAstYear(y)?'ast':'gsat');
  currentYear=y;
  const d=allData[y];
  document.getElementById('answerContent').innerHTML=`
@@ -3589,28 +3647,40 @@ function showAnswers(y){
  ['recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
  document.getElementById('practiceView').classList.add('hidden');
  document.getElementById('answerView').classList.remove('hidden');
- window.scrollTo({top:0,behavior:'smooth'});
+ jumpToViewStart('answerView');
 }
 function toggleAnswerRefs(n){const x=document.getElementById('answerRefs'+n);if(x)x.style.display=x.style.display==='block'?'none':'block';}
 function enterYear(y){
+ switchExam(isAstYear(y)?'ast':'gsat');
  currentYear=y;
  if(typeof startNewPracticeAttempt==='function')startNewPracticeAttempt(y);
  document.getElementById('homeView').classList.add('hidden');
  ['recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
  document.getElementById('answerView').classList.add('hidden');
+ const mockPracticeView=document.getElementById('mockPracticeView');if(mockPracticeView)mockPracticeView.classList.add('hidden');
  document.getElementById('practiceView').classList.remove('hidden');
  document.getElementById('practiceYearTitle').textContent=practiceTitle(y,'中譯英');
  q=1;step=0;showQ(1);
- window.scrollTo({top:0,behavior:'smooth'});
+ jumpToViewStart('practiceView');
 }
+/* V154：頁面切換一律瞬間定位，避免長距離捲動動畫。 */
+/* V153：三類考試「回首頁」皆立即返回原分類，不播放捲動動畫。 */
 function goHome(){
  document.getElementById('practiceView').classList.add('hidden');
  document.getElementById('answerView').classList.add('hidden');
+ const mockPracticeView=document.getElementById('mockPracticeView');
+ if(mockPracticeView)mockPracticeView.classList.add('hidden');
  ['mistakeView','recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
  document.getElementById('homeView').classList.remove('hidden');
  document.getElementById('randomResult').textContent='';
- window.scrollTo({top:0,behavior:'smooth'});
+ // 保留目前所屬的學測／指考／模擬考分頁；瞬間回到首頁分類區頂端。
+ const active=document.querySelector('.exam-tabs button.active');
+ const category=active?.id==='tabAst'?'ast':active?.id==='tabMock'?'mock':'gsat';
+ switchExam(category);
+ document.documentElement.style.scrollBehavior='auto';
+ window.scrollTo(0,0);
 }
+
 function randomYear(type){
  const box=document.getElementById('randomResult');
  if(type==='mock'){
@@ -3704,7 +3774,7 @@ function showQ(n){
  document.getElementById('qb1').classList.toggle('active',n===1);
  document.getElementById('qb2').classList.toggle('active',n===2);
  render();
- window.scrollTo({top:0,behavior:'smooth'});
+ jumpToViewStart('practiceView');
 }
 function go(i){step=i;render()}
 function prevPage(){
@@ -3839,7 +3909,7 @@ function showExtensionPage(n){
       </div>
     </div>`;
   if(typeof syncExtensionCompleteButton==='function')syncExtensionCompleteButton(n);
-  window.scrollTo({top:0,behavior:'smooth'});
+  jumpToViewStart('practiceView');
 }
 function toggleYearExtAnswer(n,i){
   const x=document.getElementById('yexa'+n+'_'+i);
@@ -3857,7 +3927,7 @@ function backToQ2Translation(){
   document.getElementById('qb1').classList.remove('active');
   document.getElementById('qb2').classList.add('active');
   render();
-  window.scrollTo({top:0,behavior:'smooth'});
+  jumpToViewStart('practiceView');
 }
 
 function toggleExtAnswer(i){
@@ -3934,7 +4004,7 @@ function practiceMistake(y,num){
   document.getElementById('practiceYearTitle').textContent=practiceTitle(y,'中譯英');
   document.getElementById('qb1').classList.toggle('active',num===1);
   document.getElementById('qb2').classList.toggle('active',num===2);
-  render();window.scrollTo({top:0,behavior:'smooth'});
+  render();jumpToViewStart('practiceView');
 }
 function portalNotice(){alert('課程學生專屬，目前不對外開放。')}
 
@@ -4085,7 +4155,7 @@ function updateRecordCount(){
 }
 function openRecords(){
   ['homeView','answerView','practiceView','mistakeView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
-  document.getElementById('recordView').classList.remove('hidden');renderRecords();window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('recordView').classList.remove('hidden');renderRecords();window.scrollTo({top:0,behavior:'instant'});
 }
 function renderRecords(){
   const box=document.getElementById('recordList');if(!box)return;
@@ -4118,7 +4188,7 @@ function showRecordCard(id){
   document.getElementById('recordCardView').classList.remove('hidden');
   const prompt=document.getElementById('recordNamePrompt');
   if(getRecordName()){prompt.classList.add('hidden');renderRecordCard(id)}else{prompt.classList.remove('hidden');document.getElementById('recordNameCard').value='';renderRecordCard(id)}
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo({top:0,behavior:'instant'});
 }
 function applyRecordName(){const el=document.getElementById('recordNameCard'),v=el?el.value.trim():'';if(v){try{localStorage.setItem(RECORD_NAME_KEY,v)}catch(e){}}document.getElementById('recordNamePrompt').classList.add('hidden');renderRecordCard(pendingNameRecordId)}
 function skipRecordName(){document.getElementById('recordNamePrompt').classList.add('hidden');renderRecordCard(pendingNameRecordId)}
@@ -4359,7 +4429,8 @@ function toggleMockAlternatives(n){
  const open=box.style.display!=='block';box.style.display=open?'block':'none';
  btn.textContent=open?'隱藏替代字詞':'替代字詞';btn.setAttribute('aria-expanded',String(open));
 }
-/* V147: independent mock groups; 4 cards on mobile, 6 on tablet/desktop. */
+/* V147: all devices use independent sections; four cards on phones, six elsewhere. */
+/* V147: responsive independent mock exam groups (mobile 4, tablet/desktop 6). */
 let mockOpenGroups=new Set();
 let mockCardsInOriginalOrder=null;
 let mockLastBatchSize=0;
@@ -4428,6 +4499,7 @@ function mockShortTitle(id){
 }
 function showMockAnswers(id){
  const exam=mockExamBank[id];if(!exam)return;
+ switchExam('mock');
  const questions=exam.questions;
  document.getElementById('answerContent').innerHTML=`
    <h2 style="margin-top:0;color:var(--green)">${mockShortTitle(id)} <span class="mock-answer-heading-label">題目與答案</span></h2>
@@ -4442,9 +4514,9 @@ function showMockAnswers(id){
        <div id="mockAnswerRefs${n}" class="hint">${questions[n].refs.map((r,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${r}</span></p>`).join('')}</div>
      </div>`).join('')}`;
  document.getElementById('homeView').classList.add('hidden');
- ['recordView','recordCardView','practiceView','mistakeView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+ ['recordView','recordCardView','practiceView','mockPracticeView','mistakeView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
  document.getElementById('answerView').classList.remove('hidden');
- window.scrollTo({top:0,behavior:'smooth'});
+ jumpToViewStart('answerView');
 }
 function toggleMockAnswerRefs(n){
  const box=document.getElementById('mockAnswerRefs'+n),button=document.getElementById('mockAnswerButton'+n);
@@ -4454,6 +4526,40 @@ function toggleMockAnswerRefs(n){
  button.textContent=visible?'隱藏參考答案':'參考答案';
  button.setAttribute('aria-expanded',String(visible));
 }
+
+/* V149: mock practice uses the same mockExamBank and mockAlternatives as the answer page. */
+let currentMockPracticeId=null;
+function enterMockPractice(id){
+ const exam=mockExamBank[id];if(!exam)return;
+ switchExam('mock');
+ currentMockPracticeId=id;
+ document.getElementById('mockPracticeTitle').textContent=mockShortTitle(id)+'｜作答練習';
+ document.getElementById('mockPracticeContent').innerHTML=[1,2].map(n=>{
+  const q=exam.questions[n];
+  const alternatives=mockAlternatives[id]?.[n]||[];
+  return `<div class="card mock-practice-item">
+    <h3>第 ${n} 題</h3>
+    <p class="prompt">${q.cn}</p>
+    <label for="mockPracticeInput${n}" class="small" style="display:block;font-weight:800;margin-bottom:6px">我的英文翻譯（可留白）</label>
+    <textarea id="mockPracticeInput${n}" placeholder="在這裡思考或練習翻譯……" spellcheck="false"></textarea>
+    <div class="actions"><button type="button" id="mockPracticeHintBtn${n}" aria-expanded="false" onclick="toggleMockPracticePanel(${n},'hint')">提示字詞</button><button type="button" id="mockPracticeAnswerBtn${n}" aria-expanded="false" onclick="toggleMockPracticePanel(${n},'answer')">查看答案</button></div>
+    <div id="mockPracticeHint${n}" class="hint"><b>可替換表達</b><div class="mock-alt-grid">${alternatives.map(pair=>`<div class="mock-alt-row"><span>${pair[0]}</span><span><span class="mock-alt-arrow">→</span><span class="mock-alt-value">${pair[1]}</span></span></div>`).join('')}</div><p class="small">請依句意與文法結構調整，不一定能逐字替換。</p></div>
+    <div id="mockPracticeAnswer${n}" class="hint">${q.refs.map((ref,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${ref}</span></p>`).join('')}</div>
+   </div>`;
+ }).join('');
+ ['homeView','answerView','practiceView','recordView','recordCardView','mistakeView'].forEach(view=>document.getElementById(view)?.classList.add('hidden'));
+ document.getElementById('mockPracticeView').classList.remove('hidden');
+ jumpToViewStart('mockPracticeView');
+}
+function toggleMockPracticePanel(n,type){
+ const name=type==='hint'?'Hint':'Answer';
+ const el=document.getElementById('mockPractice'+name+n),btn=document.getElementById('mockPractice'+name+'Btn'+n);
+ if(!el||!btn)return;
+ const open=el.style.display!=='block';el.style.display=open?'block':'none';
+ btn.textContent=type==='hint'?(open?'隱藏提示字詞':'提示字詞'):(open?'隱藏答案':'查看答案');
+ btn.setAttribute('aria-expanded',String(open));
+}
+function backToMockAnswers(){if(currentMockPracticeId)showMockAnswers(currentMockPracticeId);else goHome();}
 </script>
 </body>
 </html>
