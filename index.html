@@ -2586,6 +2586,22 @@ textarea {
  .print-paper .print-group{margin-bottom:7mm!important}
 }
 </style>
+
+<style id="v175-print-navigation-css">
+/* V175: three independently collapsible categories, all devices. */
+.print-bank-section{margin:12px 0;border:1px solid var(--line);border-radius:13px;background:#fff;overflow:hidden}
+.print-bank-summary{display:flex;align-items:center;gap:8px;padding:15px 17px;color:var(--green);font-weight:800;cursor:pointer;list-style:none}
+.print-bank-summary::-webkit-details-marker{display:none}
+.print-bank-summary::before{content:"▸";display:inline-block;transition:transform .15s ease;font-size:1.1em}
+.print-bank-section[open]>.print-bank-summary::before{transform:rotate(90deg)}
+.print-bank-count{margin-left:auto;color:var(--muted);font-size:.85em;font-weight:500}
+.print-bank-section>.print-check-grid{padding:0 12px 14px}
+.v175-print-bottom-nav{display:flex;gap:12px;margin:24px 0 8px}
+.v175-print-bottom-nav button{flex:1;min-width:0;min-height:46px;border:1.5px solid var(--green);border-radius:12px;background:#fff;color:var(--green);font:inherit;font-weight:750;cursor:pointer}
+.v175-print-bottom-nav button:first-child{background:var(--green);color:white}
+@media(max-width:700px){.print-bank-section .print-check-grid{grid-template-columns:minmax(0,1fr)}}
+@media print{.v175-print-bottom-nav{display:none!important}}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -2731,7 +2747,7 @@ textarea {
         <div class="mock-filters">
           <div class="mock-filter"><label for="mockYear">學年度</label><select id="mockYear" onchange="filterMockExams()"><option value="all">全部年份</option><option value="114">114 學年度</option><option value="115">115 學年度</option></select></div>
           <div class="mock-filter"><label for="mockSource">出版社／區域</label><select id="mockSource" onchange="filterMockExams()"><option value="all">全部來源</option><option value="hanlin">翰林</option><option value="national">南一</option></select></div>
-          <div class="mock-filter"><label for="mockRound">考試次別</label><select id="mockRound" onchange="filterMockExams()"><option value="all">全部次別</option><option value="E1">第 1 次</option><option value="E2">第 2 次</option><option value="E3">第 3 次</option></select></div>
+          <div class="mock-filter"><label for="mockRound">考試次別</label><select id="mockRound" onchange="filterMockExams()"><option value="all">全部次別</option><option value="E1">第 1 次</option><option value="E2">第 2 次</option><option value="E3">第 3 次</option><option value="E4">第 4 次</option></select></div>
         </div>
         <div class="year-grid" id="mockExamGrid">
           <div class="year-card available" data-year="115" data-source="hanlin" data-round="E1">
@@ -2848,6 +2864,7 @@ textarea {
       <p id="printSelectStatus" class="small" role="status"></p>
       <div id="printPreviewControls" class="hidden print-preview-controls"><button type="button" class="print-entry-primary" onclick="window.print()">列印／儲存 PDF</button><span class="small">在列印視窗中選擇印表機，或選擇「儲存為 PDF」。</span></div>
       <div id="printPreview" class="print-preview-screen"></div>
+      <div class="v175-print-bottom-nav"><button type="button" onclick="closePrintCenter();goHome()">⌂ 返回首頁</button><button type="button" onclick="document.getElementById('printCenterView').scrollIntoView({behavior:'smooth',block:'start'})">↑ 回到最上方</button></div>
     </div>
   </section>
 
@@ -4799,7 +4816,7 @@ function openPrintCenter(mode){
    area.innerHTML=items.length?'<div class="print-category">我的複習題目（'+items.length+' 題）</div><div class="print-check-grid">'+items.map((x,i)=>'<label class="print-check-item"><input type="checkbox" class="print-select-check" value="'+i+'" checked><span>'+printEsc(x.year)+'｜第 '+printEsc(x.q)+' 題</span></label>').join('')+'</div>':'<p class="small">目前沒有已加入複習清單的題目。</p>';
  }else{
    const catalog=printCatalog();
-   area.innerHTML=['學測','指考','模擬考'].map(cat=>{const entries=catalog.filter(x=>x.category===cat);return '<div class="print-category">'+cat+'（'+entries.length+' 回）</div><div class="print-check-grid">'+entries.map(x=>'<label class="print-check-item"><input type="checkbox" class="print-select-check" value="'+printEsc(x.key)+'"><span>'+printEsc(x.group)+'</span></label>').join('')+'</div>';}).join('');
+   area.innerHTML=['學測','指考','模擬考'].map(cat=>{const entries=catalog.filter(x=>x.category===cat);return '<details class="print-bank-section"><summary class="print-bank-summary">'+cat+'歷屆試題 <span class="print-bank-count">'+entries.length+' 回</span></summary><div class="print-check-grid">'+entries.map(x=>'<label class="print-check-item"><input type="checkbox" class="print-select-check" value="'+printEsc(x.key)+'"><span>'+printEsc(x.group)+'</span></label>').join('')+'</div></details>';}).join('');
  }
  area.onchange=()=>{document.getElementById('printPreview').innerHTML='';document.getElementById('printPreviewControls').classList.add('hidden');document.getElementById('printSelectStatus').textContent='選取範圍已變更，請重新預覽。';};
  document.getElementById('printPreview').innerHTML='';document.getElementById('printPreviewControls').classList.add('hidden');document.getElementById('printSelectStatus').textContent='';
