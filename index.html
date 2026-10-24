@@ -2276,6 +2276,46 @@ textarea {
 #mockExamGrid .year-card .year-actions button{background:transparent !important;color:var(--green) !important;border:1.5px solid var(--green) !important;white-space:nowrap}
 #mockExamGrid .year-card .year-actions button.primary{background:var(--green) !important;color:#fff !important;border-color:var(--green) !important}
 @media(max-width:380px){#mockExamGrid .year-card .year-actions{gap:6px}#mockExamGrid .year-card .year-actions button{padding-left:7px;padding-right:7px}}
+
+.mock-review-toggle{border:1.5px solid var(--green);background:#eef4ef;color:var(--green);font-weight:800}
+.mock-review-toggle.is-saved{background:var(--green);color:#fff}
+/* V159：僅單題複習頁底部按鈕改為精簡、自適應寬度，避免手機斷字 */
+#mockPracticeView .mock-practice-footer.single-review-footer{
+  display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:nowrap;
+  margin:16px 0 8px;
+}
+#mockPracticeView .mock-practice-footer.single-review-footer > button{
+  flex:0 0 auto!important;width:auto!important;min-width:0!important;
+  min-height:42px!important;padding:8px 14px!important;
+  font-size:16px;line-height:1.4;white-space:nowrap;
+  border-radius:10px;box-sizing:border-box;
+}
+@media(max-width:380px){
+  #mockPracticeView .mock-practice-footer.single-review-footer{gap:8px}
+  #mockPracticeView .mock-practice-footer.single-review-footer > button{font-size:14px;padding:8px 10px!important}
+}
+
+/* V160：僅模擬考單題複習頁底部兩顆返回按鈕等寬、精簡及圖示 */
+#mockPracticeView .mock-practice-footer.single-review-footer{gap:10px!important;flex-wrap:nowrap!important}
+#mockPracticeView .mock-practice-footer.single-review-footer > button{
+  display:inline-flex!important;justify-content:center;align-items:center;gap:6px;
+  flex:0 1 178px!important;width:178px!important;min-width:0!important;
+  min-height:42px!important;padding:8px 10px!important;
+  font-size:15px!important;line-height:1.3!important;white-space:nowrap!important;
+  border-radius:10px!important;
+}
+#mockPracticeView .mock-practice-footer.single-review-footer > button:first-child{
+  background:#fff!important;color:var(--green)!important;border:1.5px solid var(--green)!important;
+}
+#mockPracticeView .mock-practice-footer.single-review-footer > button:last-child{
+  background:var(--green)!important;color:#fff!important;border:1.5px solid var(--green)!important;
+}
+#mockPracticeView .mock-practice-footer.single-review-footer svg{width:16px;height:16px;flex:none}
+@media(max-width:380px){
+ #mockPracticeView .mock-practice-footer.single-review-footer{gap:8px!important}
+ #mockPracticeView .mock-practice-footer.single-review-footer > button{font-size:13px!important;padding:8px 5px!important;gap:4px}
+ #mockPracticeView .mock-practice-footer.single-review-footer svg{width:14px;height:14px}
+}
 </style>
 
 <style id="v85-home-year-collapse">
@@ -4001,7 +4041,7 @@ function updateMistakeCount(){
   const n=readMistakes().length;el.textContent=n?`已加入 ${n} 題`:'目前沒有複習題目';
 }
 function openMistakes(){
-  ['homeView','answerView','practiceView','recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
+  ['homeView','answerView','practiceView','mockPracticeView','recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
   document.getElementById('mistakeView').classList.remove('hidden');renderMistakes();
 }
 function renderMistakes(){
@@ -4011,9 +4051,9 @@ function renderMistakes(){
   }
   box.innerHTML=items.map(x=>`
     <div class="mistake-row">
-      <div><strong>${x.year} 第 ${x.q} 題</strong><p>${x.zh}</p></div>
+      <div><strong>${escapeHtml(x.year)} 第 ${x.q} 題</strong><p>${escapeHtml(x.zh)}</p></div>
       <div class="mistake-row-actions">
-        <button type="button" onclick="practiceMistake(${x.yearNum||114},${x.q})">再練一次</button>
+        <button type="button" onclick="${x.type==='mock'?`practiceMockMistake('${x.mockId}',${x.q})`:`practiceMistake(${x.yearNum||114},${x.q})`}">再練一次</button>
         <button type="button" onclick="removeMistake('${x.id}')">移除</button>
       </div>
     </div>`).join('');
@@ -4554,12 +4594,12 @@ function toggleMockAnswerRefs(n){
 
 /* V149: mock practice uses the same mockExamBank and mockAlternatives as the answer page. */
 let currentMockPracticeId=null;
-function enterMockPractice(id){
+function enterMockPractice(id,onlyQuestion){
  const exam=mockExamBank[id];if(!exam)return;
  switchExam('mock');
  currentMockPracticeId=id;
- document.getElementById('mockPracticeTitle').textContent=mockShortTitle(id)+'｜作答練習';
- document.getElementById('mockPracticeContent').innerHTML=[1,2].map(n=>{
+ document.getElementById('mockPracticeTitle').textContent=mockShortTitle(id)+(onlyQuestion?'｜第 '+onlyQuestion+' 題複習':'｜作答練習');
+ document.getElementById('mockPracticeContent').innerHTML=(onlyQuestion?[onlyQuestion]:[1,2]).map(n=>{
   const q=exam.questions[n];
   const alternatives=mockAlternatives[id]?.[n]||[];
   return `<div class="card mock-practice-item">
@@ -4567,13 +4607,19 @@ function enterMockPractice(id){
     <p class="prompt">${q.cn}</p>
     <label for="mockPracticeInput${n}" class="small" style="display:block;font-weight:800;margin-bottom:6px">我的英文翻譯（可留白）</label>
     <textarea id="mockPracticeInput${n}" placeholder="在這裡思考或練習翻譯……" spellcheck="false"></textarea>
-    <div class="actions"><button type="button" id="mockPracticeHintBtn${n}" aria-expanded="false" onclick="toggleMockPracticePanel(${n},'hint')">提示字詞</button><button type="button" id="mockPracticeAnswerBtn${n}" aria-expanded="false" onclick="toggleMockPracticePanel(${n},'answer')">查看答案</button></div>
+    <div class="actions"><button type="button" class="mock-review-toggle" id="mockReviewBtn${n}" onclick="toggleMockReview(${n})">＋ 加入複習</button><button type="button" id="mockPracticeHintBtn${n}" aria-expanded="false" onclick="toggleMockPracticePanel(${n},'hint')">提示字詞</button><button type="button" id="mockPracticeAnswerBtn${n}" aria-expanded="false" onclick="toggleMockPracticePanel(${n},'answer')">查看答案</button></div>
     <div id="mockPracticeHint${n}" class="hint"><b>可替換表達</b><div class="mock-alt-grid">${alternatives.map(pair=>`<div class="mock-alt-row"><span>${pair[0]}</span><span><span class="mock-alt-arrow">→</span><span class="mock-alt-value">${pair[1]}</span></span></div>`).join('')}</div><p class="small">請依句意與文法結構調整，不一定能逐字替換。</p></div>
     <div id="mockPracticeAnswer${n}" class="hint">${q.refs.map((ref,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${ref}</span></p>`).join('')}</div>
    </div>`;
  }).join('');
  ['homeView','answerView','practiceView','recordView','recordCardView','mistakeView'].forEach(view=>document.getElementById(view)?.classList.add('hidden'));
  document.getElementById('mockPracticeView').classList.remove('hidden');
+ const footer=document.querySelector('#mockPracticeView .mock-practice-footer');
+ if(footer)footer.classList.toggle('single-review-footer',Boolean(onlyQuestion));
+ if(footer)footer.innerHTML=onlyQuestion
+  ? '<button type="button" class="home-btn" onclick="openMistakes()"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg><span>返回複習清單</span></button><button type="button" class="home-btn" onclick="goHome()"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7"/><path d="M5 9v12h14V9"/><path d="M9 21v-7h6v7"/></svg><span>返回首頁</span></button>'
+  : '<button type="button" class="home-btn" onclick="backToMockAnswers()">返回題目與答案</button><button type="button" class="home-btn" onclick="goHome()">回首頁</button>';
+ (onlyQuestion?[onlyQuestion]:[1,2]).forEach(syncMockReviewButton);
  jumpToViewStart('mockPracticeView');
 }
 function toggleMockPracticePanel(n,type){
@@ -4583,6 +4629,28 @@ function toggleMockPracticePanel(n,type){
  const open=el.style.display!=='block';el.style.display=open?'block':'none';
  btn.textContent=type==='hint'?(open?'隱藏提示字詞':'提示字詞'):(open?'隱藏答案':'查看答案');
  btn.setAttribute('aria-expanded',String(open));
+}
+/* V158：模擬考逐題加入現有複習清單 */
+function mockReviewKey(id,n){return 'mock-'+id+'-'+n;}
+function syncMockReviewButton(n){
+ const b=document.getElementById('mockReviewBtn'+n);
+ if(!b||!currentMockPracticeId)return;
+ const saved=readMistakes().some(x=>x.id===mockReviewKey(currentMockPracticeId,n));
+ b.textContent=saved?'✓ 已加入複習':'＋ 加入複習';
+ b.classList.toggle('is-saved',saved);
+ b.setAttribute('aria-pressed',String(saved));
+}
+function toggleMockReview(n){
+ const id=currentMockPracticeId,exam=mockExamBank[id];
+ if(!exam||!exam.questions[n])return;
+ const key=mockReviewKey(id,n),items=readMistakes(),idx=items.findIndex(x=>x.id===key);
+ if(idx>=0)items.splice(idx,1);
+ else items.push({id:key,type:'mock',mockId:id,year:mockShortTitle(id),q:n,zh:exam.questions[n].cn});
+ writeMistakes(items);syncMockReviewButton(n);
+}
+function practiceMockMistake(id,n){
+ if(!mockExamBank[id]||![1,2].includes(n))return;
+ enterMockPractice(id,n);
 }
 function backToMockAnswers(){if(currentMockPracticeId)showMockAnswers(currentMockPracticeId);else goHome();}
 </script>
