@@ -2217,10 +2217,13 @@ textarea {
 .mock-more-wrap button{border:1.5px solid var(--green);border-radius:12px;background:white;color:var(--green);padding:10px 22px;font-weight:800;min-height:44px}
 @media(max-width:900px) and (orientation:portrait){.mock-more-wrap:not([hidden]){display:block}}
 
-/* V139：手機與平板直式共用單欄關鍵表達題卡規則 */
-@media screen and (max-width:900px) and (orientation:portrait){
-  .key-grid{grid-template-columns:minmax(0,1fr) !important;}
-  .key-grid > .key-card{min-width:0;width:100%;}
+/* V140：僅手機的學測／指考「自己翻譯」按鈕；不變更卡片或事件 */
+.mobile-write-label{display:none}
+@media (max-width:600px){
+ #practiceView .write-actions{display:grid!important;grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr) minmax(0,1fr)!important;gap:6px!important;width:100%;align-items:stretch}
+ #practiceView .write-actions>button{display:flex;align-items:center;justify-content:center;min-width:0;width:100%;min-height:46px;padding:8px 2px!important;font-size:clamp(13px,3.6vw,17px)!important;line-height:1.25;white-space:nowrap;text-align:center}
+ #practiceView .write-actions .full-write-label{display:none}
+ #practiceView .write-actions .mobile-write-label{display:inline}
 }
 </style>
 
@@ -2397,6 +2400,19 @@ textarea {
 #mockPanel .mock-filter select{width:100%;min-width:0;min-height:44px;padding:8px 20px 8px 7px;font-size:18px;font-weight:700;line-height:1.3;text-overflow:ellipsis;color:var(--ink)}
 @media(min-width:601px){#mockPanel .mock-filters{gap:12px}#mockPanel .mock-filter label{font-size:16px}#mockPanel .mock-filter select{font-size:18px;padding:9px 12px}}
 @media(max-width:390px){#mockPanel .mock-filters{gap:5px}#mockPanel .mock-filter label{font-size:13px}#mockPanel .mock-filter select{padding-left:5px;padding-right:15px;font-size:16px}}
+
+/* V139 固定原則：手機與平板直式共用單欄題卡規則。
+   適用所有學測／指考年份的「關鍵表達」；橫式平板與桌機維持既有雙欄。
+   僅變更外層題卡排列，不改題卡內選項、答案或互動。 */
+@media screen and (max-width:900px) and (orientation:portrait){
+  .key-grid{
+    grid-template-columns:minmax(0,1fr) !important;
+  }
+  .key-grid > .key-card{
+    min-width:0;
+    width:100%;
+  }
+}
 </style>
 </head>
 <body>
@@ -3527,9 +3543,9 @@ function opts(a,ans,targetOverride){
 function write(y,n){
  return `<p><b>先不要看提示，試著自己完成整句。</b></p>
  <textarea id="student" placeholder="你可以在這裡輸入，也可以拿紙筆寫寫看。"></textarea>
- <div class="actions">
-   <button onclick="toggleHint()">需要提示</button>
-   <button class="primary" onclick="showRefs()">查看參考答案</button>
+ <div class="actions write-actions">
+   <button onclick="toggleHint()"><span class="full-write-label">需要提示</span><span class="mobile-write-label">提示</span></button>
+   <button class="primary" onclick="showRefs()"><span class="full-write-label">查看參考答案</span><span class="mobile-write-label">參考答案</span></button>
  </div>
  <div class="complete-confirm"><button id="completeBtn" type="button" onclick="confirmQuestionComplete()">✓ 我完成這一題了</button><div class="small" style="margin-top:7px">完成翻譯後，點一下就能留下練習紀錄。</div></div>
  <div id="hint" class="hint"></div>
@@ -3866,7 +3882,7 @@ function toggleMistake(){
 }
 function syncMistakeButton(){
   const b=document.getElementById('mistakeToggle');
-  if(b)b.textContent=isSavedMistake()?'✓ 已加入':'＋ 加入複習';
+  if(b){const saved=isSavedMistake();b.innerHTML=saved?'<span class="full-write-label">✓ 已加入</span><span class="mobile-write-label">✓ 已加入</span>':'<span class="full-write-label">＋ 加入複習</span><span class="mobile-write-label">＋複習</span>'; }
 }
 function addMistakeButton(){
   if(step!==3||document.getElementById('mistakeToggle'))return;
