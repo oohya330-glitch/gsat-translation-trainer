@@ -2216,6 +2216,12 @@ textarea {
 .mock-more-wrap[hidden]{display:none!important}
 .mock-more-wrap button{border:1.5px solid var(--green);border-radius:12px;background:white;color:var(--green);padding:10px 22px;font-weight:800;min-height:44px}
 @media(max-width:900px) and (orientation:portrait){.mock-more-wrap:not([hidden]){display:block}}
+
+/* V139：手機與平板直式共用單欄關鍵表達題卡規則 */
+@media screen and (max-width:900px) and (orientation:portrait){
+  .key-grid{grid-template-columns:minmax(0,1fr) !important;}
+  .key-grid > .key-card{min-width:0;width:100%;}
+}
 </style>
 
 <style id="v85-home-year-collapse">
