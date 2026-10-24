@@ -4370,8 +4370,14 @@ function getFilteredMockCards(){
  return cards.filter(card=>(y==='all'||card.dataset.year===y)&&(source==='all'||card.dataset.source===source)&&(round==='all'||card.dataset.round===round));
 }
 function toggleMockGroup(groupIndex){
- if(mockOpenGroups.has(groupIndex))mockOpenGroups.delete(groupIndex);
- else mockOpenGroups.add(groupIndex);
+ if(mockOpenGroups.has(groupIndex)){
+  // Closing a level must also close every later level.
+  for(const index of Array.from(mockOpenGroups))if(index>=groupIndex)mockOpenGroups.delete(index);
+ }else{
+  // Only the next level can be opened.
+  for(let index=1;index<groupIndex;index++)if(!mockOpenGroups.has(index))return;
+  mockOpenGroups.add(groupIndex);
+ }
  renderMockCards();
 }
 function renderMockCards(){
@@ -4381,12 +4387,15 @@ function renderMockCards(){
  const matches=getFilteredMockCards(),step=mockVisibleLimit();
  if(mockLastBatchSize!==step){mockLastBatchSize=step;mockOpenGroups.clear();}
  document.getElementById('mockEmpty').classList.toggle('hidden',matches.length!==0);
+ // Group toggles live BETWEEN batches, never after the last card.
  document.getElementById('mockMoreWrap').hidden=true;
  grid.querySelectorAll('.mock-group-toggle').forEach(el=>el.remove());
  const fragment=document.createDocumentFragment();
  matches.forEach((card,pos)=>{
   const group=Math.floor(pos/step);
-  if(pos>0 && pos%step===0){
+  const ancestorsOpen=Array.from({length:group},(_,i)=>i+1).every(index=>mockOpenGroups.has(index));
+  const canShowToggle=group===1||mockOpenGroups.has(group-1);
+  if(pos>0 && pos%step===0 && canShowToggle){
    const section=document.createElement('div');
    section.className='mock-group-toggle';
    const button=document.createElement('button');
@@ -4399,7 +4408,7 @@ function renderMockCards(){
    section.appendChild(button);
    fragment.appendChild(section);
   }
-  card.classList.toggle('hidden',group>0&&!mockOpenGroups.has(group));
+  card.classList.toggle('hidden',group>0&&!ancestorsOpen);
   fragment.appendChild(card);
  });
  mockCardsInOriginalOrder.filter(card=>!matches.includes(card)).forEach(card=>{card.classList.add('hidden');fragment.appendChild(card);});
