@@ -2225,6 +2225,10 @@ textarea {
  #practiceView .write-actions .full-write-label{display:none}
  #practiceView .write-actions .mobile-write-label{display:inline}
 }
+/* V145: independent six-card mock sections */
+#mockExamGrid .mock-group-toggle{grid-column:1/-1;display:flex;justify-content:center;margin:6px 0 2px;}
+#mockExamGrid .mock-group-toggle button{border:0;background:transparent;color:var(--green);font:inherit;font-weight:800;padding:9px 14px;min-height:44px;border-radius:10px;cursor:pointer;}
+#mockExamGrid .mock-group-toggle button:hover{background:var(--soft);}
 </style>
 
 <style id="v85-home-year-collapse">
@@ -4351,33 +4355,67 @@ function toggleMockAlternatives(n){
 }
 let mockVisibleCount=0;
 let mockLastBatchSize=0;
+let mockOpenGroups=new Set();
+let mockCardsInOriginalOrder=null;
 function mockVisibleLimit(){return window.matchMedia('(max-width:600px)').matches?4:6;}
-function toggleMockMore(){
- const matches=getFilteredMockCards();
- const step=mockVisibleLimit();
- const shown=mockVisibleCount||step;
- mockVisibleCount=shown>=matches.length?step:Math.min(matches.length,shown+step);
- renderMockCards();
-}
 function getFilteredMockCards(){
  const y=document.getElementById('mockYear').value,source=document.getElementById('mockSource').value,round=document.getElementById('mockRound').value;
- return Array.from(document.querySelectorAll('#mockExamGrid .year-card')).filter(card=>(y==='all'||card.dataset.year===y)&&(source==='all'||card.dataset.source===source)&&(round==='all'||card.dataset.round===round));
+ const cards=mockCardsInOriginalOrder||Array.from(document.querySelectorAll('#mockExamGrid .year-card'));
+ return cards.filter(card=>(y==='all'||card.dataset.year===y)&&(source==='all'||card.dataset.source===source)&&(round==='all'||card.dataset.round===round));
+}
+function toggleMockGroup(groupIndex){
+ if(mockOpenGroups.has(groupIndex))mockOpenGroups.delete(groupIndex);
+ else mockOpenGroups.add(groupIndex);
+ renderMockCards();
+}
+function toggleMockMore(){
+ const step=mockVisibleLimit(),total=getFilteredMockCards().length;
+ const shown=mockVisibleCount||step;
+ mockVisibleCount=shown>=total?step:Math.min(total,shown+step);
+ renderMockCards();
 }
 function renderMockCards(){
+ const grid=document.getElementById('mockExamGrid');
+ if(!grid)return;
+ if(!mockCardsInOriginalOrder)mockCardsInOriginalOrder=Array.from(grid.querySelectorAll('.year-card'));
  const matches=getFilteredMockCards(),step=mockVisibleLimit();
- // When switching between mobile and tablet/desktop, restart at the first full batch.
- if(mockLastBatchSize!==step){mockVisibleCount=step;mockLastBatchSize=step;}
- if(!mockVisibleCount)mockVisibleCount=step;
- const visible=Math.max(step,Math.ceil(mockVisibleCount/step)*step);
- document.querySelectorAll('#mockExamGrid .year-card').forEach(card=>{const pos=matches.indexOf(card);card.classList.toggle('hidden',pos<0||pos>=visible);});
+ if(mockLastBatchSize!==step){mockVisibleCount=step;mockLastBatchSize=step;mockOpenGroups.clear();}
  document.getElementById('mockEmpty').classList.toggle('hidden',matches.length!==0);
  const wrap=document.getElementById('mockMoreWrap'),btn=document.getElementById('mockMoreButton');
- wrap.hidden=matches.length<=step;
- const allShown=visible>=matches.length;
- btn.textContent=allShown?'收合試題 ▲':'展開更多試題 ▼';
- btn.setAttribute('aria-expanded',String(visible>step));
+ grid.querySelectorAll('.mock-group-toggle').forEach(el=>el.remove());
+ if(step===4){
+  mockCardsInOriginalOrder.forEach(card=>grid.appendChild(card));
+  const visible=Math.max(step,Math.ceil((mockVisibleCount||step)/step)*step);
+  mockCardsInOriginalOrder.forEach(card=>{const pos=matches.indexOf(card);card.classList.toggle('hidden',pos<0||pos>=visible);});
+  wrap.hidden=matches.length<=step;
+  btn.textContent=visible>=matches.length?'收合試題 ▲':'展開更多試題 ▼';
+  btn.setAttribute('aria-expanded',String(visible>step));
+  return;
+ }
+ wrap.hidden=true;
+ const fragment=document.createDocumentFragment();
+ matches.forEach((card,pos)=>{
+  const group=Math.floor(pos/6);
+  if(pos>0 && pos%6===0){
+   const section=document.createElement('div');
+   section.className='mock-group-toggle';
+   const button=document.createElement('button');
+   button.type='button';
+   const open=mockOpenGroups.has(group);
+   button.textContent=open?'收合試題 ▲':'展開更多試題 ▼';
+   button.setAttribute('aria-expanded',String(open));
+   button.setAttribute('aria-label',`第 ${group+1} 組試題：${open?'收合':'展開'}`);
+   button.addEventListener('click',()=>toggleMockGroup(group));
+   section.appendChild(button);
+   fragment.appendChild(section);
+  }
+  card.classList.toggle('hidden',group>0&&!mockOpenGroups.has(group));
+  fragment.appendChild(card);
+ });
+ mockCardsInOriginalOrder.filter(card=>!matches.includes(card)).forEach(card=>{card.classList.add('hidden');fragment.appendChild(card);});
+ grid.appendChild(fragment);
 }
-function filterMockExams(){mockVisibleCount=mockVisibleLimit();renderMockCards();}
+function filterMockExams(){mockVisibleCount=mockVisibleLimit();mockOpenGroups.clear();renderMockCards();}
 window.addEventListener('resize',renderMockCards);
 window.addEventListener('orientationchange',renderMockCards);
 document.addEventListener('DOMContentLoaded',renderMockCards);
