@@ -797,7 +797,8 @@ textarea {
   padding-bottom:9px !important;
   margin-bottom:10px !important;
 }
-.stage-nav-card .steps{  gap:8px !important;
+.stage-nav-card .steps{
+  gap:8px !important;
 }
 .stage-nav-card .steps button{
   min-height:42px !important;
@@ -1596,7 +1597,8 @@ textarea {
 }
 .step-page .skeleton{
   font-size:1.16em !important;
-  line-height:1.72 !important;  text-align:left !important;
+  line-height:1.72 !important;
+  text-align:left !important;
 }
 .step-page .skeleton b,
 .step-page .skeleton strong,
@@ -2395,7 +2397,8 @@ textarea {
     <div class="home-brand" aria-label="Lulu Wu">
       <strong>Lulu Wu</strong>
       <span>@oohya330</span>
-    </div>    <div class="card hero">
+    </div>
+    <div class="card hero">
       <h2>選擇年份開始練習</h2>
       <p id="examDescription">每回 2 題，透過不同練習一步步完成翻譯。</p>
       <div class="exam-tabs">
@@ -3194,7 +3197,8 @@ ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。'
     ],
     refs:[
       `When a typhoon strikes, we should prepare enough food and stay indoors. If necessary, we should quickly move to a safe place.`,
-      `When a typhoon hits, we should prepare sufficient food and stay indoors. If necessary, we should swiftly move to a safe place.`    ],
+      `When a typhoon hits, we should prepare sufficient food and stay indoors. If necessary, we should swiftly move to a safe place.`
+    ],
     take:'',
     hint:'<b>strike</b> = 來襲<br><b>indoors</b> = 在室內',
     afterRefs:'<div class="takeaway-note"><b>可替換表達</b><br><b>strikes</b> → <b>hits</b><br><b>enough</b> → <b>sufficient</b><br><b>quickly</b> → <b>swiftly</b></div>',
@@ -3993,7 +3997,8 @@ function interactionKeyForOption(el){
   const grids=[...document.querySelectorAll('.step-page .options-grid')];
   const idx=Math.max(0,grids.indexOf(el.closest('.options-grid')));
   return `q${q}-s${step}-o${idx}`;
-}function showReviewToast(anchor,text){
+}
+function showReviewToast(anchor,text){
   const parent=anchor.closest('.options-grid')||anchor.parentNode;
   let t=parent.parentNode.querySelector('.review-toast[data-for="'+interactionKeyForOption(anchor)+'"]');
   if(!t){t=document.createElement('div');t.className='review-toast';t.dataset.for=interactionKeyForOption(anchor);parent.insertAdjacentElement('afterend',t)}
