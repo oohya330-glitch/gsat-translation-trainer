@@ -2421,8 +2421,8 @@ textarea {
 /* V146: balanced two-line random-card description across desktop and iPad. */
 .random-card .random-description{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%;min-height:3.1em;line-height:1.55;}
 .random-card .random-description > span{display:block;min-height:0;width:auto;max-width:100%;text-align:center;line-height:1.55;white-space:normal;overflow-wrap:normal;word-break:normal;}
-/* V146: tablet and desktop use in-grid six-card group controls, never the bottom toggle. */
-@media (min-width:601px){#mockMoreWrap{display:none!important;}#mockExamGrid>.mock-group-toggle{grid-column:1/-1;display:flex!important;justify-content:center;align-items:center;margin:6px 0 2px;}}
+/* V147: in-grid group controls for all devices. */
+#mockMoreWrap{display:none!important;}#mockExamGrid>.mock-group-toggle{grid-column:1/-1;display:flex!important;justify-content:center;align-items:center;margin:6px 0 2px;}
 </style>
 </head>
 <body>
@@ -4359,10 +4359,10 @@ function toggleMockAlternatives(n){
  const open=box.style.display!=='block';box.style.display=open?'block':'none';
  btn.textContent=open?'隱藏替代字詞':'替代字詞';btn.setAttribute('aria-expanded',String(open));
 }
-let mockVisibleCount=0;
-let mockLastBatchSize=0;
+/* V147: independent mock groups; 4 cards on mobile, 6 on tablet/desktop. */
 let mockOpenGroups=new Set();
 let mockCardsInOriginalOrder=null;
+let mockLastBatchSize=0;
 function mockVisibleLimit(){return window.matchMedia('(max-width:600px)').matches?4:6;}
 function getFilteredMockCards(){
  const y=document.getElementById('mockYear').value,source=document.getElementById('mockSource').value,round=document.getElementById('mockRound').value;
@@ -4374,35 +4374,19 @@ function toggleMockGroup(groupIndex){
  else mockOpenGroups.add(groupIndex);
  renderMockCards();
 }
-function toggleMockMore(){
- const step=mockVisibleLimit(),total=getFilteredMockCards().length;
- const shown=mockVisibleCount||step;
- mockVisibleCount=shown>=total?step:Math.min(total,shown+step);
- renderMockCards();
-}
 function renderMockCards(){
  const grid=document.getElementById('mockExamGrid');
  if(!grid)return;
  if(!mockCardsInOriginalOrder)mockCardsInOriginalOrder=Array.from(grid.querySelectorAll('.year-card'));
  const matches=getFilteredMockCards(),step=mockVisibleLimit();
- if(mockLastBatchSize!==step){mockVisibleCount=step;mockLastBatchSize=step;mockOpenGroups.clear();}
+ if(mockLastBatchSize!==step){mockLastBatchSize=step;mockOpenGroups.clear();}
  document.getElementById('mockEmpty').classList.toggle('hidden',matches.length!==0);
- const wrap=document.getElementById('mockMoreWrap'),btn=document.getElementById('mockMoreButton');
+ document.getElementById('mockMoreWrap').hidden=true;
  grid.querySelectorAll('.mock-group-toggle').forEach(el=>el.remove());
- if(step===4){
-  mockCardsInOriginalOrder.forEach(card=>grid.appendChild(card));
-  const visible=Math.max(step,Math.ceil((mockVisibleCount||step)/step)*step);
-  mockCardsInOriginalOrder.forEach(card=>{const pos=matches.indexOf(card);card.classList.toggle('hidden',pos<0||pos>=visible);});
-  wrap.hidden=matches.length<=step;
-  btn.textContent=visible>=matches.length?'收合試題 ▲':'展開更多試題 ▼';
-  btn.setAttribute('aria-expanded',String(visible>step));
-  return;
- }
- wrap.hidden=true;
  const fragment=document.createDocumentFragment();
  matches.forEach((card,pos)=>{
-  const group=Math.floor(pos/6);
-  if(pos>0 && pos%6===0){
+  const group=Math.floor(pos/step);
+  if(pos>0 && pos%step===0){
    const section=document.createElement('div');
    section.className='mock-group-toggle';
    const button=document.createElement('button');
@@ -4421,7 +4405,7 @@ function renderMockCards(){
  mockCardsInOriginalOrder.filter(card=>!matches.includes(card)).forEach(card=>{card.classList.add('hidden');fragment.appendChild(card);});
  grid.appendChild(fragment);
 }
-function filterMockExams(){mockVisibleCount=mockVisibleLimit();mockOpenGroups.clear();renderMockCards();}
+function filterMockExams(){mockOpenGroups.clear();renderMockCards();}
 window.addEventListener('resize',renderMockCards);
 window.addEventListener('orientationchange',renderMockCards);
 document.addEventListener('DOMContentLoaded',renderMockCards);
