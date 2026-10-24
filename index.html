@@ -797,8 +797,7 @@ textarea {
   padding-bottom:9px !important;
   margin-bottom:10px !important;
 }
-.stage-nav-card .steps{
-  gap:8px !important;
+.stage-nav-card .steps{  gap:8px !important;
 }
 .stage-nav-card .steps button{
   min-height:42px !important;
@@ -1597,8 +1596,7 @@ textarea {
 }
 .step-page .skeleton{
   font-size:1.16em !important;
-  line-height:1.72 !important;
-  text-align:left !important;
+  line-height:1.72 !important;  text-align:left !important;
 }
 .step-page .skeleton b,
 .step-page .skeleton strong,
@@ -2211,43 +2209,6 @@ textarea {
 /* V126 局部調整：三回模擬考的可替換表達英文，與區塊標題同級字體且粗體 */
 .mock-alt-row > span{font-size:1.125em;font-weight:700;line-height:1.65;overflow-wrap:anywhere;min-width:0}
 @media(max-width:600px){.mock-alt-row{grid-template-columns:1fr;gap:2px}}
-
-/* V133 第1題關鍵表達：整組題卡置中且不鋪滿頁面；選項維持垂直排列 */
-.gsat115-q1.key-grid{
-  grid-template-columns:minmax(0, 540px);
-  justify-content:center;
-  width:100%;
-}
-
-/* V133 115 學測確認修正：關鍵表達選項一欄垂直排列，保留其他題目原樣 */
-.gsat115-q1 .options-grid.option-count-3,
-.gsat115-q2 .options-grid.option-count-4{
-  display:grid !important;
-  grid-template-columns:minmax(0,1fr) !important;
-  gap:9px !important;
-}
-.gsat115-q1 .options-grid .option,
-.gsat115-q2 .options-grid .option{
-  width:100% !important;
-  min-width:0;
-  overflow-wrap:normal !important;
-  word-break:normal !important;
-  white-space:normal;
-}
-.gsat115-explain{line-height:1.75;}
-.gsat115-explain p{margin:13px 0 0;}
-.gsat115-explain p + p{margin-top:15px;}
-.gsat115-explain p b{display:block;margin-bottom:4px;}
-.gsat115-explain p span{display:block;}
-
-/* V133：隨機挑一回說明文字，電腦／平板／手機一致採兩行置中；避免孤字與拆字 */
-.random-card .random-description{
-  max-width:100%;
-  text-align:center;
-  word-break:keep-all;
-  overflow-wrap:normal;
-  white-space:normal;
-}
 </style>
 
 <style id="v85-home-year-collapse">
@@ -2413,18 +2374,6 @@ textarea {
     text-wrap:balance;
   }
 }
-
-/* V133 確認版：隨機挑一回說明固定語意換行，兩行置中 */
-.home-function-card.random-card > .random-description{display:block;text-align:center;}
-</style>
-<style id="mock-mobile-collapse-v133">
-/* 僅手機模擬考：保留原有雙欄卡片設計，只限制預設顯示數量。 */
-#mockMoreWrap{display:none;text-align:center;margin-top:16px}
-#mockMoreToggle{font:inherit;font-weight:750;color:var(--green);background:white;border:1.5px solid var(--green);border-radius:10px;padding:11px 18px;min-height:44px;cursor:pointer}
-@media(max-width:600px){
-  #mockExamGrid .year-card.mock-mobile-collapsed{display:none !important}
-  #mockMoreWrap.mock-more-visible{display:block}
-}
 </style>
 </head>
 <body>
@@ -2446,8 +2395,7 @@ textarea {
       <h2>選擇年份開始練習</h2>
       <p id="examDescription">每回 2 題，透過不同練習一步步完成翻譯。</p>
       <div class="exam-tabs">
-        <button id="tabGsat" class="active" onclick="switchExam('gsat')">學測</button>
-        <button id="tabAst" onclick="switchExam('ast')">指考</button>
+        <button id="tabGsat" class="active" onclick="switchExam('gsat')">學測</button>        <button id="tabAst" onclick="switchExam('ast')">指考</button>
         <button id="tabMock" onclick="switchExam('mock')">模擬考</button>
       </div>
       <div id="gsatPanel" class="exam-panel">
@@ -2606,8 +2554,12 @@ textarea {
             <strong>114 學年度</strong><small>翰林｜四模</small><small>中譯英 2 題</small>
             <div class="year-actions"><button onclick="showMockAnswers('114-hanlin-E4')">題目與答案</button></div>
           </div>
+
+          <div class="year-card available" data-year="114" data-source="national" data-round="E1">
+            <strong>114 學年度</strong><small>南一｜一模</small><small>中譯英 2 題</small>
+            <div class="year-actions"><button onclick="showMockAnswers('114-national-E1')">題目與答案</button></div>
+          </div>
         </div>
-        <div id="mockMoreWrap"><button type="button" id="mockMoreToggle" aria-expanded="false" aria-controls="mockExamGrid" onclick="toggleMockMore()">展開更多試題 ▼</button></div>
         <p id="mockEmpty" class="small hidden">目前沒有符合條件的試題。</p>
       </div>
     </div>
@@ -2617,7 +2569,7 @@ textarea {
         <div class="home-function-card random-card">
           <div class="home-function-icon random"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="9" width="30" height="30" rx="7"/><circle class="solid-green" cx="17" cy="17" r="2.3"/><circle class="solid-green" cx="31" cy="17" r="2.3"/><circle class="solid-green" cx="24" cy="24" r="2.3"/><circle class="solid-green" cx="17" cy="31" r="2.3"/><circle class="solid-green" cx="31" cy="31" r="2.3"/></svg></div>
           <strong>隨機挑一回</strong>
-          <span class="random-description">先選學測、指考或模擬考，<br>再交給系統幫你挑一回。</span>
+          <span>先選學測、指考或模擬考，再交給系統幫你挑一回。</span>
           <div class="random-actions random-type-actions">
             <button type="button" class="random-start" onclick="randomYear('gsat')">學測</button>
             <button type="button" class="random-again" onclick="randomYear('ast')">指考</button>
@@ -2747,7 +2699,7 @@ const allData={
        ${opts(['More and more ... are increasing ...','More and more ... have increased ...','More and more ... increase ...'],1,1)}
        <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>More and more + 複數主詞 + have increased + ______</strong></div>`,
       `<h3>關鍵表達</h3>
-       <div class="key-grid gsat115-q1">
+       <div class="key-grid">
          <div class="key-card"><h4>在課堂上使用英文的百分比：下列哪個表達不正確？</h4>
            ${opts(['the percentage of English use in class','the percentage of using English in class','the percentage of English using in class'],2,2)}
            <p class="small post-answer-note">英文可以說 <b>English use</b> 或 <b>using English</b>；若使用動名詞，應為 <b>using English</b>，而不是 <b>English using</b>。</p>
@@ -2770,7 +2722,7 @@ const allData={
       `More and more high school English teachers have increased the percentage of English used in class.`,
       `An increasing number of high school English teachers have raised the proportion of English used in their classes.`
     ],
-    take:'have increased / have raised　已經增加<br>the percentage of English used in class　在課堂上使用英文的百分比',
+    take:'have increased / have raised　已經增加<br>the percentage of English used in class　在課堂上使用英文的百分比<br>more and more / an increasing number of + 複數名詞　越來越多……',
     hint:'<b>more and more / an increasing number of + 複數名詞</b><br><b>have increased / have raised</b><br><b>the percentage of English used in class</b>',
     ext:[
       ['越來越多家庭已經增加每月花在外食上的金額。',[
@@ -2791,14 +2743,14 @@ const allData={
        ${opts(['divide A from B','divide A into B','divide A to B'],1,1)}
        <div class="skeleton"><span class="small">句子架構可以先想成：</span><br><strong>divide A into B</strong></div>`,
       `<h3>關鍵表達</h3>
-       <div class="key-grid gsat115-q2">
+       <div class="key-grid">
          <div class="key-card"><h4>根據、依照：下列哪一個不能正確表達「根據、依照」？</h4>
            ${opts(['according to','based on','in terms of','on the basis of'],2,2)}
-           <div class="small post-answer-note gsat115-explain"><p><b>according to、based on、on the basis of</b><span>表示「根據、依照」，可用來說明分組的依據。</span></p><p><b>in terms of</b><span>表示「就……而言、從……方面來看」，不宜直接取代「以……為分組依據」。</span></p></div>
+           <p class="small post-answer-note"><b>according to / based on / on the basis of</b> 表示依據某項標準；<b>in terms of</b> 通常表示「就……而言、從……方面來看」，不宜直接取代「以……為分組依據」。</p>
          </div>
          <div class="key-card"><h4>英語能力：下列哪一個不適合表達「英語能力」？</h4>
            ${opts(['English proficiency','English competence','English efficiency','English language ability'],2,2)}
-           <div class="small post-answer-note gsat115-explain"><p><b>proficiency、competence、ability</b><span>都可以表示「能力」，其中 proficiency 特別強調熟練程度。</span></p><p><b>efficiency</b><span>表示「效率」，不能直接用來表示「英語能力」。</span></p></div>
+           <p class="small post-answer-note"><b>proficiency / competence / ability</b> 都可以表示能力；<b>efficiency</b> 表示效率。</p>
          </div>
        </div>`,
       `<div class="task-intro"><strong>整合練習：</strong><span>將四個語塊依序排列，組成完整句子。</span></div>
@@ -2817,7 +2769,7 @@ const allData={
       `They divide students into different groups based on their English ability and conduct various listening and speaking activities.`,
       `They divide students into different groups according to their English proficiency and conduct a variety of listening and speaking activities.`
     ],
-    take:'divide A into B　將 A 分成 B<br>according to　根據、依照',
+    take:'divide A into B　將 A 分成 B<br>according to / based on　根據、依照<br>English proficiency / English ability　英語能力<br>conduct various listening and speaking activities　進行多樣的聽、說活動',
     hint:'<b>divide A into B</b><br><b>according to / based on + English proficiency / ability</b><br><b>conduct various listening and speaking activities</b>',
     ext:[
       ['公司根據員工的工作經驗，將他們分成不同組別，進行專業訓練。',[
@@ -3242,8 +3194,7 @@ ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。'
     hint:'<b>strike</b> = 來襲<br><b>indoors</b> = 在室內',
     afterRefs:'<div class="takeaway-note"><b>可替換表達</b><br><b>strikes</b> → <b>hits</b><br><b>enough</b> → <b>sufficient</b><br><b>quickly</b> → <b>swiftly</b></div>',
     ext:[
-      ['與他人合作時，我們應清楚表達自己的想法，若有必要，也應願意調整自己的做法。','When we work with others, we should express our ideas clearly. If necessary, we should also be willing to adjust our approach.','', '<b>approach</b> = 做法／方式']
-    ]
+      ['與他人合作時，我們應清楚表達自己的想法，若有必要，也應願意調整自己的做法。','When we work with others, we should express our ideas clearly. If necessary, we should also be willing to adjust our approach.','', '<b>approach</b> = 做法／方式']    ]
   }
 },
 105:{
@@ -4042,8 +3993,7 @@ function showReviewToast(anchor,text){
   let t=parent.parentNode.querySelector('.review-toast[data-for="'+interactionKeyForOption(anchor)+'"]');
   if(!t){t=document.createElement('div');t.className='review-toast';t.dataset.for=interactionKeyForOption(anchor);parent.insertAdjacentElement('afterend',t)}
   t.textContent=`已加入本次複習重點：${text}`;
-}
-function recordFixedAttempt(el,ok,answer){
+}function recordFixedAttempt(el,ok,answer){
   const key=interactionKeyForOption(el),r=getActiveRecord(true);if(!r)return;
   if(r.firstAttempts&&Object.prototype.hasOwnProperty.call(r.firstAttempts,key))return;
   updateActiveRecord(x=>{
@@ -4177,6 +4127,21 @@ function returnHomeFromMistakes(){
 
 <script id="mock-exam-115-data-and-view">
 const mockExamBank = {
+ "114-national-E1": {
+  title:"114 學年度南一第 1 次模擬考",
+  questions:{
+   "1":{cn:"近年來，健身房成為忙碌的都市人釋放壓力和維持身材的理想場所。",refs:[
+    "In recent years, gyms have become ideal places for busy city people to release stress and stay in good shape.",
+    "Recently, gyms have become ideal places for busy people living in cities to relieve pressure and stay fit."
+   ]},
+   "2":{cn:"多數健身房都有教練帶領團體課程，幫助新手建立正確的運動習慣。",refs:[
+    "Most gyms have coaches who lead group classes to help beginners develop proper exercise habits.",
+    "Most gyms have instructors who lead group classes to help newcomers form correct exercise routines."
+   ]}
+  }
+ },
+
+
  "114-hanlin-E4": {
   title:"114 學年度翰林第 4 次模擬考",
   questions:{
@@ -4275,6 +4240,12 @@ const mockExamBank = {
 }};
 // 替代字詞：對應已收錄的三回模擬考題目。
 const mockAlternatives = {
+ "114-national-E1": {
+  "1": [["In recent years","Recently"],["gyms","fitness centers"],["busy city people","busy urban residents"],["release stress","relieve pressure"],["stay in good shape","stay fit"]],
+  "2": [["coaches","instructors"],["lead group classes","conduct group classes"],["beginners","newcomers"],["develop proper exercise habits","establish good exercise routines"]]
+ },
+
+
  "114-hanlin-E4": {
   "1": [["perform outstandingly","perform remarkably"],["in various fields","in diverse fields"],["repeatedly","frequently"],["win awards","receive prizes"],["international competitions","global contests"]],
   "2": [["achievements","accomplishments"],["reflect","demonstrate"],["younger generation","young generation"],["actively enhancing","actively improving"],["competitive advantages","competitiveness"]]
@@ -4314,24 +4285,6 @@ function toggleMockAlternatives(n){
  const open=box.style.display!=='block';box.style.display=open?'block':'none';
  btn.textContent=open?'隱藏替代字詞':'替代字詞';btn.setAttribute('aria-expanded',String(open));
 }
-let mockMobileExpanded=false;
-function toggleMockMore(){
-  if(!window.matchMedia('(max-width:600px)').matches)return;
-  mockMobileExpanded=!mockMobileExpanded;
-  updateMockMobileCards();
-}
-function updateMockMobileCards(){
-  const cards=Array.from(document.querySelectorAll('#mockExamGrid .year-card'));
-  const matching=cards.filter(card=>!card.classList.contains('hidden'));
-  const mobile=window.matchMedia('(max-width:600px)').matches;
-  cards.forEach(card=>card.classList.remove('mock-mobile-collapsed'));
-  if(mobile&&!mockMobileExpanded){matching.slice(4).forEach(card=>card.classList.add('mock-mobile-collapsed'));}
-  const wrap=document.getElementById('mockMoreWrap');
-  const btn=document.getElementById('mockMoreToggle');
-  wrap.classList.toggle('mock-more-visible',mobile&&matching.length>4);
-  btn.textContent=mockMobileExpanded?'收合試題 ▲':'展開更多試題 ▼';
-  btn.setAttribute('aria-expanded',String(mobile&&mockMobileExpanded));
-}
 function filterMockExams(){
  const y=document.getElementById('mockYear').value;
  const source=document.getElementById('mockSource').value;
@@ -4343,13 +4296,7 @@ function filterMockExams(){
   if(visible)count++;
  });
  document.getElementById('mockEmpty').classList.toggle('hidden',count!==0);
- mockMobileExpanded=false;
- updateMockMobileCards();
 }
-window.addEventListener('resize',updateMockMobileCards);
-if(document.readyState==='loading'){
- document.addEventListener('DOMContentLoaded',updateMockMobileCards);
-}else{updateMockMobileCards();}
 function mockShortTitle(id){
  const exam=mockExamBank[id];
  if(!exam)return '';
