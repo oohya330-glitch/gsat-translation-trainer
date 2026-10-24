@@ -2215,7 +2215,7 @@ textarea {
 .mock-more-wrap{display:none;text-align:center;margin:16px 0 6px}
 .mock-more-wrap[hidden]{display:none!important}
 .mock-more-wrap button{border:1.5px solid var(--green);border-radius:12px;background:white;color:var(--green);padding:10px 22px;font-weight:800;min-height:44px}
-@media(max-width:900px) and (orientation:portrait){.mock-more-wrap:not([hidden]){display:block}}
+.mock-more-wrap:not([hidden]){display:block} /* V144: all devices */
 
 /* V140：僅手機的學測／指考「自己翻譯」按鈕；不變更卡片或事件 */
 .mobile-write-label{display:none}
@@ -4350,6 +4350,7 @@ function toggleMockAlternatives(n){
  btn.textContent=open?'隱藏替代字詞':'替代字詞';btn.setAttribute('aria-expanded',String(open));
 }
 let mockVisibleCount=0;
+let mockLastBatchSize=0;
 function mockVisibleLimit(){return window.matchMedia('(max-width:600px)').matches?4:6;}
 function toggleMockMore(){
  const matches=getFilteredMockCards();
@@ -4364,6 +4365,8 @@ function getFilteredMockCards(){
 }
 function renderMockCards(){
  const matches=getFilteredMockCards(),step=mockVisibleLimit();
+ // When switching between mobile and tablet/desktop, restart at the first full batch.
+ if(mockLastBatchSize!==step){mockVisibleCount=step;mockLastBatchSize=step;}
  if(!mockVisibleCount)mockVisibleCount=step;
  const visible=Math.max(step,Math.ceil(mockVisibleCount/step)*step);
  document.querySelectorAll('#mockExamGrid .year-card').forEach(card=>{const pos=matches.indexOf(card);card.classList.toggle('hidden',pos<0||pos>=visible);});
