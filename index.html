@@ -2617,6 +2617,12 @@ textarea {
 @media(max-width:700px){.print-bank-content .print-check-grid{grid-template-columns:minmax(0,1fr)}}
 @media print{.print-bank-content,.print-bank-subsection{display:none!important}}
 </style>
+<style id="v178-mock-compare-css">
+/* Keep the original editable answer; show a safe, plain-text copy next to the references. */
+.mock-my-answer-compare{border:1px solid var(--line);border-radius:10px;background:#f5f8f5;padding:12px 14px;margin-bottom:14px}
+.mock-my-answer-compare[hidden]{display:none!important}
+.mock-my-answer-text{white-space:pre-wrap;overflow-wrap:anywhere;margin:6px 0 0;line-height:1.7}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -3868,7 +3874,7 @@ function goHome(){
 function randomYear(type){
  const box=document.getElementById('randomResult');
  if(type==='mock'){
-   // 從現有模擬考卡片與題庫挑選，不受首頁篩選條件影響；僅提供題目與參考答案。
+   // 從現有模擬考卡片與題庫挑選，不受首頁篩選條件影響；進入該回兩題的練寫頁面。
    const ids=Array.from(document.querySelectorAll('#mockExamGrid .year-card[data-year][data-source][data-round]'))
      .map(card=>`${card.dataset.year}-${card.dataset.source}-${card.dataset.round}`)
      .filter(id=>typeof mockExamBank!=='undefined'&&mockExamBank[id]);
@@ -3882,7 +3888,7 @@ function randomYear(type){
        clearInterval(timer);
        const picked=ids[Math.floor(Math.random()*ids.length)];
        const label=mockExamBank[picked].title;
-       box.innerHTML=`<div class="random-picked">這次挑到 <b>${label}</b>！</div><div class="random-actions"><button type="button" class="random-start" onclick="showMockAnswers('${picked}')">查看題目與答案 →</button><button type="button" class="random-again" onclick="randomYear('mock')">再挑一次</button></div>`;
+       box.innerHTML=`<div class="random-picked">這次挑到 <b>${label}</b>！</div><div class="random-actions"><button type="button" class="random-start" onclick="enterMockPractice('${picked}')">開始練寫 →</button><button type="button" class="random-again" onclick="randomYear('mock')">再挑一次</button></div>`;
      }
    },120);
    return;
@@ -4762,7 +4768,7 @@ function enterMockPractice(id,onlyQuestion){
     <textarea id="mockPracticeInput${n}" placeholder="在這裡思考或練習翻譯……" spellcheck="false"></textarea>
     <div class="actions"><button type="button" class="mock-review-toggle" id="mockReviewBtn${n}" onclick="toggleMockReview(${n})">＋ 加入複習</button><button type="button" id="mockPracticeHintBtn${n}" aria-expanded="false" onclick="toggleMockPracticePanel(${n},'hint')">提示字詞</button><button type="button" id="mockPracticeAnswerBtn${n}" aria-expanded="false" onclick="toggleMockPracticePanel(${n},'answer')">查看答案</button></div>
     <div id="mockPracticeHint${n}" class="hint"><b>可替換表達</b><div class="mock-alt-grid">${alternatives.map(pair=>`<div class="mock-alt-row"><span>${pair[0]}</span><span><span class="mock-alt-arrow">→</span><span class="mock-alt-value">${pair[1]}</span></span></div>`).join('')}</div><p class="small">請依句意與文法結構調整，不一定能逐字替換。</p></div>
-    <div id="mockPracticeAnswer${n}" class="hint">${q.refs.map((ref,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${ref}</span></p>`).join('')}</div>
+    <div id="mockPracticeAnswer${n}" class="hint"><div class="mock-my-answer-compare" id="mockMyAnswerCompare${n}"><b>我的英文翻譯</b><p class="mock-my-answer-text" id="mockMyAnswerText${n}"></p></div>${q.refs.map((ref,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${ref}</span></p>`).join('')}</div>
    </div>`;
  }).join('');
  ['homeView','answerView','practiceView','recordView','recordCardView','mistakeView'].forEach(view=>document.getElementById(view)?.classList.add('hidden'));
@@ -4779,7 +4785,14 @@ function toggleMockPracticePanel(n,type){
  const name=type==='hint'?'Hint':'Answer';
  const el=document.getElementById('mockPractice'+name+n),btn=document.getElementById('mockPractice'+name+'Btn'+n);
  if(!el||!btn)return;
- const open=el.style.display!=='block';el.style.display=open?'block':'none';
+ const open=el.style.display!=='block';
+ if(type==='answer'&&open){
+  const typed=document.getElementById('mockPracticeInput'+n)?.value||'';
+  const compare=document.getElementById('mockMyAnswerCompare'+n);
+  const ownText=document.getElementById('mockMyAnswerText'+n);
+  if(compare&&ownText){compare.hidden=!typed.trim();ownText.textContent=typed;}
+ }
+ el.style.display=open?'block':'none';
  btn.textContent=type==='hint'?(open?'隱藏提示字詞':'提示字詞'):(open?'隱藏答案':'查看答案');
  btn.setAttribute('aria-expanded',String(open));
 }
