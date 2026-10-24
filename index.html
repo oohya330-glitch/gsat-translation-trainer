@@ -2617,6 +2617,16 @@ textarea {
 @media(max-width:700px){.print-bank-content .print-check-grid{grid-template-columns:minmax(0,1fr)}}
 @media print{.print-bank-content,.print-bank-subsection{display:none!important}}
 </style>
+<style id="v181-print-pagination">
+/* Keep each section heading with its first full question; later questions flow naturally. */
+.print-paper .print-group-start{break-inside:avoid;page-break-inside:avoid}
+@media print{
+ .print-paper .print-group-start{break-inside:avoid!important;page-break-inside:avoid!important}
+ .print-paper .print-group-start>h2{break-after:avoid!important;page-break-after:avoid!important}
+ .print-paper .print-group{break-inside:auto!important;page-break-inside:auto!important}
+ .print-paper .print-q{break-inside:avoid!important;page-break-inside:avoid!important}
+}
+</style>
 <style id="v178-mock-compare-css">
 /* Keep the original editable answer; show a safe, plain-text copy next to the references. */
 .mock-my-answer-compare{border:1px solid var(--line);border-radius:10px;background:#f5f8f5;padding:12px 14px;margin-bottom:14px}
@@ -4933,7 +4943,7 @@ function previewPrintSelection(){
    });
  }
  if(!groups.length){status.textContent='找不到所選題目的原始資料，請重新選擇。';preview.innerHTML='';document.getElementById('printPreviewControls').classList.add('hidden');return;}
- preview.innerHTML='<div class="print-paper">'+groups.map(g=>'<section class="print-group"><h2>'+printEsc(g.title)+'</h2>'+g.items.map(item=>printQuestionHtml(item.q,item.n,item.alts)).join('')+'</section>').join('')+'</div>';
+ preview.innerHTML='<div class="print-paper">'+groups.map(g=>'<section class="print-group"><div class="print-group-start"><h2>'+printEsc(g.title)+'</h2>'+(g.items.length?printQuestionHtml(g.items[0].q,g.items[0].n,g.items[0].alts):'')+'</div>'+g.items.slice(1).map(item=>printQuestionHtml(item.q,item.n,item.alts)).join('')+'</section>').join('')+'</div>';
  status.textContent='已整理 '+groups.length+' 回／組，共 '+groups.reduce((a,g)=>a+g.items.length,0)+' 題。請先檢查下方內容。';
  document.getElementById('printPreviewControls').classList.remove('hidden');
  document.getElementById('printPreviewControls').scrollIntoView({block:'start'});
