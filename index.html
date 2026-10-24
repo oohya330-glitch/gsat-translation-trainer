@@ -2720,6 +2720,10 @@ textarea {
             <strong>114 學年度</strong><small>南一｜3 模</small><small>中譯英 2 題</small>
             <div class="year-actions"><button class="primary" onclick="enterMockPractice('114-national-E3')">開始練寫</button><button onclick="showMockAnswers('114-national-E3')">題目與答案</button></div>
           </div>
+          <div class="year-card available" data-year="114" data-source="national" data-round="E4">
+            <strong>114 學年度</strong><small>南一｜4 模</small><small>中譯英 2 題</small>
+            <div class="year-actions"><button class="primary" onclick="enterMockPractice('114-national-E4')">開始練寫</button><button onclick="showMockAnswers('114-national-E4')">題目與答案</button></div>
+          </div>
         </div>
         <p id="mockEmpty" class="small hidden">目前沒有符合條件的試題。</p>
 <div id="mockMoreWrap" class="mock-more-wrap" hidden><button type="button" id="mockMoreButton" onclick="toggleMockMore()" aria-expanded="false">展開更多試題 ▼</button></div>
@@ -4323,6 +4327,19 @@ function returnHomeFromMistakes(){
 
 <script id="mock-exam-115-data-and-view">
 const mockExamBank = {
+ "114-national-E4": {
+  title:"114 學年度南一第 4 次模擬考",
+  questions:{
+   "1":{cn:"許多雇主在面試中問出乎意料的問題，以觀察求職者如何回應。",refs:[
+    "Many employers ask unexpected questions during interviews to observe how candidates respond to them.",
+    "Many bosses ask unexpected questions in an interview in order to see how applicants answer them."
+   ]},
+   "2":{cn:"這些問題沒有標準答案，而是用來評估他們的邏輯思考能力。",refs:[
+    "These questions have no standard answers but are used to assess candidates' logical thinking skills.",
+    "There are no standard answers to these questions, which are used to evaluate applicants' ability to think logically."
+   ]}
+  }
+ },
  "114-national-E3": {
   title:"114 學年度南一第 3 次模擬考",
   questions:{
@@ -4462,6 +4479,10 @@ const mockExamBank = {
 }};
 // 替代字詞：對應已收錄的三回模擬考題目。
 const mockAlternatives = {
+ "114-national-E4": {
+  "1": [["Many employers","Many bosses"],["during interviews","in an interview"],["ask unexpected questions","ask questions that candidates do not expect"],["to observe how candidates respond to them","in order to see how applicants answer them"],["candidates","applicants / interviewees"]],
+  "2": [["These questions have no standard answers","There are no standard answers to these questions"],["are used to assess","are used to evaluate"],["candidates' logical thinking skills","applicants' ability to think logically"],["assess","evaluate"]]
+ },
  "114-national-E3": {
   "1": [["As people get older","As people age"],["reaction time","reaction speed"],["vision","eyesight"],["usually decline","generally decrease"],["and this may increase","which may increase"],["while driving","when driving"]],
   "2": [["Even though it may cause controversy","Despite possible controversy"],["require that elderly drivers have","require older drivers to have"],["elderly drivers","older drivers"],["health checkups","medical examinations"],["for the safety of road users","for road users' safety"]]
