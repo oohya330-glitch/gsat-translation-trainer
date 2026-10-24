@@ -797,7 +797,8 @@ textarea {
   padding-bottom:9px !important;
   margin-bottom:10px !important;
 }
-.stage-nav-card .steps{  gap:8px !important;
+.stage-nav-card .steps{
+  gap:8px !important;
 }
 .stage-nav-card .steps button{
   min-height:42px !important;
@@ -1596,7 +1597,8 @@ textarea {
 }
 .step-page .skeleton{
   font-size:1.16em !important;
-  line-height:1.72 !important;  text-align:left !important;
+  line-height:1.72 !important;
+  text-align:left !important;
 }
 .step-page .skeleton b,
 .step-page .skeleton strong,
@@ -2395,7 +2397,8 @@ textarea {
       <h2>選擇年份開始練習</h2>
       <p id="examDescription">每回 2 題，透過不同練習一步步完成翻譯。</p>
       <div class="exam-tabs">
-        <button id="tabGsat" class="active" onclick="switchExam('gsat')">學測</button>        <button id="tabAst" onclick="switchExam('ast')">指考</button>
+        <button id="tabGsat" class="active" onclick="switchExam('gsat')">學測</button>
+        <button id="tabAst" onclick="switchExam('ast')">指考</button>
         <button id="tabMock" onclick="switchExam('mock')">模擬考</button>
       </div>
       <div id="gsatPanel" class="exam-panel">
@@ -3194,7 +3197,8 @@ ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。'
     hint:'<b>strike</b> = 來襲<br><b>indoors</b> = 在室內',
     afterRefs:'<div class="takeaway-note"><b>可替換表達</b><br><b>strikes</b> → <b>hits</b><br><b>enough</b> → <b>sufficient</b><br><b>quickly</b> → <b>swiftly</b></div>',
     ext:[
-      ['與他人合作時，我們應清楚表達自己的想法，若有必要，也應願意調整自己的做法。','When we work with others, we should express our ideas clearly. If necessary, we should also be willing to adjust our approach.','', '<b>approach</b> = 做法／方式']    ]
+      ['與他人合作時，我們應清楚表達自己的想法，若有必要，也應願意調整自己的做法。','When we work with others, we should express our ideas clearly. If necessary, we should also be willing to adjust our approach.','', '<b>approach</b> = 做法／方式']
+    ]
   }
 },
 105:{
@@ -3993,7 +3997,8 @@ function showReviewToast(anchor,text){
   let t=parent.parentNode.querySelector('.review-toast[data-for="'+interactionKeyForOption(anchor)+'"]');
   if(!t){t=document.createElement('div');t.className='review-toast';t.dataset.for=interactionKeyForOption(anchor);parent.insertAdjacentElement('afterend',t)}
   t.textContent=`已加入本次複習重點：${text}`;
-}function recordFixedAttempt(el,ok,answer){
+}
+function recordFixedAttempt(el,ok,answer){
   const key=interactionKeyForOption(el),r=getActiveRecord(true);if(!r)return;
   if(r.firstAttempts&&Object.prototype.hasOwnProperty.call(r.firstAttempts,key))return;
   updateActiveRecord(x=>{
