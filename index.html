@@ -2251,6 +2251,26 @@ textarea {
 #answerView .mock-answer-footer .home-btn{flex:none!important;width:auto!important;min-width:132px;max-width:100%;padding:11px 24px!important;background:#e3ece5!important;color:var(--green)!important;border:1.5px solid var(--green)!important;border-radius:12px;font-weight:800;white-space:nowrap}
 @media(max-width:600px){#answerView .mock-answer-footer{display:flex!important;grid-template-columns:none!important;justify-content:center!important}#answerView .mock-answer-footer .home-btn{width:auto!important;min-width:132px!important}}
 
+/* V157：僅統一模擬考「回首頁」的深墨綠配色，電腦版練寫頁雙返回按鈕等寬 */
+#answerView .mock-answer-footer .home-btn{
+  background:var(--green)!important;
+  color:#fff!important;
+  border-color:var(--green)!important;
+}
+#mockPracticeView .mock-practice-footer > button:last-child{
+  background:var(--green)!important;
+  color:#fff!important;
+  border-color:var(--green)!important;
+}
+@media(min-width:601px){
+  #mockPracticeView .mock-practice-footer > button{
+    width:174px;
+    min-width:174px;
+    box-sizing:border-box;
+    text-align:center;
+  }
+}
+
 /* V151：模擬考卡片與學測卡片一致的雙按鈕設計 */
 #mockExamGrid .year-card .year-actions{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:nowrap}
 #mockExamGrid .year-card .year-actions button{background:transparent !important;color:var(--green) !important;border:1.5px solid var(--green) !important;white-space:nowrap}
