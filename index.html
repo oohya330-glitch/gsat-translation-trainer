@@ -3882,12 +3882,12 @@ function randomYear(type){
    let i=0;
    box.textContent='正在挑選…';
    const timer=setInterval(()=>{
-     box.textContent=mockExamBank[ids[i%ids.length]].title;
+     box.textContent=mockShortTitle(ids[i%ids.length]);
      i++;
      if(i>5){
        clearInterval(timer);
        const picked=ids[Math.floor(Math.random()*ids.length)];
-       const label=mockExamBank[picked].title;
+       const label=mockShortTitle(picked);
        box.innerHTML=`<div class="random-picked">這次挑到 <b>${label}</b>！</div><div class="random-actions"><button type="button" class="random-start" onclick="enterMockPractice('${picked}')">開始練寫 →</button><button type="button" class="random-again" onclick="randomYear('mock')">再挑一次</button></div>`;
      }
    },120);
@@ -4844,6 +4844,14 @@ function backToMockAnswers(){if(currentMockPracticeId)showMockAnswers(currentMoc
 let printCenterMode='bank';
 function printEsc(value){return String(value==null?'':value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
 function printPlain(html){const e=document.createElement('div');e.innerHTML=String(html||'').replace(/<br\s*\/?\s*>/gi,'； ');return (e.textContent||'').replace(/\s+/g,' ').trim();}
+/* V180: normalize legacy mock labels for display only, without changing saved records. */
+function v180MockLabel(label,mockId){
+ if(mockId&&typeof mockShortTitle==='function'&&mockExamBank[mockId])return mockShortTitle(mockId);
+ return String(label||'').replace(/([0-9]{3})\s*(南一|翰林)\s*(?:第\s*)?([一二三四1234])\s*(?:模|次模擬考)/g,(whole,year,publisher,round)=>{
+  const number=({一:1,二:2,三:3,四:4})[round]||round;
+  return year+' '+publisher+' '+number+' 模';
+ });
+}
 function printCatalog(){
  const out=[];
  Object.keys(allData).forEach(y=>{const d=allData[y];if(d&&d[1]&&d[2])out.push({key:'year:'+y,group:examLabel(Number(y)),category:isAstYear(Number(y))?'指考':'學測',questions:[d[1],d[2]]});});
@@ -4860,7 +4868,7 @@ function openPrintCenter(mode){
  const area=document.getElementById('printSelectArea');
  if(printCenterMode==='review'){
    const items=readMistakes();
-   area.innerHTML=items.length?'<div class="print-category">我的複習題目（'+items.length+' 題）</div><div class="print-check-grid">'+items.map((x,i)=>'<label class="print-check-item"><input type="checkbox" class="print-select-check" value="'+i+'" checked><span>'+printEsc(x.year)+'｜第 '+printEsc(x.q)+' 題</span></label>').join('')+'</div>':'<p class="small">目前沒有已加入複習清單的題目。</p>';
+   area.innerHTML=items.length?'<div class="print-category">我的複習題目（'+items.length+' 題）</div><div class="print-check-grid">'+items.map((x,i)=>'<label class="print-check-item"><input type="checkbox" class="print-select-check" value="'+i+'" checked><span>'+printEsc(v180MockLabel(x.year,x.type==='mock'?x.mockId:null))+'｜第 '+printEsc(x.q)+' 題</span></label>').join('')+'</div>':'<p class="small">目前沒有已加入複習清單的題目。</p>';
  }else{
    const catalog=printCatalog();
    const itemHtml=x=>'<label class="print-check-item"><input type="checkbox" class="print-select-check" value="'+printEsc(x.key)+'"><span>'+printEsc(x.group)+'</span></label>';
@@ -4919,7 +4927,7 @@ function previewPrintSelection(){
      const x=saved[Number(idx)];if(!x)return;
      const q=x.type==='mock'?mockExamBank[x.mockId]?.questions?.[x.q]:allData[x.yearNum]?.[x.q];
      if(!q)return;
-     const title=x.year||'複習題目';let g=groups.find(a=>a.title===title);
+     const title=v180MockLabel(x.year||'複習題目',x.type==='mock'?x.mockId:null);let g=groups.find(a=>a.title===title);
      if(!g){g={title,items:[]};groups.push(g);}
      g.items.push({q,n:x.q,alts:x.type==='mock'?(mockAlternatives[x.mockId]?.[x.q]||[]):[]});
    });
