@@ -2527,6 +2527,65 @@ textarea {
   border-color:var(--green) !important;
 }
 </style>
+<style id="v170-print-css">
+/* V171：A4 自動流式排版，按單題避免斷頁，不再以兩回為一頁。 */
+.print-entry-row{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin:14px 0 4px}
+.print-entry,.print-center-actions button,.print-preview-controls button{min-height:44px;border:1.5px solid var(--green);border-radius:11px;padding:9px 15px;background:#fff;color:var(--green);font:inherit;font-weight:800;cursor:pointer}
+.print-entry-primary,.print-center-actions .print-entry-primary,.print-preview-controls .print-entry-primary{background:var(--green);color:white}
+.print-center-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.print-center-heading h2{margin:0;color:var(--green)}
+.print-category{margin:16px 0 8px;font-weight:850;color:var(--green)}
+.print-check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.print-check-item{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:11px;padding:9px 12px;background:#fff;cursor:pointer;font-size:.92em;line-height:1.4}
+.print-check-item input{width:19px;height:19px;flex:0 0 auto;accent-color:var(--green)}
+.print-center-actions{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0 7px}
+.print-preview-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:15px 0}
+.print-preview-screen{margin-top:16px}
+.review-count-note{font-size:.82em!important;min-height:0!important;color:var(--muted)!important}
+.print-paper{background:#fff;border:1px solid #ddd;padding:16mm 15mm;margin:10px auto 16px;max-width:210mm;box-shadow:0 2px 8px #0000000b;color:#111;font-family:Arial,'Noto Sans TC','Microsoft JhengHei',sans-serif;font-size:13.5pt;line-height:1.5;overflow-wrap:break-word}
+.print-paper h2{font-size:14pt;line-height:1.35;margin:0 0 3mm;color:#111;border-bottom:1px solid #aaa;padding-bottom:1mm;break-after:avoid;page-break-after:avoid}
+.print-paper .print-group{margin:0 0 5mm;break-inside:auto;page-break-inside:auto}
+.print-paper .print-q{margin:0 0 5mm;break-inside:avoid;page-break-inside:avoid}
+.print-paper .print-q-title{font-weight:750;margin:0 0 2mm;line-height:1.5}
+.print-paper .print-detail{margin:1mm 0 1mm 0;overflow-wrap:anywhere;line-height:1.48}
+.print-paper .print-detail b{font-weight:750}
+.print-paper .print-words{font-size:13.5pt}
+/* V171：標籤與英文分欄；續行只對齊本列英文的起點。 */
+.print-paper .print-detail.print-align-row{display:flex;align-items:baseline;gap:0;overflow-wrap:normal}
+.print-paper .print-align-label{flex:0 0 auto;white-space:nowrap;font-size:12pt;font-weight:750;line-height:1.665}
+.print-paper .print-align-content{flex:1 1 0;min-width:0;overflow-wrap:break-word;word-break:normal;white-space:normal}
+@media(max-width:640px){.print-entry-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.print-entry{font-size:14px;padding:8px 7px}.print-check-grid{grid-template-columns:1fr}.print-center-actions button{flex:1}.print-paper{padding:12px;font-size:13.5pt}}
+@media print{
+ @page{size:A4 portrait;margin:13mm 15mm}
+ html,body{margin:0!important;padding:0!important;background:#fff!important;color:#000!important;font-size:13.5pt!important}
+ body>.wrap{max-width:none!important;margin:0!important;padding:0!important}
+ .wrap>.top,.wrap>section:not(#printCenterView),#printCenterView>.card>*:not(#printPreview),.footer{display:none!important}
+ #printCenterView,#printCenterView>.card,#printPreview{display:block!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;background:#fff!important}
+ .print-paper{border:0!important;box-shadow:none!important;margin:0!important;padding:0!important;max-width:none!important;font-size:13.5pt!important;line-height:1.5!important}
+ .print-paper h2{font-size:14pt!important;margin:0 0 3mm!important;break-after:avoid!important;page-break-after:avoid!important}
+ .print-paper .print-group{margin-bottom:5mm!important;break-inside:auto!important;page-break-inside:auto!important;break-after:auto!important;page-break-after:auto!important}
+ .print-paper .print-q{margin-bottom:5mm!important;break-inside:avoid!important;page-break-inside:avoid!important}
+ .print-paper .print-detail{margin:1mm 0!important}
+ .print-paper .print-words{font-size:13.5pt!important}
+}
+
+/* V174：正式 HTML 列印版採用已確認的 A4 舒適閱讀與中英文懸掛縮排規格 */
+.print-paper{line-height:1.68}
+.print-paper .print-q-title{display:flex;align-items:baseline;gap:0;overflow-wrap:normal;line-height:1.65;margin-bottom:3mm}
+.print-paper .print-q-number{flex:0 0 auto;white-space:nowrap;padding-right:.75em}
+.print-paper .print-q-content{flex:1 1 0;min-width:0;overflow-wrap:break-word;word-break:normal}
+.print-paper .print-detail{line-height:1.66;margin:2mm 0}
+.print-paper .print-align-label{line-height:1.66}
+.print-paper .print-q{margin-bottom:8mm}
+.print-paper .print-group{margin-bottom:7mm}
+@media print{
+ .print-paper{line-height:1.68!important}
+ .print-paper .print-q-title{line-height:1.65!important;margin-bottom:3mm!important}
+ .print-paper .print-detail{line-height:1.66!important;margin:2mm 0!important}
+ .print-paper .print-q{margin-bottom:8mm!important}
+ .print-paper .print-group{margin-bottom:7mm!important}
+}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -2745,7 +2804,7 @@ textarea {
         </div>
         <button class="home-function-card" type="button" onclick="openMistakes()">
           <div class="home-function-icon review"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="11" y="12" width="26" height="29" rx="4"/><path d="M17 12V9h14v6"/><path d="m16 24 3 3 5-6M16 34l3 3 5-6M27 24h6M27 34h6"/></svg></div>
-          <strong>我的複習清單</strong><span id="mistakeCount">收藏想再練習的題目與語塊</span>
+          <strong>我的複習清單</strong><span>收藏題目、重複練習、列印複習。</span><span id="mistakeCount" class="review-count-note" aria-live="polite"></span>
         </button>
         <button class="home-function-card" type="button" onclick="openRecords()">
           <div class="home-function-icon records"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 39h33"/><rect x="10" y="28" width="7" height="11" rx="2"/><rect x="21" y="21" width="7" height="18" rx="2"/><rect x="32" y="13" width="7" height="26" rx="2"/><path d="m10 21 11-8 9 3 10-8"/></svg></div>
@@ -2767,8 +2826,28 @@ textarea {
         </div>
         <button class="home-btn" type="button" onclick="returnHomeFromMistakes()">回首頁</button>
       </div>
+      <div class="print-entry-row">
+        <button type="button" class="print-entry" onclick="openPrintCenter('review')">▤ 列印複習清單</button>
+        <button type="button" class="print-entry print-entry-primary" onclick="openPrintCenter('bank')">▤ 列印歷屆試題</button>
+      </div>
       <div id="mistakeList" class="mistake-list"></div>
       <div class="bottom-home-wrap"><button class="home-btn" type="button" onclick="returnHomeFromMistakes()">回首頁</button></div>
+    </div>
+  </section>
+
+  <section id="printCenterView" class="hidden">
+    <div class="card print-center-card">
+      <div class="print-center-heading"><h2 id="printCenterTitle">列印歷屆試題</h2><button class="home-btn" type="button" onclick="closePrintCenter()">返回複習清單</button></div>
+      <p class="small">選擇要列印的題目，確認預覽後使用「列印／儲存 PDF」。內容包含中文原題、原有提示字詞、替代表達與兩句參考譯法。</p>
+      <div id="printSelectArea"></div>
+      <div class="print-center-actions">
+        <button type="button" onclick="setAllPrintChecks(true)">全部選取</button>
+        <button type="button" onclick="setAllPrintChecks(false)">清除選取</button>
+        <button type="button" class="print-entry-primary" onclick="previewPrintSelection()">預覽選取內容</button>
+      </div>
+      <p id="printSelectStatus" class="small" role="status"></p>
+      <div id="printPreviewControls" class="hidden print-preview-controls"><button type="button" class="print-entry-primary" onclick="window.print()">列印／儲存 PDF</button><span class="small">在列印視窗中選擇印表機，或選擇「儲存為 PDF」。</span></div>
+      <div id="printPreview" class="print-preview-screen"></div>
     </div>
   </section>
 
@@ -4046,7 +4125,7 @@ function addMistakeButton(){
 }
 function updateMistakeCount(){
   const el=document.getElementById('mistakeCount');if(!el)return;
-  const n=readMistakes().length;el.textContent=n?`已加入 ${n} 題`:'目前沒有複習題目';
+  const n=readMistakes().length;el.textContent=n?`目前已收藏 ${n} 題`:'';
 }
 function openMistakes(){
   ['homeView','answerView','practiceView','mockPracticeView','recordView','recordCardView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden')});
@@ -4695,6 +4774,78 @@ function practiceMockMistake(id,n){
  enterMockPractice(id,n);
 }
 function backToMockAnswers(){if(currentMockPracticeId)showMockAnswers(currentMockPracticeId);else goHome();}
+</script>
+<script id="v169-print-js">
+/* V169：列印僅讀取既有題庫及本機複習清單，不變更資料 */
+let printCenterMode='bank';
+function printEsc(value){return String(value==null?'':value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+function printPlain(html){const e=document.createElement('div');e.innerHTML=String(html||'').replace(/<br\s*\/?\s*>/gi,'； ');return (e.textContent||'').replace(/\s+/g,' ').trim();}
+function printCatalog(){
+ const out=[];
+ Object.keys(allData).forEach(y=>{const d=allData[y];if(d&&d[1]&&d[2])out.push({key:'year:'+y,group:examLabel(Number(y)),category:isAstYear(Number(y))?'指考':'學測',questions:[d[1],d[2]]});});
+ Object.keys(mockExamBank).forEach(id=>{const exam=mockExamBank[id];if(exam&&exam.questions&&exam.questions[1]&&exam.questions[2])out.push({key:'mock:'+id,group:mockShortTitle(id),category:'模擬考',questions:[exam.questions[1],exam.questions[2]],mockId:id});});
+ const catOrder={'學測':0,'指考':1,'模擬考':2};
+ out.sort((a,b)=>catOrder[a.category]-catOrder[b.category]||b.group.localeCompare(a.group,'zh-Hant',{numeric:true}));
+ return out;
+}
+function openPrintCenter(mode){
+ printCenterMode=mode==='review'?'review':'bank';
+ ['homeView','answerView','practiceView','mockPracticeView','recordView','recordCardView','mistakeView'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add('hidden');});
+ document.getElementById('printCenterView').classList.remove('hidden');
+ document.getElementById('printCenterTitle').textContent=printCenterMode==='review'?'列印複習清單':'列印歷屆試題';
+ const area=document.getElementById('printSelectArea');
+ if(printCenterMode==='review'){
+   const items=readMistakes();
+   area.innerHTML=items.length?'<div class="print-category">我的複習題目（'+items.length+' 題）</div><div class="print-check-grid">'+items.map((x,i)=>'<label class="print-check-item"><input type="checkbox" class="print-select-check" value="'+i+'" checked><span>'+printEsc(x.year)+'｜第 '+printEsc(x.q)+' 題</span></label>').join('')+'</div>':'<p class="small">目前沒有已加入複習清單的題目。</p>';
+ }else{
+   const catalog=printCatalog();
+   area.innerHTML=['學測','指考','模擬考'].map(cat=>{const entries=catalog.filter(x=>x.category===cat);return '<div class="print-category">'+cat+'（'+entries.length+' 回）</div><div class="print-check-grid">'+entries.map(x=>'<label class="print-check-item"><input type="checkbox" class="print-select-check" value="'+printEsc(x.key)+'"><span>'+printEsc(x.group)+'</span></label>').join('')+'</div>';}).join('');
+ }
+ area.onchange=()=>{document.getElementById('printPreview').innerHTML='';document.getElementById('printPreviewControls').classList.add('hidden');document.getElementById('printSelectStatus').textContent='選取範圍已變更，請重新預覽。';};
+ document.getElementById('printPreview').innerHTML='';document.getElementById('printPreviewControls').classList.add('hidden');document.getElementById('printSelectStatus').textContent='';
+ document.getElementById('printCenterView').scrollIntoView({block:'start'});
+}
+function closePrintCenter(){document.getElementById('printCenterView').classList.add('hidden');openMistakes();}
+function setAllPrintChecks(value){document.querySelectorAll('#printSelectArea .print-select-check').forEach(el=>el.checked=value);document.getElementById('printPreview').innerHTML='';document.getElementById('printPreviewControls').classList.add('hidden');}
+function printQuestionHtml(q,n,alternatives){
+ const refs=Array.isArray(q.refs)?q.refs:[];
+ const hint=q.hint?printPlain(q.hint):'';
+ const take=q.take?printPlain(q.take):'';
+ // 同一列分為固定中文標籤與英文內容；所有續行皆在英文欄內自然換行。
+ const detail=(label,content,words=false)=>'<div class="print-detail print-align-row'+(words?' print-words':'')+'"><span class="print-align-label">'+printEsc(label)+'</span><span class="print-align-content">'+printEsc(content)+'</span></div>';
+ let rows='<div class="print-q"><p class="print-q-title"><span class="print-q-number">第 '+n+' 題</span><span class="print-q-content">'+printEsc(q.cn)+'</span></p>';
+ if(hint)rows+=detail('提示字詞：',hint,true);
+ if(take)rows+=detail('重要字詞／替代表達：',take,true);
+ if(alternatives&&alternatives.length)rows+=detail('替代字詞：',alternatives.map(x=>x[0]+' → '+x[1]).join('； '),true);
+ refs.slice(0,2).forEach((r,i)=>{rows+=detail('參考譯法 '+(i+1)+'：',r);});
+ if(refs.length<2)rows+='<p class="print-detail">（原題庫未提供完整兩句參考譯法，請先核對。）</p>';
+ return rows+'</div>';
+}
+function previewPrintSelection(){
+ const selected=Array.from(document.querySelectorAll('#printSelectArea .print-select-check:checked')).map(x=>x.value);
+ const status=document.getElementById('printSelectStatus'),preview=document.getElementById('printPreview');
+ if(!selected.length){status.textContent='請至少選擇一個項目。';preview.innerHTML='';document.getElementById('printPreviewControls').classList.add('hidden');return;}
+ let groups=[];
+ if(printCenterMode==='bank'){
+   const lookup=new Map(printCatalog().map(x=>[x.key,x]));
+   groups=selected.map(key=>lookup.get(key)).filter(Boolean).map(entry=>({title:entry.group,items:entry.questions.map((q,i)=>({q,n:i+1,alts:entry.mockId?(mockAlternatives[entry.mockId]?.[i+1]||[]):[]}))}));
+ }else{
+   const saved=readMistakes();
+   selected.forEach(idx=>{
+     const x=saved[Number(idx)];if(!x)return;
+     const q=x.type==='mock'?mockExamBank[x.mockId]?.questions?.[x.q]:allData[x.yearNum]?.[x.q];
+     if(!q)return;
+     const title=x.year||'複習題目';let g=groups.find(a=>a.title===title);
+     if(!g){g={title,items:[]};groups.push(g);}
+     g.items.push({q,n:x.q,alts:x.type==='mock'?(mockAlternatives[x.mockId]?.[x.q]||[]):[]});
+   });
+ }
+ if(!groups.length){status.textContent='找不到所選題目的原始資料，請重新選擇。';preview.innerHTML='';document.getElementById('printPreviewControls').classList.add('hidden');return;}
+ preview.innerHTML='<div class="print-paper">'+groups.map(g=>'<section class="print-group"><h2>'+printEsc(g.title)+'</h2>'+g.items.map(item=>printQuestionHtml(item.q,item.n,item.alts)).join('')+'</section>').join('')+'</div>';
+ status.textContent='已整理 '+groups.length+' 回／組，共 '+groups.reduce((a,g)=>a+g.items.length,0)+' 題。請先檢查下方內容。';
+ document.getElementById('printPreviewControls').classList.remove('hidden');
+ document.getElementById('printPreviewControls').scrollIntoView({block:'start'});
+}
 </script>
 </body>
 </html>
