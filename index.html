@@ -4350,16 +4350,17 @@ function toggleMockAlternatives(n){
  btn.textContent=open?'隱藏替代字詞':'替代字詞';btn.setAttribute('aria-expanded',String(open));
 }
 let mockMoreExpanded=false;
-function isMockCompactPortrait(){return window.matchMedia('(max-width:900px) and (orientation:portrait)').matches;}
+function isMockCompactPortrait(){return window.matchMedia('(max-width:1100px) and (orientation:portrait)').matches;}
+function mockVisibleLimit(){return window.matchMedia('(max-width:600px)').matches?4:6;}
 function toggleMockMore(){mockMoreExpanded=!mockMoreExpanded;renderMockCards();}
 function renderMockCards(){
  const y=document.getElementById('mockYear').value,source=document.getElementById('mockSource').value,round=document.getElementById('mockRound').value;
  const matches=Array.from(document.querySelectorAll('#mockExamGrid .year-card')).filter(card=>(y==='all'||card.dataset.year===y)&&(source==='all'||card.dataset.source===source)&&(round==='all'||card.dataset.round===round));
- const compact=isMockCompactPortrait(),limited=compact&&!mockMoreExpanded;
- document.querySelectorAll('#mockExamGrid .year-card').forEach(card=>{const pos=matches.indexOf(card);card.classList.toggle('hidden',pos<0||(limited&&pos>=4));});
+ const compact=isMockCompactPortrait(),limit=mockVisibleLimit(),limited=compact&&!mockMoreExpanded;
+ document.querySelectorAll('#mockExamGrid .year-card').forEach(card=>{const pos=matches.indexOf(card);card.classList.toggle('hidden',pos<0||(limited&&pos>=limit));});
  document.getElementById('mockEmpty').classList.toggle('hidden',matches.length!==0);
  const wrap=document.getElementById('mockMoreWrap'),btn=document.getElementById('mockMoreButton');
- wrap.hidden=!(compact&&matches.length>4);
+ wrap.hidden=!(compact&&matches.length>limit);
  btn.textContent=mockMoreExpanded?'收合試題 ▲':'展開更多試題 ▼';
  btn.setAttribute('aria-expanded',String(mockMoreExpanded));
 }
