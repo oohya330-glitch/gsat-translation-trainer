@@ -4766,7 +4766,7 @@ function enterMockPractice(id,onlyQuestion){
     <p class="prompt">${q.cn}</p>
     <label for="mockPracticeInput${n}" class="small" style="display:block;font-weight:800;margin-bottom:6px">我的英文翻譯（可留白）</label>
     <textarea id="mockPracticeInput${n}" placeholder="在這裡思考或練習翻譯……" spellcheck="false"></textarea>
-    <div class="actions"><button type="button" class="mock-review-toggle" id="mockReviewBtn${n}" onclick="toggleMockReview(${n})">＋ 加入複習</button><button type="button" id="mockPracticeHintBtn${n}" aria-expanded="false" onclick="toggleMockPracticePanel(${n},'hint')">提示字詞</button><button type="button" id="mockPracticeAnswerBtn${n}" aria-expanded="false" onclick="toggleMockPracticePanel(${n},'answer')">查看答案</button></div>
+    <div class="actions"><button type="button" class="mock-review-toggle" id="mockReviewBtn${n}" onclick="toggleMockReview(${n})">＋ 加入複習</button><button type="button" id="mockPracticeHintBtn${n}" aria-expanded="false" onclick="toggleMockPracticePanel(${n},'hint')">提示字詞</button><button type="button" id="mockPracticeAnswerBtn${n}" aria-expanded="false" onclick="toggleMockPracticePanel(${n},'answer')">查看答案</button><button type="button" onclick="resetMockPracticeQuestion(${n})">清除重做</button></div>
     <div id="mockPracticeHint${n}" class="hint"><b>可替換表達</b><div class="mock-alt-grid">${alternatives.map(pair=>`<div class="mock-alt-row"><span>${pair[0]}</span><span><span class="mock-alt-arrow">→</span><span class="mock-alt-value">${pair[1]}</span></span></div>`).join('')}</div><p class="small">請依句意與文法結構調整，不一定能逐字替換。</p></div>
     <div id="mockPracticeAnswer${n}" class="hint"><div class="mock-my-answer-compare" id="mockMyAnswerCompare${n}"><b>我的英文翻譯</b><p class="mock-my-answer-text" id="mockMyAnswerText${n}"></p></div>${q.refs.map((ref,j)=>`<p><b>參考譯法 ${j+1}</b><br><span class="ref-answer">${ref}</span></p>`).join('')}</div>
    </div>`;
@@ -4795,6 +4795,25 @@ function toggleMockPracticePanel(n,type){
  el.style.display=open?'block':'none';
  btn.textContent=type==='hint'?(open?'隱藏提示字詞':'提示字詞'):(open?'隱藏答案':'查看答案');
  btn.setAttribute('aria-expanded',String(open));
+}
+/* V179: clear only this mock question, hide hints and references, retain review status. */
+function resetMockPracticeQuestion(n){
+ const input=document.getElementById('mockPracticeInput'+n);
+ if(input)input.value='';
+ const text=document.getElementById('mockMyAnswerText'+n);
+ if(text)text.textContent='';
+ const compare=document.getElementById('mockMyAnswerCompare'+n);
+ if(compare)compare.hidden=true;
+ ['Hint','Answer'].forEach(name=>{
+  const panel=document.getElementById('mockPractice'+name+n);
+  const button=document.getElementById('mockPractice'+name+'Btn'+n);
+  if(panel)panel.style.display='none';
+  if(button){
+   button.textContent=name==='Hint'?'提示字詞':'查看答案';
+   button.setAttribute('aria-expanded','false');
+  }
+ });
+ if(input)input.focus({preventScroll:true});
 }
 /* V158：模擬考逐題加入現有複習清單 */
 function mockReviewKey(id,n){return 'mock-'+id+'-'+n;}
