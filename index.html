@@ -2246,6 +2246,11 @@ textarea {
 #answerView .mock-practice-footer-entry{background:var(--green);color:white}
 @media(max-width:600px){#answerView .mock-answer-footer{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}#answerView .mock-answer-footer button{min-width:0;width:100%;padding:9px 8px;white-space:nowrap}}
 
+/* V156：模擬考題目與答案頁，回首頁獨立置底、置中並以柔和底色區分 */
+#answerView .mock-answer-footer{display:flex!important;justify-content:center!important;align-items:center!important;margin-top:28px;padding-top:8px}
+#answerView .mock-answer-footer .home-btn{flex:none!important;width:auto!important;min-width:132px;max-width:100%;padding:11px 24px!important;background:#e3ece5!important;color:var(--green)!important;border:1.5px solid var(--green)!important;border-radius:12px;font-weight:800;white-space:nowrap}
+@media(max-width:600px){#answerView .mock-answer-footer{display:flex!important;grid-template-columns:none!important;justify-content:center!important}#answerView .mock-answer-footer .home-btn{width:auto!important;min-width:132px!important}}
+
 /* V151：模擬考卡片與學測卡片一致的雙按鈕設計 */
 #mockExamGrid .year-card .year-actions{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:nowrap}
 #mockExamGrid .year-card .year-actions button{background:transparent !important;color:var(--green) !important;border:1.5px solid var(--green) !important;white-space:nowrap}
