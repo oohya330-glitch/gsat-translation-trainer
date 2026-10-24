@@ -797,8 +797,7 @@ textarea {
   padding-bottom:9px !important;
   margin-bottom:10px !important;
 }
-.stage-nav-card .steps{
-  gap:8px !important;
+.stage-nav-card .steps{  gap:8px !important;
 }
 .stage-nav-card .steps button{
   min-height:42px !important;
@@ -1597,8 +1596,7 @@ textarea {
 }
 .step-page .skeleton{
   font-size:1.16em !important;
-  line-height:1.72 !important;
-  text-align:left !important;
+  line-height:1.72 !important;  text-align:left !important;
 }
 .step-page .skeleton b,
 .step-page .skeleton strong,
@@ -2211,6 +2209,11 @@ textarea {
 /* V126 局部調整：三回模擬考的可替換表達英文，與區塊標題同級字體且粗體 */
 .mock-alt-row > span{font-size:1.125em;font-weight:700;line-height:1.65;overflow-wrap:anywhere;min-width:0}
 @media(max-width:600px){.mock-alt-row{grid-template-columns:1fr;gap:2px}}
+/* V135 mock portrait collapse */
+.mock-more-wrap{display:none;text-align:center;margin:16px 0 6px}
+.mock-more-wrap[hidden]{display:none!important}
+.mock-more-wrap button{border:1.5px solid var(--green);border-radius:12px;background:white;color:var(--green);padding:10px 22px;font-weight:800;min-height:44px}
+@media(max-width:900px) and (orientation:portrait){.mock-more-wrap:not([hidden]){display:block}}
 </style>
 
 <style id="v85-home-year-collapse">
@@ -2392,8 +2395,7 @@ textarea {
     <div class="home-brand" aria-label="Lulu Wu">
       <strong>Lulu Wu</strong>
       <span>@oohya330</span>
-    </div>
-    <div class="card hero">
+    </div>    <div class="card hero">
       <h2>選擇年份開始練習</h2>
       <p id="examDescription">每回 2 題，透過不同練習一步步完成翻譯。</p>
       <div class="exam-tabs">
@@ -2564,6 +2566,7 @@ textarea {
           </div>
         </div>
         <p id="mockEmpty" class="small hidden">目前沒有符合條件的試題。</p>
+<div id="mockMoreWrap" class="mock-more-wrap" hidden><button type="button" id="mockMoreButton" onclick="toggleMockMore()" aria-expanded="false">展開更多試題 ▼</button></div>
       </div>
     </div>
     <div class="home-function-zone">
@@ -3191,8 +3194,7 @@ ext:[['校園安全規定必須嚴格執行，以確保所有學生的安全。'
     ],
     refs:[
       `When a typhoon strikes, we should prepare enough food and stay indoors. If necessary, we should quickly move to a safe place.`,
-      `When a typhoon hits, we should prepare sufficient food and stay indoors. If necessary, we should swiftly move to a safe place.`
-    ],
+      `When a typhoon hits, we should prepare sufficient food and stay indoors. If necessary, we should swiftly move to a safe place.`    ],
     take:'',
     hint:'<b>strike</b> = 來襲<br><b>indoors</b> = 在室內',
     afterRefs:'<div class="takeaway-note"><b>可替換表達</b><br><b>strikes</b> → <b>hits</b><br><b>enough</b> → <b>sufficient</b><br><b>quickly</b> → <b>swiftly</b></div>',
@@ -3991,8 +3993,7 @@ function interactionKeyForOption(el){
   const grids=[...document.querySelectorAll('.step-page .options-grid')];
   const idx=Math.max(0,grids.indexOf(el.closest('.options-grid')));
   return `q${q}-s${step}-o${idx}`;
-}
-function showReviewToast(anchor,text){
+}function showReviewToast(anchor,text){
   const parent=anchor.closest('.options-grid')||anchor.parentNode;
   let t=parent.parentNode.querySelector('.review-toast[data-for="'+interactionKeyForOption(anchor)+'"]');
   if(!t){t=document.createElement('div');t.className='review-toast';t.dataset.for=interactionKeyForOption(anchor);parent.insertAdjacentElement('afterend',t)}
@@ -4290,18 +4291,24 @@ function toggleMockAlternatives(n){
  const open=box.style.display!=='block';box.style.display=open?'block':'none';
  btn.textContent=open?'隱藏替代字詞':'替代字詞';btn.setAttribute('aria-expanded',String(open));
 }
-function filterMockExams(){
- const y=document.getElementById('mockYear').value;
- const source=document.getElementById('mockSource').value;
- const round=document.getElementById('mockRound').value;
- let count=0;
- document.querySelectorAll('#mockExamGrid .year-card').forEach(card=>{
-  const visible=(y==='all'||card.dataset.year===y)&&(source==='all'||card.dataset.source===source)&&(round==='all'||card.dataset.round===round);
-  card.classList.toggle('hidden',!visible);
-  if(visible)count++;
- });
- document.getElementById('mockEmpty').classList.toggle('hidden',count!==0);
+let mockMoreExpanded=false;
+function isMockCompactPortrait(){return window.matchMedia('(max-width:900px) and (orientation:portrait)').matches;}
+function toggleMockMore(){mockMoreExpanded=!mockMoreExpanded;renderMockCards();}
+function renderMockCards(){
+ const y=document.getElementById('mockYear').value,source=document.getElementById('mockSource').value,round=document.getElementById('mockRound').value;
+ const matches=Array.from(document.querySelectorAll('#mockExamGrid .year-card')).filter(card=>(y==='all'||card.dataset.year===y)&&(source==='all'||card.dataset.source===source)&&(round==='all'||card.dataset.round===round));
+ const compact=isMockCompactPortrait(),limited=compact&&!mockMoreExpanded;
+ document.querySelectorAll('#mockExamGrid .year-card').forEach(card=>{const pos=matches.indexOf(card);card.classList.toggle('hidden',pos<0||(limited&&pos>=4));});
+ document.getElementById('mockEmpty').classList.toggle('hidden',matches.length!==0);
+ const wrap=document.getElementById('mockMoreWrap'),btn=document.getElementById('mockMoreButton');
+ wrap.hidden=!(compact&&matches.length>4);
+ btn.textContent=mockMoreExpanded?'收合試題 ▲':'展開更多試題 ▼';
+ btn.setAttribute('aria-expanded',String(mockMoreExpanded));
 }
+function filterMockExams(){mockMoreExpanded=false;renderMockCards();}
+window.addEventListener('resize',renderMockCards);
+window.addEventListener('orientationchange',renderMockCards);
+document.addEventListener('DOMContentLoaded',renderMockCards);
 function mockShortTitle(id){
  const exam=mockExamBank[id];
  if(!exam)return '';
