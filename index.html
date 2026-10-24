@@ -2602,6 +2602,21 @@ textarea {
 @media(max-width:700px){.print-bank-section .print-check-grid{grid-template-columns:minmax(0,1fr)}}
 @media print{.v175-print-bottom-nav{display:none!important}}
 </style>
+
+<style id="v177-print-accordion-css">
+.print-bank-content{padding:0 12px 14px}
+.print-bank-content>.print-check-grid{padding:0}
+.print-bank-subsection{margin:8px 0;border:1px solid var(--line);border-radius:10px;background:#fafbf9;overflow:hidden}
+.print-bank-subsummary{display:flex;align-items:center;gap:8px;padding:12px 14px;list-style:none;cursor:pointer;color:var(--green);font-weight:750}
+.print-bank-subsummary::-webkit-details-marker{display:none}
+.print-bank-subsummary::before{content:"▸";display:inline-block;transition:transform .15s}
+.print-bank-subsection[open]>.print-bank-subsummary::before{transform:rotate(90deg)}
+.print-bank-subsection>.print-check-grid{padding:0 10px 12px}
+.v175-print-bottom-nav{justify-content:center}
+.v175-print-bottom-nav button{flex:0 1 240px}
+@media(max-width:700px){.print-bank-content .print-check-grid{grid-template-columns:minmax(0,1fr)}}
+@media print{.print-bank-content,.print-bank-subsection{display:none!important}}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -2864,7 +2879,7 @@ textarea {
       <p id="printSelectStatus" class="small" role="status"></p>
       <div id="printPreviewControls" class="hidden print-preview-controls"><button type="button" class="print-entry-primary" onclick="window.print()">列印／儲存 PDF</button><span class="small">在列印視窗中選擇印表機，或選擇「儲存為 PDF」。</span></div>
       <div id="printPreview" class="print-preview-screen"></div>
-      <div class="v175-print-bottom-nav"><button type="button" onclick="closePrintCenter();goHome()">⌂ 返回首頁</button><button type="button" onclick="document.getElementById('printCenterView').scrollIntoView({behavior:'instant',block:'start'})">↑ 回到最上方</button></div>
+      <div class="v175-print-bottom-nav"><button type="button" onclick="closePrintCenter();goHome()">⌂ 返回首頁</button></div>
     </div>
   </section>
 
@@ -4816,7 +4831,27 @@ function openPrintCenter(mode){
    area.innerHTML=items.length?'<div class="print-category">我的複習題目（'+items.length+' 題）</div><div class="print-check-grid">'+items.map((x,i)=>'<label class="print-check-item"><input type="checkbox" class="print-select-check" value="'+i+'" checked><span>'+printEsc(x.year)+'｜第 '+printEsc(x.q)+' 題</span></label>').join('')+'</div>':'<p class="small">目前沒有已加入複習清單的題目。</p>';
  }else{
    const catalog=printCatalog();
-   area.innerHTML=['學測','指考','模擬考'].map(cat=>{const entries=catalog.filter(x=>x.category===cat);return '<details class="print-bank-section"><summary class="print-bank-summary">'+cat+'歷屆試題 <span class="print-bank-count">'+entries.length+' 回</span></summary><div class="print-check-grid">'+entries.map(x=>'<label class="print-check-item"><input type="checkbox" class="print-select-check" value="'+printEsc(x.key)+'"><span>'+printEsc(x.group)+'</span></label>').join('')+'</div></details>';}).join('');
+   const itemHtml=x=>'<label class="print-check-item"><input type="checkbox" class="print-select-check" value="'+printEsc(x.key)+'"><span>'+printEsc(x.group)+'</span></label>';
+   const subGroup=(label,entries)=>'<details class="print-bank-subsection"><summary class="print-bank-subsummary">'+printEsc(label)+' <span class="print-bank-count">'+entries.length+' 回</span></summary><div class="print-check-grid">'+entries.map(itemHtml).join('')+'</div></details>';
+   area.innerHTML=['學測','指考','模擬考'].map(cat=>{
+     const entries=catalog.filter(x=>x.category===cat);
+     let body='';
+     if(cat==='學測'){
+       const ordered=entries.slice().sort((x,y)=>Number(y.key.split(':')[1])-Number(x.key.split(':')[1]));
+       for(let i=0;i<ordered.length;i+=5){
+         const group=ordered.slice(i,i+5);
+         const hi=group[0].key.split(':')[1],lo=group[group.length-1].key.split(':')[1];
+         body+=subGroup(hi+(hi===lo?'':'～'+lo)+' 學年度',group);
+       }
+     }else if(cat==='模擬考'){
+       const years=[...new Set(entries.map(x=>x.mockId.split('-')[0]))].sort((x,y)=>Number(y)-Number(x));
+       body=years.map(y=>subGroup(y+' 學年度',entries.filter(x=>x.mockId.startsWith(y+'-')))).join('');
+     }else{
+       body='<div class="print-check-grid">'+entries.map(itemHtml).join('')+'</div>';
+     }
+     return '<details class="print-bank-section"><summary class="print-bank-summary">'+cat+'歷屆試題 <span class="print-bank-count">'+entries.length+' 回</span></summary><div class="print-bank-content">'+body+'</div></details>';
+   }).join('');
+   area.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(!d.open&&d.isConnected&&document.getElementById('printCenterView').offsetParent!==null){d.querySelector('summary').scrollIntoView({behavior:'instant',block:'start'});}}));
  }
  area.onchange=()=>{document.getElementById('printPreview').innerHTML='';document.getElementById('printPreviewControls').classList.add('hidden');document.getElementById('printSelectStatus').textContent='選取範圍已變更，請重新預覽。';};
  document.getElementById('printPreview').innerHTML='';document.getElementById('printPreviewControls').classList.add('hidden');document.getElementById('printSelectStatus').textContent='';
