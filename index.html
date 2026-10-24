@@ -2382,14 +2382,15 @@ textarea {
   }
 }
 </style>
-<style id="v136-compact-mock-filters">
-/* V136: 三個篩選欄位保持同排，保留原生選單及事件 */
+<style id="v138-readable-mock-filters">
+/* V136: 三個篩選欄位在手機、平板直式均維持同一排；保留原 select 與篩選事件。 */
 #mockPanel .mock-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
 #mockPanel .mock-filter{min-width:0}
-#mockPanel .mock-filter label{font-size:13px;line-height:1.35;margin-bottom:4px;white-space:nowrap}
-#mockPanel .mock-filter select{width:100%;min-width:0;min-height:44px;padding:8px 22px 8px 7px;font-size:clamp(12px,2.8vw,16px);line-height:1.3;text-overflow:ellipsis}
-@media(min-width:601px){#mockPanel .mock-filters{gap:12px}#mockPanel .mock-filter label{font-size:15px}#mockPanel .mock-filter select{font-size:16px;padding:9px 12px}}
-@media(max-width:390px){#mockPanel .mock-filters{gap:5px}#mockPanel .mock-filter label{font-size:12px}#mockPanel .mock-filter select{padding-left:5px;padding-right:15px;font-size:12px}}
+/* V138: 三欄不變，僅強化標籤與選取文字的清晰度。 */
+#mockPanel .mock-filter label{font-size:15px;line-height:1.35;margin-bottom:4px;white-space:nowrap;font-weight:800;color:var(--green)}
+#mockPanel .mock-filter select{width:100%;min-width:0;min-height:44px;padding:8px 20px 8px 7px;font-size:18px;font-weight:700;line-height:1.3;text-overflow:ellipsis;color:var(--ink)}
+@media(min-width:601px){#mockPanel .mock-filters{gap:12px}#mockPanel .mock-filter label{font-size:16px}#mockPanel .mock-filter select{font-size:18px;padding:9px 12px}}
+@media(max-width:390px){#mockPanel .mock-filters{gap:5px}#mockPanel .mock-filter label{font-size:13px}#mockPanel .mock-filter select{padding-left:5px;padding-right:15px;font-size:16px}}
 </style>
 </head>
 <body>
@@ -2575,6 +2576,10 @@ textarea {
           <div class="year-card available" data-year="114" data-source="national" data-round="E1">
             <strong>114 學年度</strong><small>南一｜一模</small><small>中譯英 2 題</small>
             <div class="year-actions"><button onclick="showMockAnswers('114-national-E1')">題目與答案</button></div>
+          </div>
+          <div class="year-card available" data-year="114" data-source="national" data-round="E2">
+            <strong>114 學年度</strong><small>南一｜二模</small><small>中譯英 2 題</small>
+            <div class="year-actions"><button onclick="showMockAnswers('114-national-E2')">題目與答案</button></div>
           </div>
         </div>
         <p id="mockEmpty" class="small hidden">目前沒有符合條件的試題。</p>
@@ -4147,6 +4152,19 @@ function returnHomeFromMistakes(){
 
 <script id="mock-exam-115-data-and-view">
 const mockExamBank = {
+ "114-national-E2": {
+  title:"114 學年度南一第 2 次模擬考",
+  questions:{
+   "1":{cn:"詐騙案件的數量持續增加，大多數的受害者為老年人。",refs:[
+    "The number of fraud cases has been on the increase, with most of the victims being seniors.",
+    "There has been a continuous increase in fraud cases, and the majority of the victims are elderly people."
+   ]},
+   "2":{cn:"一個保護自己的方法就是避免向陌生人透露個人資訊。",refs:[
+    "One way to protect yourself is to avoid revealing personal information to strangers.",
+    "One way to protect yourself is not to disclose personal information to strangers."
+   ]}
+  }
+ },
  "114-national-E1": {
   title:"114 學年度南一第 1 次模擬考",
   questions:{
@@ -4260,6 +4278,10 @@ const mockExamBank = {
 }};
 // 替代字詞：對應已收錄的三回模擬考題目。
 const mockAlternatives = {
+ "114-national-E2": {
+  "1": [["the number of fraud cases","the number of scam cases"],["has been on the increase","has been rising steadily"],["most of the victims","the majority of the victims"],["seniors","elderly people"]],
+  "2": [["One way to protect yourself","A way to safeguard yourself"],["avoid revealing","refrain from disclosing"],["personal information","private information"],["strangers","people you do not know"]]
+ },
  "114-national-E1": {
   "1": [["In recent years","Recently"],["gyms","fitness centers"],["busy city people","busy urban residents"],["release stress","relieve pressure"],["stay in good shape","stay fit"]],
   "2": [["coaches","instructors"],["lead group classes","conduct group classes"],["beginners","newcomers"],["develop proper exercise habits","establish good exercise routines"]]
