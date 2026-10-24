@@ -2417,6 +2417,12 @@ textarea {
     width:100%;
   }
 }
+
+/* V146: balanced two-line random-card description across desktop and iPad. */
+.random-card .random-description{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%;min-height:3.1em;line-height:1.55;}
+.random-card .random-description > span{display:block;min-height:0;width:auto;max-width:100%;text-align:center;line-height:1.55;white-space:normal;overflow-wrap:normal;word-break:normal;}
+/* V146: tablet and desktop use in-grid six-card group controls, never the bottom toggle. */
+@media (min-width:601px){#mockMoreWrap{display:none!important;}#mockExamGrid>.mock-group-toggle{grid-column:1/-1;display:flex!important;justify-content:center;align-items:center;margin:6px 0 2px;}}
 </style>
 </head>
 <body>
@@ -2618,7 +2624,7 @@ textarea {
         <div class="home-function-card random-card">
           <div class="home-function-icon random"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="9" width="30" height="30" rx="7"/><circle class="solid-green" cx="17" cy="17" r="2.3"/><circle class="solid-green" cx="31" cy="17" r="2.3"/><circle class="solid-green" cx="24" cy="24" r="2.3"/><circle class="solid-green" cx="17" cy="31" r="2.3"/><circle class="solid-green" cx="31" cy="31" r="2.3"/></svg></div>
           <strong>隨機挑一回</strong>
-          <span>先選學測、指考或模擬考，再交給系統幫你挑一回。</span>
+          <span class="random-description"><span>先選學測、指考或模擬考，</span><span>再交給系統幫你挑一回。</span></span>
           <div class="random-actions random-type-actions">
             <button type="button" class="random-start" onclick="randomYear('gsat')">學測</button>
             <button type="button" class="random-again" onclick="randomYear('ast')">指考</button>
